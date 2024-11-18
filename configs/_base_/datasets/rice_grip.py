@@ -16,7 +16,7 @@ env_cfg = dict(
     ],
     abs_point = False,
     eval_ratio = 1e7,
-    dataf = './data/RiceGrip',
+    dataf = './data/data_RiceGrip',
     n_rollout = 8,
     time_step = 41,
     time_step_clip = 0,

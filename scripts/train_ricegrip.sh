@@ -1,0 +1,1 @@
+python tools/train.py configs/tie/tie_ricegrip.py
