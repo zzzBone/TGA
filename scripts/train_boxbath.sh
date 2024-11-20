@@ -1,1 +1,1 @@
-python tools/train.py configs/tie/tie_boxbath.py
+python -m pdb tools/train.py configs/tie/tie_boxbath.py

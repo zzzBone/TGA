@@ -7,6 +7,7 @@ from ..builder import BACKBONES
 from .base_backbone import BaseBackbone
 from sim.models.utils import (FFN, AttentionTIE, kaiming_uniform_, kaiming_normal_)
 
+
 # from .builder import TRANSFORMER
 class MultiheadAttention(nn.Module):
     """
@@ -20,7 +21,7 @@ class MultiheadAttention(nn.Module):
     def __init__(self, embed_dims, num_heads, dropout=0.0, **kwargs):
         super(MultiheadAttention, self).__init__()
         assert embed_dims % num_heads == 0, 'embed_dims must be ' \
-            f'divisible by num_heads. got {embed_dims} and {num_heads}.'
+                                            f'divisible by num_heads. got {embed_dims} and {num_heads}.'
         self.embed_dims = embed_dims
         self.num_heads = num_heads
         self.dropout = dropout
@@ -84,9 +85,11 @@ class MultiheadAttention(nn.Module):
             query = query + query_pos
         if key_pos is not None:
             key = key + key_pos
-        
-        out, v_receiver, v_sender = self.attn(query, attn_mask, key_padding_mask, output_mask, receiver_val_res=receiver_val_res, sender_val_res=sender_val_res,
-            residual_receiver=residual_receiver, residual_sender=residual_sender, **kwargs)
+
+        out, v_receiver, v_sender = self.attn(query, attn_mask, key_padding_mask, output_mask,
+                                              receiver_val_res=receiver_val_res, sender_val_res=sender_val_res,
+                                              residual_receiver=residual_receiver, residual_sender=residual_sender,
+                                              **kwargs)
 
         return residual + self.dropout(out), v_receiver, v_sender
 
@@ -123,7 +126,8 @@ class TransformerEncoderLayer(nn.Module):
         self.act_cfg = act_cfg
         self.norm_cfg = norm_cfg
         self.pre_norm = order[0] == 'norm'
-        self.self_attn = MultiheadAttention(embed_dims, num_heads, dropout, act_cfg=act_cfg, norm_cfg=norm_cfg, **kwargs)
+        self.self_attn = MultiheadAttention(embed_dims, num_heads, dropout, act_cfg=act_cfg, norm_cfg=norm_cfg,
+                                            **kwargs)
         self.ffn = FFN([embed_dims, 2 * embed_dims, embed_dims], final_act=True, bias=True, add_residual=True)
         self.norms = nn.ModuleList()
         self.norms.append(build_norm_layer(norm_cfg, embed_dims)[1])
@@ -132,7 +136,8 @@ class TransformerEncoderLayer(nn.Module):
         self.res_norms.append(build_norm_layer(norm_cfg, embed_dims)[1])
         self.res_norms.append(build_norm_layer(norm_cfg, embed_dims)[1])
 
-    def forward(self, x, pos=None, attn_mask=None, key_padding_mask=None, output_mask=None, receiver_val_res=None, sender_val_res=None, **kwargs):
+    def forward(self, x, pos=None, attn_mask=None, key_padding_mask=None, output_mask=None, receiver_val_res=None,
+                sender_val_res=None, **kwargs):
         """Forward function for `TransformerEncoderLayer`.
         Args:
             x (Tensor): The input query with shape [num_key, bs,
@@ -229,7 +234,8 @@ class TransformerEncoder(nn.Module):
         self.norm = build_norm_layer(norm_cfg,
                                      embed_dims)[1] if self.pre_norm else None
 
-    def forward(self, x, pos=None, attn_mask=None, key_padding_mask=None, output_mask=None, receiver_val_res=None, sender_val_res=None, **kwargs):
+    def forward(self, x, pos=None, attn_mask=None, key_padding_mask=None, output_mask=None, receiver_val_res=None,
+                sender_val_res=None, **kwargs):
         """Forward function for `TransformerEncoder`.
         Args:
             x (Tensor): Input query. Same in `TransformerEncoderLayer.forward`.
@@ -242,7 +248,8 @@ class TransformerEncoder(nn.Module):
             receiver_val_res: n_particles, bs, embed_dims
         """
         for layer in self.layers:
-            x, receiver_val_res, sender_val_res = layer(x, pos, attn_mask, key_padding_mask, output_mask, receiver_val_res, sender_val_res, **kwargs)
+            x, receiver_val_res, sender_val_res = layer(x, pos, attn_mask, key_padding_mask, output_mask,
+                                                        receiver_val_res, sender_val_res, **kwargs)
         if self.norm is not None:
             x = self.norm(x)
         return x
@@ -257,7 +264,7 @@ class TIE(BaseBackbone):
                  attr_dim,
                  state_dim,
                  position_dim,
-                 embed_dims, 
+                 embed_dims,
                  num_heads=8,
                  num_encoder_layers=4,
                  dropout=0.0,
@@ -274,7 +281,7 @@ class TIE(BaseBackbone):
 
         self.norm_eval = norm_eval
         self.input_projection = FFN(
-            [attr_dim + state_dim, embed_dims], 
+            [attr_dim + state_dim, embed_dims],
             final_act=True, bias=True)
 
         fan_in = (attr_dim + state_dim)
@@ -290,7 +297,7 @@ class TIE(BaseBackbone):
             self.receiver_norm = nn.Identity()
             self.sender_norm = nn.Identity()
             self.particle_norm = nn.Identity()
-        
+
         if self.num_abs_token > 0:
             assert self.num_abs_token == 2
             self.abs_token = nn.Parameter(torch.Tensor(self.num_abs_token, attr_dim + state_dim))
@@ -325,8 +332,8 @@ class TIE(BaseBackbone):
         x = x.permute(1, 0, 2)  # [bs, n_p, c] -> [n_p, bs, c]
 
         x_enc = self.encoder(
-            x, 
-            attn_mask=attn_mask, key_padding_mask=None, output_mask=output_mask, 
+            x,
+            attn_mask=attn_mask, key_padding_mask=None, output_mask=output_mask,
             receiver_val_res=receiver_val_res, sender_val_res=sender_val_res)
         x_enc = x_enc.permute(1, 0, 2)
         return x_enc
