@@ -8,7 +8,7 @@ env_cfg = dict(
     num_abs_token=0,
     eval_ratio = 1e7,
     dataf = './data/data_BoxBath',
-    n_rollout = 2700,
+    n_rollout = 100,
     time_step = 151,
     time_step_clip = 0,
     attn_mask=8,
@@ -17,7 +17,7 @@ env_cfg = dict(
     nf_relation = 300,
     nf_particle = 200,
     nf_effect = 200,
-    train_valid_ratio = 0.5,
+    train_valid_ratio = 0.9,
 
     n_instance = 2,
     n_stages = 4,
