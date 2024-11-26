@@ -9,14 +9,13 @@ from sim.models.utils.feedforward_networks import FFN
 
 
 class TransformerEncoder(nn.Module):
-    def __init__(self, c, num_layers, embed_dims,
-                 num_heads,
-                 dropout, ):
+    def __init__(self, num_layers, embed_dims,
+                 num_heads,):
         super(TransformerEncoder, self).__init__()
         self.embed_dim = embed_dims
 
         # Linear layer to project input channels 'c' to 'd_model'
-        self.input_projection = nn.Linear(c, embed_dims)
+        self.input_projection = nn.Linear(embed_dims, embed_dims)
 
         # MultiheadAttention layer
         self.attn_layer = nn.MultiheadAttention(embed_dim=embed_dims, num_heads=num_heads)
@@ -38,18 +37,12 @@ class TransformerEncoder(nn.Module):
         self.output_projection = nn.Linear(embed_dims, embed_dims)
 
     def forward(self, x):
-        # x shape: [b, c, n] --> batch_size, channels, num_features
-        b, c, n = x.shape
-
-        # First, project input channels 'c' to 'embed_dim'
-        x = self.input_projection(x.transpose(1, 2))  # Shape: [b, n, embed_dim]
+        # x shape: [n, b, c] --> batch_size, channels, num_features
 
         # Pass through transformer encoder layers
         for layer in self.transformer_layers:
             x = layer(x)  # Apply each transformer encoder layer
 
-        # Final projection to output shape [b, m, n]
-        x = self.output_projection(x.transpose(1, 2))  # Shape: [b, m, n]
         return x
 
 
@@ -95,9 +88,8 @@ class TRANS(BaseBackbone):
             self.abs_token = nn.Parameter(torch.Tensor(self.num_abs_token, attr_dim + state_dim))
             nn.init.zeros_(self.abs_token)
 
-        self.encoder = TransformerEncoder(attr_dim + state_dim, num_encoder_layers, embed_dims,
-                                          num_heads,
-                                          dropout)
+        self.encoder = TransformerEncoder(num_encoder_layers, embed_dims,
+                                          num_heads)
 
     def forward(self, attr, state, fluid_mask, rigid_mask, output_mask, attn_mask, **kwargs):
         """Forward function for `TRANS`.
@@ -115,7 +107,7 @@ class TRANS(BaseBackbone):
 
         x = x.permute(1, 0, 2)  # [bs, n_p, c] -> [n_p, bs, c]
 
-        x_enc = self.encoder(x, mask=attn_mask)
+        x_enc = self.encoder(x)
         x_enc = x_enc.permute(1, 0, 2)
         return x_enc
 

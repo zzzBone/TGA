@@ -21,6 +21,7 @@ def mean_squared_error(pred, label, weight=None, reduction='mean', avg_factor=No
         torch.Tensor: The calculated loss
     """
     # element-wise losses
+    # pred : [bs, n, c]  label: [bs, n, c]
     loss = F.mse_loss(pred, label, reduction='none')
 
     # apply weights and do the reduction

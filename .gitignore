@@ -2,3 +2,4 @@ __pycache__/
 /data/
 work_dirs/
 predict/
+render_out/
