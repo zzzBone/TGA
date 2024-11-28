@@ -1,0 +1,294 @@
+import math
+import torch
+import torch.nn as nn
+from mmcv.cnn import build_norm_layer
+
+from ..builder import BACKBONES
+from .base_backbone import BaseBackbone
+from sim.models.utils.feedforward_networks import FFN
+
+import torch
+import torch.nn.functional as F
+
+from torch_geometric.nn import GATConv
+from torch_geometric.data import Data, Batch
+
+import numpy as np
+
+
+class TGAMultiHeadAttion(nn.Module):
+    def __init__(self, input_dim, embed_dim, num_heads, dropout=0.0, threshold=0.0065):
+        super(TGAMultiHeadAttion, self).__init__()
+        assert (
+            embed_dim % num_heads == 0
+        ), "Embedding size must be divisible by number of heads"
+
+        self.embed_size = embed_dim
+        self.num_heads = num_heads
+        self.head_dim = embed_dim // num_heads  # 每个头的维度
+        self.threshold = threshold
+
+        # 定义线性变换层，用于计算查询（Q），键（K），值（V）
+        self.query = nn.Linear(input_dim, embed_dim)
+        self.key = nn.Linear(input_dim, embed_dim)
+        self.value = nn.Linear(input_dim, embed_dim)
+
+        # dropout层
+        self.dropout = nn.Dropout(dropout)
+
+    def forward(self, x, mask=None):
+        # x: shape (batch_size, seq_len, input_size)
+
+        batch_size, seq_len, input_size = x.shape
+
+        # Step 1: 线性变换得到 Q, K, V
+        Q = self.query(x)  # (batch_size, seq_len, embed_size)
+        K = self.key(x)  # (batch_size, seq_len, embed_size)
+        V = self.value(x)  # (batch_size, seq_len, embed_size)
+
+        # Step 2: 将 Q, K, V 拆分成多个头，每个头有 head_dim 的维度
+        Q = Q.view(
+            batch_size, seq_len, self.num_heads, self.head_dim
+        )  # (batch_size, seq_len, num_heads, head_dim)
+        K = K.view(
+            batch_size, seq_len, self.num_heads, self.head_dim
+        )  # (batch_size, seq_len, num_heads, head_dim)
+        V = V.view(
+            batch_size, seq_len, self.num_heads, self.head_dim
+        )  # (batch_size, seq_len, num_heads, head_dim)
+
+        # 转换为 (batch_size, num_heads, seq_len, head_dim) 形状
+        Q = Q.transpose(1, 2)  # (batch_size, num_heads, seq_len, head_dim)
+        K = K.transpose(1, 2)  # (batch_size, num_heads, seq_len, head_dim)
+        V = V.transpose(1, 2)  # (batch_size, num_heads, seq_len, head_dim)
+
+        # Step 3: 计算每个头的注意力分数
+        scores = torch.matmul(Q, K.transpose(-2, -1)) / (
+            self.head_dim**0.5
+        )  # (batch_size, num_heads, seq_len, seq_len)
+
+        # Step 4: 如果有mask，则应用mask
+        if mask is not None:
+            scores = scores.masked_fill(mask == 0, float("-inf"))
+
+        # Step 5: 通过softmax归一化得到注意力权重
+        attention_weights = F.softmax(
+            scores, dim=-1
+        )  # (batch_size, num_heads, seq_len, seq_len)
+
+        # Step 6: 应用dropout
+        attention_weights = self.dropout(attention_weights)
+
+        # Step 7: 计算加权值
+        output = torch.matmul(
+            attention_weights, V
+        )  # (batch_size, num_heads, seq_len, head_dim)
+
+        # Step 8: 将所有头的输出拼接在一起
+        output = (
+            output.transpose(1, 2)
+            .contiguous()
+            .view(batch_size, seq_len, self.embed_size)
+        )  # (batch_size, seq_len, embed_size)
+
+        # 选择注意力分数大于threshold的边
+        edge_index_list = []
+
+        attention_scores = attention_weights.max(dim=1)[0]
+
+        for b in range(batch_size):
+            # 过滤 scores
+            edge_mask = attention_scores[b] > self.threshold
+
+            # 使用 nonzero 提取符合条件的边索引
+            edge_indices = torch.nonzero(edge_mask, as_tuple=False)  # (num_edges, 2)
+
+            # 将边加入到 edge_index_list 中
+            edge_index_list.append(edge_indices.T)  # 转置成 (2, num_edges)
+        return output, edge_index_list
+
+
+class TGAGraphAttention(nn.Module):
+    def __init__(
+        self, in_channels, hidden_channels, out_channels, num_heads=1, residual=False
+    ):
+        super(TGAGraphAttention, self).__init__()
+
+        self.residual = residual
+
+        # 第一层 GAT
+        self.gat1 = GATConv(in_channels, hidden_channels, heads=num_heads, dropout=0)
+        # 第二层 GAT
+        self.gat2 = GATConv(
+            hidden_channels * num_heads, out_channels, heads=1, dropout=0
+        )
+        self.linear = nn.Linear(hidden_channels * num_heads, out_channels)
+
+    def forward(self, batch):
+        """
+        x: [batch_size, num_nodes, num_features]
+        edge_index: [batch_size, 2, num_edge]
+        """
+
+        x, edge_index = batch.x, batch.edge_index
+
+        # 第一层 GAT
+        x_out = self.gat1(x, edge_index)
+        x_out = F.elu(x_out)
+
+        # 第二层 GAT
+        x_out = self.gat2(x_out, edge_index)
+        if self.residual:
+            x_out = x + F.log_softmax(x_out, dim=1)
+        else:
+            x_out = F.log_softmax(x_out, dim=1)
+
+        return x_out
+
+
+class TGATransformer(nn.Module):
+    def __init__(self, input_dim, embed_dim, num_heads=8, dropout=0, residual=False):
+        super(TGATransformer, self).__init__()
+        self.residual = residual
+        self.attn_layer = TGAMultiHeadAttion(
+            input_dim=input_dim,
+            embed_dim=embed_dim,
+            num_heads=num_heads,
+            dropout=dropout,
+        )
+        self.ffn = FFN([embed_dim, embed_dim], final_act=True, bias=True)
+        self.ln = nn.LayerNorm(embed_dim)
+
+    def forward(self, x, mask=None):
+        x_out, edge_index = self.attn_layer(x, mask)
+        x_out = self.ffn(x_out)
+        if self.residual:
+            x_out = self.ln(x + x_out)
+        else:
+            x_out = self.ln(x_out)
+        return x_out, edge_index
+
+
+@BACKBONES.register_module()
+class TGA(BaseBackbone):
+    """Implements the simulation transformer."""
+
+    def __init__(
+        self,
+        attr_dim,
+        state_dim,
+        position_dim,
+        embed_dims,
+        hidden_dims,
+        num_heads,
+        num_encoder_layers,
+        dropout,
+        norm_cfg=dict(type="LN"),
+        norm_eval=False,
+        num_abs_token=0,
+        **kwargs
+    ):
+        super(TGA, self).__init__()
+        self.attr_dim = attr_dim
+        self.state_dim = state_dim
+        self.position_dim = position_dim
+        self.embed_dims = embed_dims
+        self.num_abs_token = num_abs_token
+        self.num_encoder_layers = num_encoder_layers
+
+        self.input_dim = attr_dim + state_dim
+
+        self.norm_eval = norm_eval
+        self.input_projection = FFN(
+            [self.input_dim, self.input_dim], final_act=True, bias=True
+        )
+
+        if norm_cfg is not None:
+            self.particle_norm = build_norm_layer(norm_cfg, embed_dims)[1]
+        else:
+            self.particle_norm = nn.Identity()
+
+        if self.num_abs_token > 0:
+            assert self.num_abs_token == 2
+            self.abs_token = nn.Parameter(
+                torch.Tensor(self.num_abs_token, attr_dim + state_dim)
+            )
+            nn.init.zeros_(self.abs_token)
+
+        self.encoder = nn.ModuleList(
+            TGATransformer(
+                input_dim=self.input_dim if i == 0 else embed_dims[i - 1],
+                embed_dim=embed_dims[i],
+                num_heads=num_heads[i],
+                dropout=dropout[i],
+                residual=False,
+            )
+            for i in range(num_encoder_layers)
+        )
+
+        self.neck = nn.Linear(embed_dims[-1], self.input_dim)
+        self.ln1 = nn.LayerNorm(self.input_dim)
+
+        self.decoder = nn.ModuleList(
+            TGAGraphAttention(
+                in_channels=self.input_dim,
+                hidden_channels=hidden_dims[i],
+                out_channels=self.input_dim,
+                num_heads=num_heads[i],
+                residual=True,
+            )
+            for i in range(num_encoder_layers)
+        )
+
+        self.back = nn.Linear(self.input_dim, embed_dims[-1])
+        self.ln2 = nn.LayerNorm(embed_dims[-1])
+
+    def forward(
+        self, attr, state, fluid_mask, rigid_mask, output_mask, attn_mask, **kwargs
+    ):
+        x = torch.cat(
+            [attr.squeeze(1).transpose(-1, -2), state.squeeze(1).transpose(-1, -2)],
+            dim=-1,
+        )
+        if self.num_abs_token > 0:
+            x[:, -self.num_abs_token :] = self.abs_token
+            abs_mask = torch.cat([rigid_mask, fluid_mask], dim=1).unsqueeze(1)
+            # pad_mask[:, :, -self.num_abs_token:] = ~(abs_mask.sum(dim=-1) > 0)
+            abs_mask = ~(abs_mask.bool())
+            attn_mask[:, :, -self.num_abs_token :] = abs_mask
+            attn_mask[:, :, :, -self.num_abs_token :] = abs_mask.transpose(-1, -2)
+
+        x_out = self.input_projection(x)
+        x = x_out
+        edge_index = []
+        for i in range(self.num_encoder_layers):
+            x_out, edge = self.encoder[i](x_out)
+            edge_index.append(edge)
+
+        x_out = self.neck(x_out)
+        x_out = self.ln1(x_out)
+        x_out = F.elu(x_out)
+
+        for i in range(self.num_encoder_layers):
+            batch_size, num_nodes, num_features = x_out.shape
+            data_list = []
+            for k in range(batch_size):
+                data_list.append(Data(x=x_out[k], edge_index=edge_index[i][k]))
+            batch = Batch.from_data_list(data_list)
+
+            x_out = self.decoder[i](batch)
+            x_out = x_out.view(batch_size, num_nodes, -1)
+
+            x_out = x + x_out
+
+        x_out = self.back(x_out)
+        x_out = self.ln2(x_out)
+        x_out = F.elu(x_out)
+        return x_out
+
+    def train(self, mode=True):
+        super(TGA, self).train(mode)
+        if mode and self.norm_eval:
+            for m in self.modules():
+                if isinstance(m, _BatchNorm):  # type: ignore
+                    m.eval()

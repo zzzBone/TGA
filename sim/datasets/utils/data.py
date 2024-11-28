@@ -24,20 +24,22 @@ from mmcv.parallel import DataContainer
 
 def sample_control_RiceGrip():
     dis = np.random.rand() * 0.5
-    angle = np.random.rand() * np.pi * 2.
+    angle = np.random.rand() * np.pi * 2.0
     x = np.cos(angle) * dis
     z = np.sin(angle) * dis
-    d = np.random.rand() * 0.3 + 0.7    # (0.6, 0.9)
+    d = np.random.rand() * 0.3 + 0.7  # (0.6, 0.9)
     return x, z, d
+
 
 def sample_control_FluidShake(x_box, time_step, dt):
     control = np.zeros(time_step)
-    v_box = 0.
+    v_box = 0.0
     for step in range(time_step):
         control[step] = v_box
         x_box += v_box * dt
         v_box += rand_float(-0.15, 0.15) - x_box * 0.1
     return control
+
 
 def quatFromAxisAngle(axis, angle):
     axis /= np.linalg.norm(axis)
@@ -67,23 +69,28 @@ def quatFromAxisAngle_var(axis, angle):
 
     return quat
 
+
 def calc_shape_states_RiceGrip(t, dt, shape_state_dim, gripper_config):
     rest_gripper_dis = 1.8
     x, z, d = gripper_config
-    s = (rest_gripper_dis - d) / 2.
-    half_rest_gripper_dis = rest_gripper_dis / 2.
+    s = (rest_gripper_dis - d) / 2.0
+    half_rest_gripper_dis = rest_gripper_dis / 2.0
 
-    time = max(0., t) * 5
-    lastTime = max(0., t - dt) * 5
+    time = max(0.0, t) * 5
+    lastTime = max(0.0, t - dt) * 5
 
     states = np.zeros((2, shape_state_dim))
 
     dis = np.sqrt(x**2 + z**2)
     angle = np.array([-z / dis, x / dis])
-    quat = quatFromAxisAngle(np.array([0., 1., 0.]), np.arctan(x / z))
+    quat = quatFromAxisAngle(np.array([0.0, 1.0, 0.0]), np.arctan(x / z))
 
-    e_0 = np.array([x + z * half_rest_gripper_dis / dis, z - x * half_rest_gripper_dis / dis])
-    e_1 = np.array([x - z * half_rest_gripper_dis / dis, z + x * half_rest_gripper_dis / dis])
+    e_0 = np.array(
+        [x + z * half_rest_gripper_dis / dis, z - x * half_rest_gripper_dis / dis]
+    )
+    e_1 = np.array(
+        [x - z * half_rest_gripper_dis / dis, z + x * half_rest_gripper_dis / dis]
+    )
 
     e_0_curr = e_0 + angle * np.sin(time) * s
     e_1_curr = e_1 - angle * np.sin(time) * s
@@ -107,18 +114,24 @@ def calc_shape_states_RiceGrip_var(t, dt, gripper_config):
     rest_gripper_dis = Variable(torch.FloatTensor([1.8]).cuda())
     x, z, d = gripper_config[0:1], gripper_config[1:2], gripper_config[2:3]
 
-    s = (rest_gripper_dis - d) / 2.
-    half_rest_gripper_dis = rest_gripper_dis / 2.
+    s = (rest_gripper_dis - d) / 2.0
+    half_rest_gripper_dis = rest_gripper_dis / 2.0
 
-    time = max(0., t) * 5
-    lastTime = max(0., t - dt) * 5
+    time = max(0.0, t) * 5
+    lastTime = max(0.0, t - dt) * 5
 
     dis = torch.sqrt(x**2 + z**2)
     angle = torch.cat([-z / dis, x / dis])
-    quat = quatFromAxisAngle_var(Variable(torch.FloatTensor([0., 1., 0.]).cuda()), torch.atan(x / z))
+    quat = quatFromAxisAngle_var(
+        Variable(torch.FloatTensor([0.0, 1.0, 0.0]).cuda()), torch.atan(x / z)
+    )
 
-    e_0 = torch.cat([x + z * half_rest_gripper_dis / dis, z - x * half_rest_gripper_dis / dis])
-    e_1 = torch.cat([x - z * half_rest_gripper_dis / dis, z + x * half_rest_gripper_dis / dis])
+    e_0 = torch.cat(
+        [x + z * half_rest_gripper_dis / dis, z - x * half_rest_gripper_dis / dis]
+    )
+    e_1 = torch.cat(
+        [x - z * half_rest_gripper_dis / dis, z + x * half_rest_gripper_dis / dis]
+    )
 
     e_0_curr = e_0 + angle * np.sin(time) * s
     e_1_curr = e_1 - angle * np.sin(time) * s
@@ -126,8 +139,12 @@ def calc_shape_states_RiceGrip_var(t, dt, gripper_config):
     e_1_last = e_1 - angle * np.sin(lastTime) * s
 
     y = Variable(torch.FloatTensor([0.6]).cuda())
-    states_0 = torch.cat([e_0_curr[0:1], y, e_0_curr[1:2], e_0_last[0:1], y, e_0_last[1:2], quat, quat])
-    states_1 = torch.cat([e_1_curr[0:1], y, e_1_curr[1:2], e_1_last[0:1], y, e_1_last[1:2], quat, quat])
+    states_0 = torch.cat(
+        [e_0_curr[0:1], y, e_0_curr[1:2], e_0_last[0:1], y, e_0_last[1:2], quat, quat]
+    )
+    states_1 = torch.cat(
+        [e_1_curr[0:1], y, e_1_curr[1:2], e_1_last[0:1], y, e_1_last[1:2], quat, quat]
+    )
 
     # print(states_0.requires_grad, states_1.requires_grad)
     # print("gripper #0:", states_0.size())
@@ -137,23 +154,25 @@ def calc_shape_states_RiceGrip_var(t, dt, gripper_config):
 
 
 def calc_box_init_FluidShake(dis_x, dis_z, height, border):
-    center = np.array([0., 0., 0.])
-    quat = np.array([1., 0., 0., 0.])
+    center = np.array([0.0, 0.0, 0.0])
+    quat = np.array([1.0, 0.0, 0.0, 0.0])
     boxes = []
 
     # floor
-    halfEdge = np.array([dis_x/2., border/2., dis_z/2.])
+    halfEdge = np.array([dis_x / 2.0, border / 2.0, dis_z / 2.0])
     boxes.append([halfEdge, center, quat])
 
     # left wall
-    halfEdge = np.array([border/2., (height+border)/2., dis_z/2.])
+    halfEdge = np.array([border / 2.0, (height + border) / 2.0, dis_z / 2.0])
     boxes.append([halfEdge, center, quat])
 
     # right wall
     boxes.append([halfEdge, center, quat])
 
     # back wall
-    halfEdge = np.array([(dis_x+border*2)/2., (height+border)/2., border/2.])
+    halfEdge = np.array(
+        [(dis_x + border * 2) / 2.0, (height + border) / 2.0, border / 2.0]
+    )
     boxes.append([halfEdge, center, quat])
 
     # front wall
@@ -164,24 +183,34 @@ def calc_box_init_FluidShake(dis_x, dis_z, height, border):
 
 def calc_shape_states_FluidShake(x_curr, x_last, box_dis, height, border):
     dis_x, dis_z = box_dis
-    quat = np.array([1., 0., 0., 0.])
+    quat = np.array([1.0, 0.0, 0.0, 0.0])
 
     states = np.zeros((5, 14))
 
-    states[0, :3] = np.array([x_curr, border/2., 0.])
-    states[0, 3:6] = np.array([x_last, border/2., 0.])
+    states[0, :3] = np.array([x_curr, border / 2.0, 0.0])
+    states[0, 3:6] = np.array([x_last, border / 2.0, 0.0])
 
-    states[1, :3] = np.array([x_curr-(dis_x+border)/2., (height+border)/2., 0.])
-    states[1, 3:6] = np.array([x_last-(dis_x+border)/2., (height+border)/2., 0.])
+    states[1, :3] = np.array(
+        [x_curr - (dis_x + border) / 2.0, (height + border) / 2.0, 0.0]
+    )
+    states[1, 3:6] = np.array(
+        [x_last - (dis_x + border) / 2.0, (height + border) / 2.0, 0.0]
+    )
 
-    states[2, :3] = np.array([x_curr+(dis_x+border)/2., (height+border)/2., 0.])
-    states[2, 3:6] = np.array([x_last+(dis_x+border)/2., (height+border)/2., 0.])
+    states[2, :3] = np.array(
+        [x_curr + (dis_x + border) / 2.0, (height + border) / 2.0, 0.0]
+    )
+    states[2, 3:6] = np.array(
+        [x_last + (dis_x + border) / 2.0, (height + border) / 2.0, 0.0]
+    )
 
-    states[3, :3] = np.array([x_curr, (height+border)/2., -(dis_z+border)/2.])
-    states[3, 3:6] = np.array([x_last, (height+border)/2., -(dis_z+border)/2.])
+    states[3, :3] = np.array([x_curr, (height + border) / 2.0, -(dis_z + border) / 2.0])
+    states[3, 3:6] = np.array(
+        [x_last, (height + border) / 2.0, -(dis_z + border) / 2.0]
+    )
 
-    states[4, :3] = np.array([x_curr, (height+border)/2., (dis_z+border)/2.])
-    states[4, 3:6] = np.array([x_last, (height+border)/2., (dis_z+border)/2.])
+    states[4, :3] = np.array([x_curr, (height + border) / 2.0, (dis_z + border) / 2.0])
+    states[4, 3:6] = np.array([x_last, (height + border) / 2.0, (dis_z + border) / 2.0])
 
     states[:, 6:10] = quat
     states[:, 10:] = quat
@@ -196,31 +225,64 @@ def calc_shape_states_FluidShake_var(x_curr, x_last, box_dis, height, border):
     dis_z = Variable(torch.FloatTensor([dis_z]).cuda())
     height = Variable(torch.FloatTensor([height]).cuda())
     border = Variable(torch.FloatTensor([border]).cuda())
-    zero = Variable(torch.FloatTensor([0.]).cuda())
-    quat = Variable(torch.FloatTensor([1., 0., 0., 0.]).cuda())
+    zero = Variable(torch.FloatTensor([0.0]).cuda())
+    quat = Variable(torch.FloatTensor([1.0, 0.0, 0.0, 0.0]).cuda())
 
-    state_0 = torch.cat([
-        x_curr, border/2., zero, x_last, border/2., zero, quat, quat]).view(1, -1)
+    state_0 = torch.cat(
+        [x_curr, border / 2.0, zero, x_last, border / 2.0, zero, quat, quat]
+    ).view(1, -1)
 
-    state_1 = torch.cat([
-        x_curr-(dis_x+border)/2., (height+border)/2., zero,
-        x_last-(dis_x+border)/2., (height+border)/2., zero,
-        quat, quat]).view(1, -1)
+    state_1 = torch.cat(
+        [
+            x_curr - (dis_x + border) / 2.0,
+            (height + border) / 2.0,
+            zero,
+            x_last - (dis_x + border) / 2.0,
+            (height + border) / 2.0,
+            zero,
+            quat,
+            quat,
+        ]
+    ).view(1, -1)
 
-    state_2 = torch.cat([
-        x_curr+(dis_x+border)/2., (height+border)/2., zero,
-        x_last+(dis_x+border)/2., (height+border)/2., zero,
-        quat, quat]).view(1, -1)
+    state_2 = torch.cat(
+        [
+            x_curr + (dis_x + border) / 2.0,
+            (height + border) / 2.0,
+            zero,
+            x_last + (dis_x + border) / 2.0,
+            (height + border) / 2.0,
+            zero,
+            quat,
+            quat,
+        ]
+    ).view(1, -1)
 
-    state_3 = torch.cat([
-        x_curr, (height+border)/2., -(dis_z+border)/2.,
-        x_last, (height+border)/2., -(dis_z+border)/2.,
-        quat, quat]).view(1, -1)
+    state_3 = torch.cat(
+        [
+            x_curr,
+            (height + border) / 2.0,
+            -(dis_z + border) / 2.0,
+            x_last,
+            (height + border) / 2.0,
+            -(dis_z + border) / 2.0,
+            quat,
+            quat,
+        ]
+    ).view(1, -1)
 
-    state_4 = torch.cat([
-        x_curr, (height+border)/2., (dis_z+border)/2.,
-        x_last, (height+border)/2., (dis_z+border)/2.,
-        quat, quat]).view(1, -1)
+    state_4 = torch.cat(
+        [
+            x_curr,
+            (height + border) / 2.0,
+            (dis_z + border) / 2.0,
+            x_last,
+            (height + border) / 2.0,
+            (dis_z + border) / 2.0,
+            quat,
+            quat,
+        ]
+    ).view(1, -1)
 
     states = torch.cat([state_0, state_1, state_2, state_3, state_4], 0)
     # print("states size", states.size())
@@ -230,24 +292,29 @@ def calc_shape_states_FluidShake_var(x_curr, x_last, box_dis, height, border):
 
 def gen_PyFleX(info):
 
-    env, root_num = info['env'], info['root_num']
-    thread_idx, data_dir, data_names = info['thread_idx'], info['data_dir'], info['data_names']
-    n_rollout, n_instance = info['n_rollout'], info['n_instance']
-    time_step, time_step_clip = info['time_step'], info['time_step_clip']
-    shape_state_dim, dt = info['shape_state_dim'], info['dt']
-    scene_params = info['scene_params']
+    env, root_num = info["env"], info["root_num"]
+    thread_idx, data_dir, data_names = (
+        info["thread_idx"],
+        info["data_dir"],
+        info["data_names"],
+    )
+    n_rollout, n_instance = info["n_rollout"], info["n_instance"]
+    time_step, time_step_clip = info["time_step"], info["time_step_clip"]
+    shape_state_dim, dt = info["shape_state_dim"], info["dt"]
+    scene_params = info["scene_params"]
 
-    env_idx = info['env_idx']
+    env_idx = info["env_idx"]
 
     np.random.seed(round(time.time() * 1000 + thread_idx) % 2**32)
 
     # positions, velocities
-    if env_idx == 5:    # RiceGrip
+    if env_idx == 5:  # RiceGrip
         stats = [init_stat(6), init_stat(6)]
     else:
         stats = [init_stat(3), init_stat(3)]
 
     import pyflex
+
     pyflex.init()
 
     for i in range(n_rollout):
@@ -257,9 +324,9 @@ def gen_PyFleX(info):
 
         rollout_idx = thread_idx * n_rollout + i
         rollout_dir = os.path.join(data_dir, str(rollout_idx))
-        os.system('mkdir -p ' + rollout_dir)
+        os.system("mkdir -p " + rollout_dir)
 
-        if env == 'FluidFall':
+        if env == "FluidFall":
             scene_params = np.zeros(1)
             pyflex.set_scene(env_idx, scene_params, thread_idx)
             n_particles = pyflex.get_n_particles()
@@ -283,9 +350,9 @@ def gen_PyFleX(info):
                 pyflex.step()
 
                 data = [positions[j], velocities[j]]
-                store_data(data_names, data, os.path.join(rollout_dir, str(j) + '.h5'))
+                store_data(data_names, data, os.path.join(rollout_dir, str(j) + ".h5"))
 
-        elif env == 'BoxBath':
+        elif env == "BoxBath":
             # BoxBath
 
             assert scene_params is not None
@@ -345,9 +412,9 @@ def gen_PyFleX(info):
                 pyflex.step()
 
                 data = [positions[j], velocities[j], clusters]
-                store_data(data_names, data, os.path.join(rollout_dir, str(j) + '.h5'))
+                store_data(data_names, data, os.path.join(rollout_dir, str(j) + ".h5"))
 
-        elif env == 'FluidShake':
+        elif env == "FluidShake":
             # if env is FluidShake
             # In case the water can get out of box
             assert scene_params is not None
@@ -357,10 +424,10 @@ def gen_PyFleX(info):
             dim_y = rand_int(*scene_params[1])
             dim_z = scene_params[2]
             x_center = rand_float(-0.2, 0.2)
-            x = x_center - (dim_x-1)/2.*0.055
-            y = 0.055/2. + border + 0.01
-            z = 0. - (dim_z-1)/2.*0.055
-            box_dis_x = dim_x * 0.055 + rand_float(0., 0.3)
+            x = x_center - (dim_x - 1) / 2.0 * 0.055
+            y = 0.055 / 2.0 + border + 0.01
+            z = 0.0 - (dim_z - 1) / 2.0 * 0.055
+            box_dis_x = dim_x * 0.055 + rand_float(0.0, 0.3)
             box_dis_z = 0.2
 
             # For rigid params
@@ -370,13 +437,29 @@ def gen_PyFleX(info):
             rigid_type = scene_params[6]
             rigid_invm = scene_params[7]
 
-            x_r = x_center - dim_x_r / 2.
+            x_r = x_center - dim_x_r / 2.0
             y_r = y + dim_y * 0.052
-            z_r = -dim_z_r / 2.
-            final_scene_params = np.array([
-                x, y, z, dim_x, dim_y, dim_z, # Fluid
-                rigid_type, rigid_invm, x_r, y_r, z_r, dim_x_r, dim_y_r, dim_z_r,
-                box_dis_x, box_dis_z])
+            z_r = -dim_z_r / 2.0
+            final_scene_params = np.array(
+                [
+                    x,
+                    y,
+                    z,
+                    dim_x,
+                    dim_y,
+                    dim_z,  # Fluid
+                    rigid_type,
+                    rigid_invm,
+                    x_r,
+                    y_r,
+                    z_r,
+                    dim_x_r,
+                    dim_y_r,
+                    dim_z_r,
+                    box_dis_x,
+                    box_dis_z,
+                ]
+            )
             pyflex.set_scene(env_idx, final_scene_params, 0)
 
             # Create box with walls and floor to contain fluid and rigid
@@ -395,18 +478,23 @@ def gen_PyFleX(info):
             # print("n_particles", n_particles)
             # print("n_shapes", n_shapes)
 
-            positions = np.zeros((time_step, n_particles + n_shapes, 3), dtype=np.float32)
-            velocities = np.zeros((time_step, n_particles + n_shapes, 3), dtype=np.float32)
+            positions = np.zeros(
+                (time_step, n_particles + n_shapes, 3), dtype=np.float32
+            )
+            velocities = np.zeros(
+                (time_step, n_particles + n_shapes, 3), dtype=np.float32
+            )
             shape_quats = np.zeros((time_step, n_shapes, 4), dtype=np.float32)
 
             x_box = x_center
-            v_box = 0.
+            v_box = 0.0
             # Initialize, set the state of box
             for j in range(time_step_clip):
                 x_box_last = x_box
                 x_box += v_box * dt
                 shape_states_ = calc_shape_states_FluidShake(
-                    x_box, x_box_last, final_scene_params[-2:], height, border)
+                    x_box, x_box_last, final_scene_params[-2:], height, border
+                )
                 pyflex.set_shape_states(shape_states_)
                 pyflex.step()
 
@@ -416,11 +504,14 @@ def gen_PyFleX(info):
                 x_box += v_box * dt
                 v_box += rand_float(-0.15, 0.15) - x_box * 0.1
                 shape_states_ = calc_shape_states_FluidShake(
-                    x_box, x_box_last, final_scene_params[-2:], height, border)
+                    x_box, x_box_last, final_scene_params[-2:], height, border
+                )
                 pyflex.set_shape_states(shape_states_)
 
                 # Get particles' states and the box's state
-                positions[j, :n_particles] = pyflex.get_positions().reshape(-1, 4)[:, :3]
+                positions[j, :n_particles] = pyflex.get_positions().reshape(-1, 4)[
+                    :, :3
+                ]
                 shape_states = pyflex.get_shape_states().reshape(-1, shape_state_dim)
 
                 # Set box's state
@@ -434,9 +525,9 @@ def gen_PyFleX(info):
                 pyflex.step()
 
                 data = [positions[j], velocities[j], shape_quats[j], final_scene_params]
-                store_data(data_names, data, os.path.join(rollout_dir, str(j) + '.h5'))
+                store_data(data_names, data, os.path.join(rollout_dir, str(j) + ".h5"))
 
-        elif env == 'RiceGrip':
+        elif env == "RiceGrip":
             # if env is RiceGrip
             # repeat the grip for R times
             assert scene_params is not None
@@ -458,25 +549,40 @@ def gen_PyFleX(info):
                 clusterPlasticThreshold = rand_float(0.00001, 0.0003)
                 clusterPlasticCreep = rand_float(0.1, 0.3)
 
-                final_scene_params = np.array([x, y, z, clusterStiffness, clusterPlasticThreshold, clusterPlasticCreep])
+                final_scene_params = np.array(
+                    [
+                        x,
+                        y,
+                        z,
+                        clusterStiffness,
+                        clusterPlasticThreshold,
+                        clusterPlasticCreep,
+                    ]
+                )
                 pyflex.set_scene(env_idx, final_scene_params, thread_idx)
-                final_scene_params[4] *= 1000.
+                final_scene_params[4] *= 1000.0
 
                 halfEdge = np.array([0.15, 0.8, 0.15])
-                center = np.array([0., 0., 0.])
-                quat = np.array([1., 0., 0., 0.])
+                center = np.array([0.0, 0.0, 0.0])
+                quat = np.array([1.0, 0.0, 0.0, 0.0])
                 pyflex.add_box(halfEdge, center, quat)
                 pyflex.add_box(halfEdge, center, quat)
 
                 n_particles = pyflex.get_n_particles()
                 n_shapes = pyflex.get_n_shapes()
 
-                positions = np.zeros((time_step, n_particles + n_shapes, 6), dtype=np.float32)
-                velocities = np.zeros((time_step, n_particles + n_shapes, 6), dtype=np.float32)
+                positions = np.zeros(
+                    (time_step, n_particles + n_shapes, 6), dtype=np.float32
+                )
+                velocities = np.zeros(
+                    (time_step, n_particles + n_shapes, 6), dtype=np.float32
+                )
                 shape_quats = np.zeros((time_step, n_shapes, 4), dtype=np.float32)
 
                 for j in range(time_step_clip):
-                    shape_states = calc_shape_states_RiceGrip(0, dt, shape_state_dim, gripper_config)
+                    shape_states = calc_shape_states_RiceGrip(
+                        0, dt, shape_state_dim, gripper_config
+                    )
                     pyflex.set_shape_states(shape_states)
                     pyflex.step()
 
@@ -484,17 +590,25 @@ def gen_PyFleX(info):
 
                 clusters = []
                 st_time = time.time()
-                kmeans = MiniBatchKMeans(n_clusters=root_num[0][0], random_state=0).fit(p)
+                kmeans = MiniBatchKMeans(n_clusters=root_num[0][0], random_state=0).fit(
+                    p
+                )
                 # print('Time on kmeans', time.time() - st_time)
                 clusters.append([[kmeans.labels_]])
                 # centers = kmeans.cluster_centers_
 
             for j in range(time_step):
-                shape_states = calc_shape_states_RiceGrip(j * dt, dt, shape_state_dim, gripper_config)
+                shape_states = calc_shape_states_RiceGrip(
+                    j * dt, dt, shape_state_dim, gripper_config
+                )
                 pyflex.set_shape_states(shape_states)
 
-                positions[j, :n_particles, :3] = pyflex.get_rigidGlobalPositions().reshape(-1, 3)
-                positions[j, :n_particles, 3:] = pyflex.get_positions().reshape(-1, 4)[:, :3]
+                positions[j, :n_particles, :3] = (
+                    pyflex.get_rigidGlobalPositions().reshape(-1, 3)
+                )
+                positions[j, :n_particles, 3:] = pyflex.get_positions().reshape(-1, 4)[
+                    :, :3
+                ]
                 shape_states = pyflex.get_shape_states().reshape(-1, shape_state_dim)
 
                 for k in range(n_shapes):
@@ -507,8 +621,14 @@ def gen_PyFleX(info):
 
                 pyflex.step()
 
-                data = [positions[j], velocities[j], shape_quats[j], clusters, final_scene_params]
-                store_data(data_names, data, os.path.join(rollout_dir, str(j) + '.h5'))
+                data = [
+                    positions[j],
+                    velocities[j],
+                    shape_quats[j],
+                    clusters,
+                    final_scene_params,
+                ]
+                store_data(data_names, data, os.path.join(rollout_dir, str(j) + ".h5"))
 
         else:
             raise AssertionError("Unsupported env")
@@ -528,44 +648,63 @@ def gen_PyFleX(info):
 
     return stats
 
-def prepare_input(data, stat, args, phases_dict, verbose=0, var=False, abs_point=False, fix_attr_dim=0):
+
+def prepare_input(
+    data, stat, args, phases_dict, verbose=0, var=False, abs_point=False, fix_attr_dim=0
+):
 
     # Arrangement:
     # particles, shapes, roots
 
     n_abs = 0
-    if args.env == 'RiceGrip':
+    if args.env == "RiceGrip":
         positions, velocities, shape_quats, clusters, scene_params = data
         if abs_point:
-            positions = np.concatenate((positions, np.zeros((1, positions.shape[-1]))), axis=0)
-            velocities = np.concatenate((velocities, np.zeros((1, velocities.shape[-1]))), axis=0)
+            positions = np.concatenate(
+                (positions, np.zeros((1, positions.shape[-1]))), axis=0
+            )
+            velocities = np.concatenate(
+                (velocities, np.zeros((1, velocities.shape[-1]))), axis=0
+            )
             n_abs = 1
         n_shapes = shape_quats.size(0) if var else shape_quats.shape[0]
-    elif args.env == 'FluidShake':
+    elif args.env == "FluidShake":
         positions, velocities, shape_quats, scene_params = data
         if abs_point:
-            positions = np.concatenate((positions, np.zeros((1, positions.shape[-1]))), axis=0)
-            velocities = np.concatenate((velocities, np.zeros((1, velocities.shape[-1]))), axis=0)
+            positions = np.concatenate(
+                (positions, np.zeros((1, positions.shape[-1]))), axis=0
+            )
+            velocities = np.concatenate(
+                (velocities, np.zeros((1, velocities.shape[-1]))), axis=0
+            )
             n_abs = 1
         # The sate of walls: front, back, left, right, floor
         n_shapes = shape_quats.size(0) if var else shape_quats.shape[0]
         clusters = None
-    elif args.env == 'BoxBath':
+    elif args.env == "BoxBath":
         positions, velocities, clusters = data
         n_shapes = 5
         if abs_point:
-            positions = np.concatenate((positions, np.zeros((2, positions.shape[-1]))), axis=0)
-            velocities = np.concatenate((velocities, np.zeros((2, velocities.shape[-1]))), axis=0)
+            positions = np.concatenate(
+                (positions, np.zeros((2, positions.shape[-1]))), axis=0
+            )
+            velocities = np.concatenate(
+                (velocities, np.zeros((2, velocities.shape[-1]))), axis=0
+            )
             n_abs = 2
-    elif args.env == 'FluidFall':
+    elif args.env == "FluidFall":
         positions, velocities = data
         n_shapes = 0
         if not args.baseline:
             n_shapes = 1
         if abs_point:
             n_abs = 1
-            positions = np.concatenate((positions, np.zeros((n_abs, positions.shape[-1]))), axis=0)
-            velocities = np.concatenate((velocities, np.zeros((n_abs, velocities.shape[-1]))), axis=0) 
+            positions = np.concatenate(
+                (positions, np.zeros((n_abs, positions.shape[-1]))), axis=0
+            )
+            velocities = np.concatenate(
+                (velocities, np.zeros((n_abs, velocities.shape[-1]))), axis=0
+            )
         clusters = None
 
     # count_nodes: all number of nodes, including the env, such as the wall
@@ -578,12 +717,12 @@ def prepare_input(data, stat, args, phases_dict, verbose=0, var=False, abs_point
 
         print("n_particles", n_particles)
         print("n_shapes", n_shapes)
-        if args.env == 'RiceGrip' or args.env == 'FluidShake':
+        if args.env == "RiceGrip" or args.env == "FluidShake":
             print("shape_quats", shape_quats.shape)
 
     ### instance idx
     #   instance_idx (n_instance + 1): start idx of instance
-    if args.env == 'RiceGrip' or args.env == 'FluidShake':
+    if args.env == "RiceGrip" or args.env == "FluidShake":
         # Here, don't take boxbath into consideration, as the wall are added extrally.
         instance_idx = [0, n_particles]
     else:
@@ -591,62 +730,63 @@ def prepare_input(data, stat, args, phases_dict, verbose=0, var=False, abs_point
     if verbose:
         print("Instance_idx:", instance_idx)
 
-
     ### object attributes
     #   dim 10: [rigid, fluid, root_0, root_1, gripper_0, gripper_1, mass_inv,
     #            clusterStiffness, clusterPlasticThreshold, cluasterPlasticCreep]
     if fix_attr_dim > 0:
-        if args.env == 'RiceGrip' or args.env == 'FluidFall':
+        if args.env == "RiceGrip" or args.env == "FluidFall":
             raise NotImplementedError
         attr = np.zeros((count_nodes, fix_attr_dim))
     else:
         attr = np.zeros((count_nodes, args.attr_dim))
     # no need to include mass for now
     # attr[:, 6] = positions[:, -1].data.cpu().numpy() if var else positions[:, -1] # mass_inv
-    if args.env == 'RiceGrip':
+    if args.env == "RiceGrip":
         # clusterStiffness, clusterPlasticThreshold, cluasterPlasticCreep
         attr[:, -3:] = scene_params[-3:]
 
-
     ### construct relations
-    Rr_idxs = []        # relation receiver idx list, N*2, Rr_idxs[x, 0] is the index of particles; Rr_idxs[i, 1] equals to i.
-    Rs_idxs = []        # relation sender idx list
-    Ras = []            # relation attributes list
-    values = []         # relation value list (should be 1)
-    node_r_idxs = []    # list of corresponding receiver node idx
-    node_s_idxs = []    # list of corresponding sender node idx
-    psteps = []         # propagation steps
+    Rr_idxs = (
+        []
+    )  # relation receiver idx list, N*2, Rr_idxs[x, 0] is the index of particles; Rr_idxs[i, 1] equals to i.
+    Rs_idxs = []  # relation sender idx list
+    Ras = []  # relation attributes list
+    values = []  # relation value list (should be 1)
+    node_r_idxs = []  # list of corresponding receiver node idx
+    node_s_idxs = []  # list of corresponding sender node idx
+    psteps = []  # propagation steps
 
     ##### add env specific graph components
     rels = []
-    if args.env == 'RiceGrip':
+    if args.env == "RiceGrip":
         # nodes = np.arange(n_particles)
         for i in range(n_shapes):
             # object attr:
-            # [fluid, root, gripper_0, gripper_1, abs_point, 
+            # [fluid, root, gripper_0, gripper_1, abs_point,
             #  clusterStiffness, clusterPlasticThreshold, clusterPlasticCreep]
             attr[n_particles + i, 2 + i] = 1
 
             pos = positions.data.cpu().numpy() if var else positions
             dis = np.linalg.norm(
-                pos[:n_particles, 3:6:2] - pos[n_particles + i, 3:6:2], axis=1)
+                pos[:n_particles, 3:6:2] - pos[n_particles + i, 3:6:2], axis=1
+            )
             nodes = np.nonzero(dis < 0.3)[0]
 
             if verbose:
                 visualize_neighbors(positions, positions, 0, nodes)
                 print(np.sort(dis)[:10])
 
-            gripper = np.ones(nodes.shape[0], dtype=np.int) * (n_particles + i)
+            gripper = np.ones(nodes.shape[0], dtype=int) * (n_particles + i)
             rels += [np.stack([nodes, gripper, np.ones(nodes.shape[0])], axis=1)]
-        
+
         for i in range(n_abs):
-            attr[n_particles+n_shapes + i, 4 + i] = 1
-            if phases_dict['material'][i] == 'fluid':
-                abs_p = np.ones(n_particles, dtype=np.int) * (n_particles+n_shapes + i)
+            attr[n_particles + n_shapes + i, 4 + i] = 1
+            if phases_dict["material"][i] == "fluid":
+                abs_p = np.ones(n_particles, dtype=int) * (n_particles + n_shapes + i)
                 nodes = np.arange(n_particles)
                 rels += [np.stack([nodes, abs_p, np.ones(n_particles)], axis=1)]
                 rels += [np.stack([abs_p, nodes, np.ones(n_particles)], axis=1)]
-    elif args.env == 'FluidShake':
+    elif args.env == "FluidShake":
         # Add relations between walls and particles
         for i in range(n_shapes):
             # One hot. Each position for each wall
@@ -685,26 +825,28 @@ def prepare_input(data, stat, args, phases_dict, verbose=0, var=False, abs_point
                 print(np.sort(dis)[:10])
 
             # Set relation with thresh
-            wall = np.ones(nodes.shape[0], dtype=np.int) * (n_particles + i)
+            wall = np.ones(nodes.shape[0], dtype=int) * (n_particles + i)
             # add relations: [particle_reciever_idx, wall_sender_idx, relation_type]
             # Relation type for root-leaf are 0. leaf-leaf are 1.
             rels += [np.stack([nodes, wall, np.ones(nodes.shape[0])], axis=1)]
 
         for i in range(n_abs):
             if fix_attr_dim > 0:
-                attr[n_particles+n_shapes + i, 8 + i] = 1 # the 7-th is for rigid abs. though this has no effect
+                attr[n_particles + n_shapes + i, 8 + i] = (
+                    1  # the 7-th is for rigid abs. though this has no effect
+                )
             else:
-                attr[n_particles+n_shapes + i, 6 + i] = 1
+                attr[n_particles + n_shapes + i, 6 + i] = 1
             st, ed = instance_idx[i], instance_idx[i + 1]
             # Rigid, then fluid;
             # The order is same with phase_dict['material']
-            abs_p = np.ones(ed-st, dtype=np.int) * (n_particles+n_shapes + i)
+            abs_p = np.ones(ed - st, dtype=int) * (n_particles + n_shapes + i)
             # The st == 0, thus no effect
-            nodes = np.arange(ed-st) + st
-            rels += [np.stack([nodes, abs_p, np.ones(ed-st)], axis=1)]
-            rels += [np.stack([abs_p, nodes, np.ones(ed-st)], axis=1)]
+            nodes = np.arange(ed - st) + st
+            rels += [np.stack([nodes, abs_p, np.ones(ed - st)], axis=1)]
+            rels += [np.stack([abs_p, nodes, np.ones(ed - st)], axis=1)]
 
-    elif args.env == 'BoxBath':
+    elif args.env == "BoxBath":
         # Add relations between walls and particles
         for i in range(n_shapes):
             # One hot. Each position for each wall
@@ -741,22 +883,22 @@ def prepare_input(data, stat, args, phases_dict, verbose=0, var=False, abs_point
                 print(np.sort(dis)[:10])
 
             # Set relation with thresh
-            wall = np.ones(nodes.shape[0], dtype=np.int) * (n_particles + i)
+            wall = np.ones(nodes.shape[0], dtype=int) * (n_particles + i)
             # add relations: [particle_reciever_idx, wall_sender_idx, relation_type]
             # Relation type for root-leaf are 0. leaf-leaf are 1.
             rels += [np.stack([nodes, wall, np.ones(nodes.shape[0])], axis=1)]
 
         for i in range(n_abs):
             assert not args.hierarchy
-            attr[n_particles+n_shapes + i, 7 + i] = 1
+            attr[n_particles + n_shapes + i, 7 + i] = 1
             st, ed = instance_idx[i], instance_idx[i + 1]
             # Rigid, then fluid;
             # The order is same with phase_dict['material']
-            abs_p = np.ones(ed-st, dtype=np.int) * (n_particles+n_shapes + i)
-            nodes = np.arange(ed-st) + st
-            rels += [np.stack([nodes, abs_p, np.ones(ed-st)], axis=1)]
-            rels += [np.stack([abs_p, nodes, np.ones(ed-st)], axis=1)]
-    elif args.env == 'FluidFall' and not args.baseline:
+            abs_p = np.ones(ed - st, dtype=int) * (n_particles + n_shapes + i)
+            nodes = np.arange(ed - st) + st
+            rels += [np.stack([nodes, abs_p, np.ones(ed - st)], axis=1)]
+            rels += [np.stack([abs_p, nodes, np.ones(ed - st)], axis=1)]
+    elif args.env == "FluidFall" and not args.baseline:
         # Add relations between walls and particles
         for i in range(n_shapes):
             # One hot. Each position for each wall
@@ -778,20 +920,20 @@ def prepare_input(data, stat, args, phases_dict, verbose=0, var=False, abs_point
                 print(np.sort(dis)[:10])
 
             # Set relation with thresh
-            wall = np.ones(nodes.shape[0], dtype=np.int) * (n_particles + i)
+            wall = np.ones(nodes.shape[0], dtype=int) * (n_particles + i)
             # add relations: [particle_reciever_idx, wall_sender_idx, relation_type]
             # Relation type for root-leaf are 0. leaf-leaf are 1.
             rels += [np.stack([nodes, wall, np.ones(nodes.shape[0])], axis=1)]
 
         for i in range(n_abs):
-            attr[n_particles+n_shapes + i, 2 + i] = 1
+            attr[n_particles + n_shapes + i, 2 + i] = 1
             st, ed = instance_idx[i], instance_idx[i + 1]
             # Rigid, then fluid;
             # The order is same with phase_dict['material']
-            abs_p = np.ones(ed-st, dtype=np.int) * (n_particles+n_shapes + i)
-            nodes = np.arange(ed-st) + st
-            rels += [np.stack([nodes, abs_p, np.ones(ed-st)], axis=1)]
-            rels += [np.stack([abs_p, nodes, np.ones(ed-st)], axis=1)]
+            abs_p = np.ones(ed - st, dtype=int) * (n_particles + n_shapes + i)
+            nodes = np.arange(ed - st) + st
+            rels += [np.stack([nodes, abs_p, np.ones(ed - st)], axis=1)]
+            rels += [np.stack([abs_p, nodes, np.ones(ed - st)], axis=1)]
 
     if verbose and len(rels) > 0:
         print(np.concatenate(rels, 0).shape)
@@ -801,36 +943,36 @@ def prepare_input(data, stat, args, phases_dict, verbose=0, var=False, abs_point
         st, ed = instance_idx[i], instance_idx[i + 1]
 
         if verbose:
-            print('instance #%d' % i, st, ed)
+            print("instance #%d" % i, st, ed)
 
         # To find anchors that are close to the queries
         # queries are reciever, anchors are sender
-        if args.env == 'BoxBath':
-            if phases_dict['material'][i] == 'rigid':
+        if args.env == "BoxBath":
+            if phases_dict["material"][i] == "rigid":
                 attr[st:ed, 0] = 1
                 # Rigid idx
                 queries = np.arange(st, ed)
                 # Other idx instead of rigid
-                # if not args.hierarchy: 
+                # if not args.hierarchy:
                 #     anchors = np.arange(n_particles)
                 # else:
                 #     anchors = np.concatenate((np.arange(st), np.arange(ed, n_particles)))
                 anchors = np.arange(n_particles)
-            elif phases_dict['material'][i] == 'fluid':
+            elif phases_dict["material"][i] == "fluid":
                 attr[st:ed, 1] = 1
                 queries = np.arange(st, ed)
                 anchors = np.arange(n_particles)
             else:
                 raise AssertionError("Unsupported materials")
-        elif args.env == 'FluidFall' or args.env == 'RiceGrip':
-            if phases_dict['material'][i] == 'fluid':
+        elif args.env == "FluidFall" or args.env == "RiceGrip":
+            if phases_dict["material"][i] == "fluid":
                 attr[st:ed, 0] = 1
                 queries = np.arange(st, ed)
                 anchors = np.arange(n_particles)
             else:
                 raise AssertionError("Unsupported materials")
-        elif args.env == 'FluidShake':
-            if phases_dict['material'][i] == 'fluid':
+        elif args.env == "FluidShake":
+            if phases_dict["material"][i] == "fluid":
                 if fix_attr_dim > 0:
                     attr[st:ed, 1] = 1
                 else:
@@ -846,7 +988,9 @@ def prepare_input(data, stat, args, phases_dict, verbose=0, var=False, abs_point
         pos = positions
         pos = pos[:, -3:]
         # Reture the relations in format of: [particle_reciever_idx, wall_sender_idx, relation_type]
-        rels += find_relations_neighbor(pos, queries, anchors, args.neighbor_radius, 2, var)
+        rels += find_relations_neighbor(
+            pos, queries, anchors, args.neighbor_radius, 2, var
+        )
         # print("Time on neighbor search", time.time() - st_time)
 
     if verbose:
@@ -857,24 +1001,32 @@ def prepare_input(data, stat, args, phases_dict, verbose=0, var=False, abs_point
     if rels.shape[0] > 0:
         if verbose:
             print("Relations neighbor", rels.shape)
-        Rr_idxs.append(torch.LongTensor([rels[:, 0], np.arange(rels.shape[0])]))
-        Rs_idxs.append(torch.LongTensor([rels[:, 1], np.arange(rels.shape[0])]))
+
+        # Rr_idxs.append(torch.LongTensor([rels[:, 0], np.arange(rels.shape[0])]))
+        # Rs_idxs.append(torch.LongTensor([rels[:, 1], np.arange(rels.shape[0])]))
+        rel_indices = np.arange(rels.shape[0])
+        Rr_idxs.append(
+            torch.tensor(np.stack([rels[:, 0], rel_indices], axis=0), dtype=torch.long)
+        )
+        Rs_idxs.append(
+            torch.tensor(np.stack([rels[:, 1], rel_indices], axis=0), dtype=torch.long)
+        )
         # For the attr of the leaves' relations, the attr are 0.
         Ra = np.zeros((rels.shape[0], args.relation_dim))
         Ras.append(torch.FloatTensor(Ra))
         values.append(torch.FloatTensor([1] * rels.shape[0]))
-        
+
         if abs_point:
-            r_idx = np.arange(n_particles+n_abs)
+            r_idx = np.arange(n_particles + n_abs)
             for i in range(n_abs):
-                r_idx[n_particles+i] = n_particles+n_shapes+i
+                r_idx[n_particles + i] = n_particles + n_shapes + i
             # r_idx = list(r_idx)
             # abs_idx = list(np.arange(n_particles+n_shapes, count_nodes))
             # r_idx = np.array(r_idx.extend(abs_idx))
         else:
             r_idx = np.arange(n_particles)
         node_r_idxs.append(r_idx)
-        
+
         if abs_point:
             s_idx = np.arange(count_nodes)
         else:
@@ -883,7 +1035,7 @@ def prepare_input(data, stat, args, phases_dict, verbose=0, var=False, abs_point
         psteps.append(args.pstep)
 
     if verbose:
-        print('clusters', clusters)
+        print("clusters", clusters)
 
     # add heirarchical relations per instance
     cnt_clusters = 0
@@ -892,18 +1044,42 @@ def prepare_input(data, stat, args, phases_dict, verbose=0, var=False, abs_point
         n_root_level = len(phases_dict["root_num"][i])
 
         if n_root_level > 0 and args.hierarchy:
-            attr, positions, velocities, count_nodes, \
-            rels, node_r_idx, node_s_idx, pstep = \
-                    make_hierarchy(args.env, attr, positions, velocities, i, st, ed,
-                                   phases_dict, count_nodes, clusters[cnt_clusters], verbose, var)
+            (
+                attr,
+                positions,
+                velocities,
+                count_nodes,
+                rels,
+                node_r_idx,
+                node_s_idx,
+                pstep,
+            ) = make_hierarchy(
+                args.env,
+                attr,
+                positions,
+                velocities,
+                i,
+                st,
+                ed,
+                phases_dict,
+                count_nodes,
+                clusters[cnt_clusters],
+                verbose,
+                var,
+            )
 
             for j in range(len(rels)):
                 if verbose:
                     print("Relation instance", j, rels[j].shape)
-                Rr_idxs.append(torch.LongTensor([rels[j][:, 0], np.arange(rels[j].shape[0])]))
-                Rs_idxs.append(torch.LongTensor([rels[j][:, 1], np.arange(rels[j].shape[0])]))
+                Rr_idxs.append(
+                    torch.LongTensor([rels[j][:, 0], np.arange(rels[j].shape[0])])
+                )
+                Rs_idxs.append(
+                    torch.LongTensor([rels[j][:, 1], np.arange(rels[j].shape[0])])
+                )
                 # relation attr for root-leaf, root-root are 1
-                Ra = np.zeros((rels[j].shape[0], args.relation_dim)); Ra[:, 0] = 1
+                Ra = np.zeros((rels[j].shape[0], args.relation_dim))
+                Ra[:, 0] = 1
                 Ras.append(torch.FloatTensor(Ra))
                 values.append(torch.FloatTensor([1] * rels[j].shape[0]))
                 node_r_idxs.append(node_r_idx[j])
@@ -913,14 +1089,14 @@ def prepare_input(data, stat, args, phases_dict, verbose=0, var=False, abs_point
             cnt_clusters += 1
 
     if verbose:
-        if args.env == 'RiceGrip' or args.env == 'FluidShake':
+        if args.env == "RiceGrip" or args.env == "FluidShake":
             print("Scene_params:", scene_params)
 
         print("Attr shape (after hierarchy building):", attr.shape)
         print("Object attr:", np.sum(attr, axis=0))
         print("Particle attr:", np.sum(attr[:n_particles], axis=0))
-        print("Shape attr:", np.sum(attr[n_particles:n_particles+n_shapes], axis=0))
-        print("Roots attr:", np.sum(attr[n_particles+n_shapes:], axis=0))
+        print("Shape attr:", np.sum(attr[n_particles : n_particles + n_shapes], axis=0))
+        print("Roots attr:", np.sum(attr[n_particles + n_shapes :], axis=0))
 
     ### normalize data
     data = [positions, velocities]
@@ -936,25 +1112,34 @@ def prepare_input(data, stat, args, phases_dict, verbose=0, var=False, abs_point
         print(np.mean(positions[:n_particles], 0))
         print(np.std(positions[:n_particles], 0))
 
-        show_vel_dim = 6 if args.env == 'RiceGrip' else 3
+        show_vel_dim = 6 if args.env == "RiceGrip" else 3
         print("Velocities stats")
         print(velocities.shape)
         print(np.mean(velocities[:n_particles, :show_vel_dim], 0))
         print(np.std(velocities[:n_particles, :show_vel_dim], 0))
 
-    if args.env == 'RiceGrip':
+    if args.env == "RiceGrip":
         if var:
             quats = torch.cat(
-                [Variable(torch.zeros(n_particles, 4).cuda()), shape_quats,
-                 Variable(torch.zeros(count_nodes - n_particles - n_shapes, 4).cuda())], 0)
+                [
+                    Variable(torch.zeros(n_particles, 4).cuda()),
+                    shape_quats,
+                    Variable(
+                        torch.zeros(count_nodes - n_particles - n_shapes, 4).cuda()
+                    ),
+                ],
+                0,
+            )
             state = torch.cat([positions, velocities, quats], 1)
         else:
-            quat_null = np.array([[0., 0., 0., 0.]])
+            quat_null = np.array([[0.0, 0.0, 0.0, 0.0]])
             quats = np.repeat(quat_null, [count_nodes], axis=0)
-            quats[n_particles:n_particles + n_shapes] = shape_quats
+            quats[n_particles : n_particles + n_shapes] = shape_quats
             # if args.eval == 0:
             # quats += np.random.randn(quats.shape[0], 4) * 0.05
-            state = torch.FloatTensor(np.concatenate([positions, velocities, quats], axis=1))
+            state = torch.FloatTensor(
+                np.concatenate([positions, velocities, quats], axis=1)
+            )
     else:
         if var:
             state = torch.cat([positions, velocities], 1)
@@ -967,7 +1152,13 @@ def prepare_input(data, stat, args, phases_dict, verbose=0, var=False, abs_point
                 print(i, attr[i], attr[i + 1])
 
         for i in range(len(Ras)):
-            print(i, np.min(node_r_idxs[i]), np.max(node_r_idxs[i]), np.min(node_s_idxs[i]), np.max(node_s_idxs[i]))
+            print(
+                i,
+                np.min(node_r_idxs[i]),
+                np.max(node_r_idxs[i]),
+                np.min(node_s_idxs[i]),
+                np.max(node_s_idxs[i]),
+            )
 
     attr = torch.FloatTensor(attr)
     # Rr_idxs: stage, 2, num_relation. (stage: num of hierachy; relations differ from each other for differenct stage)
@@ -982,20 +1173,33 @@ def prepare_input(data, stat, args, phases_dict, verbose=0, var=False, abs_point
     return attr, state, relations, n_particles, n_shapes, instance_idx
 
 
-def preprocess_transformer(data, stat, env_cfg, phases_dict, verbose, idx_rollout, idx_timestep, label=None):
-    attr, state, relations, n_particles, n_shapes, instance_idx = \
-            prepare_input(data, stat, env_cfg, phases_dict, verbose, abs_point=False)
+def preprocess_transformer(
+    data, stat, env_cfg, phases_dict, verbose, idx_rollout, idx_timestep, label=None
+):
+    attr, state, relations, n_particles, n_shapes, instance_idx = prepare_input(
+        data, stat, env_cfg, phases_dict, verbose, abs_point=False
+    )
 
     max_particles = attr.shape[0] + env_cfg.num_abs_token
     # label: N_P, dim
     if label is not None:
         if env_cfg.num_abs_token > 0:
-            label = torch.cat([label, torch.zeros((max_particles-label.shape[0], label.shape[1]))], dim=0)
-        label = DataContainer(label.unsqueeze(0).transpose(-1, -2), stack=True, pad_dims=1)
-        
+            label = torch.cat(
+                [label, torch.zeros((max_particles - label.shape[0], label.shape[1]))],
+                dim=0,
+            )
+        label = DataContainer(
+            label.unsqueeze(0).transpose(-1, -2), stack=True, pad_dims=1
+        )
+
     if env_cfg.num_abs_token > 0:
-        attr = torch.cat([attr, torch.zeros((max_particles-attr.shape[0], attr.shape[1]))], dim=0)
-        state = torch.cat([state, torch.zeros((max_particles-state.shape[0], state.shape[1]))], dim=0)
+        attr = torch.cat(
+            [attr, torch.zeros((max_particles - attr.shape[0], attr.shape[1]))], dim=0
+        )
+        state = torch.cat(
+            [state, torch.zeros((max_particles - state.shape[0], state.shape[1]))],
+            dim=0,
+        )
     # DataContainer(data, stack=False, padding_value=0, pad_dims=2, cpu_only=False)
     attr = DataContainer(attr.unsqueeze(0).transpose(-1, -2), stack=True, pad_dims=1)
     state = DataContainer(state.unsqueeze(0).transpose(-1, -2), stack=True, pad_dims=1)
@@ -1024,7 +1228,7 @@ def preprocess_transformer(data, stat, env_cfg, phases_dict, verbose, idx_rollou
     #     for materials_idx, material in enumerate(phases_dict['material']):
     #         particles_start_idx = instance_idx[materials_idx]
     #         particles_end_idx = instance_idx[materials_idx+1]
-    #         abs_p = torch.LongTensor(np.ones(particles_end_idx-particles_start_idx, dtype=np.int) * (max_particles - env_cfg.num_abs_token + materials_idx))
+    #         abs_p = torch.LongTensor(np.ones(particles_end_idx-particles_start_idx, dtype=int) * (max_particles - env_cfg.num_abs_token + materials_idx))
     #         nodes = torch.LongTensor(np.arange(particles_end_idx-particles_start_idx) + particles_start_idx)
     #         obj_r_idx = torch.cat((obj_r_idx, abs_p), dim=0)
     #         obj_s_idx = torch.cat((obj_s_idx, nodes), dim=0)
@@ -1037,33 +1241,42 @@ def preprocess_transformer(data, stat, env_cfg, phases_dict, verbose, idx_rollou
     # relation_mask.index_put_([n_particle_mask, n_particle_mask], torch.tensor(0))
     # >>>
     # Add mask for n_shapes
-    n_shapes_mask = torch.arange(n_particles, n_particles+n_shapes)
+    n_shapes_mask = torch.arange(n_particles, n_particles + n_shapes)
     relation_mask.index_put_([n_shapes_mask, n_shapes_mask], torch.tensor(0))
     num_heads = env_cfg.attn_mask
     # relation_mask = relation_mask.bool().unsqueeze(0).expand(num_heads, -1, -1)
     relation_mask = relation_mask.bool().unsqueeze(0)
-    relation_mask = DataContainer(relation_mask, stack=True, padding_value=1, pad_dims=2)
+    relation_mask = DataContainer(
+        relation_mask, stack=True, padding_value=1, pad_dims=2
+    )
 
     fluid_mask = torch.zeros(max_particles)
     rigid_mask = torch.zeros(max_particles)
     for i in range(len(instance_idx) - 1):
         st, ed = instance_idx[i], instance_idx[i + 1]
-        if phases_dict['material'][i] == 'rigid':
+        if phases_dict["material"][i] == "rigid":
             # mask
             rigid_mask[st:ed] = 1
-        elif phases_dict['material'][i] == 'fluid':
+        elif phases_dict["material"][i] == "fluid":
             fluid_mask[st:ed] = 1
     fluid_mask = DataContainer(fluid_mask.unsqueeze(0), stack=True, pad_dims=1)
     rigid_mask = DataContainer(rigid_mask.unsqueeze(0), stack=True, pad_dims=1)
-    
+
     # node_r_mask = torch.zeros(max_particles)
     # node_r_mask[:n_particles] = 1
     # node_r_mask = DataContainer(node_r_mask.unsqueeze(0), stack=True, pad_dims=1)
 
     # Warning: this may be diff from diff version
-    stat = torch.FloatTensor(stat)
+    # stat = torch.FloatTensor(stat)
+    stat = np.array(stat)  # 优化：转换为 NumPy 数组
+    stat = torch.tensor(stat, dtype=torch.float)  # 转换为 PyTorch 张量
 
-    meta=dict(idx_rollout=idx_rollout, idx_timestep=idx_timestep, n_particles=n_particles, instance_idx=instance_idx)
+    meta = dict(
+        idx_rollout=idx_rollout,
+        idx_timestep=idx_timestep,
+        n_particles=n_particles,
+        instance_idx=instance_idx,
+    )
     inputs = dict(
         attr=attr,
         state=state,
@@ -1074,5 +1287,6 @@ def preprocess_transformer(data, stat, env_cfg, phases_dict, verbose, idx_rollou
         attn_mask=relation_mask,
         # meta=meta,
         # node_r_mask=node_r_mask,
-        stat=stat)
+        stat=stat,
+    )
     return inputs, meta, label

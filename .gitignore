@@ -3,3 +3,6 @@ __pycache__/
 work_dirs/
 predict/
 render_out/
+sim.egg-info/
+test.py
+nohup.out

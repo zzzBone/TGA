@@ -11,7 +11,9 @@
             "program": "${workspaceFolder}/tools/train.py",
             "console": "integratedTerminal",
             "justMyCode": true,
-            "args": ["configs/tie/tie_boxbath.py"],
+            "args": [
+                "configs/tga/tga_boxbath.py"
+            ],
         }
     ]
 }

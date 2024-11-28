@@ -1,7 +1,6 @@
 import torch
 import torch.nn as nn
-from mmcv.cnn import (Linear, build_activation_layer, build_norm_layer,
-                      xavier_init)
+from mmcv.cnn import Linear, build_activation_layer, build_norm_layer, xavier_init
 
 
 class FFN(nn.Module):
@@ -17,15 +16,17 @@ class FFN(nn.Module):
             Defaults to False.
     """
 
-    def __init__(self,
-                 embed_dims,
-                 act_cfg=dict(type='ReLU', inplace=True),
-                 dropout=0.0,
-                 final_act=False,
-                 add_residual=False,
-                 bias=True):
+    def __init__(
+        self,
+        embed_dims,
+        act_cfg=dict(type="ReLU", inplace=True),
+        dropout=0.0,
+        final_act=False,
+        add_residual=False,
+        bias=True,
+    ):
         super(FFN, self).__init__()
-        
+
         assert isinstance(embed_dims, list)
 
         self.embed_dims = embed_dims
@@ -44,13 +45,16 @@ class FFN(nn.Module):
             layers = nn.ModuleList()
             in_channels = embed_dims[0]
             out_channels = embed_dims[1]
-            for i in range(1, len(embed_dims)-1):
+            for i in range(1, len(embed_dims) - 1):
                 layers.append(
                     nn.Sequential(
-                        Linear(in_channels, out_channels, bias=bias), self.activate,
-                        nn.Dropout(dropout)))
+                        Linear(in_channels, out_channels, bias=bias),
+                        self.activate,
+                        nn.Dropout(dropout),
+                    )
+                )
                 in_channels = embed_dims[i]
-                out_channels = embed_dims[i+1]
+                out_channels = embed_dims[i + 1]
             layers.append(Linear(in_channels, out_channels, bias=bias))
             if self.final_act:
                 layers.append(self.activate)
@@ -68,9 +72,9 @@ class FFN(nn.Module):
     def __repr__(self):
         """str: a string that describes the module"""
         repr_str = self.__class__.__name__
-        repr_str += f'(embed_dims={self.embed_dims}, '
-        repr_str += f'act_cfg={self.act_cfg}, '
-        repr_str += f'dropout={self.dropout}, '
-        repr_str += f'final_act={self.final_act})'
-        repr_str += f'add_residual={self.add_residual})'
+        repr_str += f"(embed_dims={self.embed_dims}, "
+        repr_str += f"act_cfg={self.act_cfg}, "
+        repr_str += f"dropout={self.dropout}, "
+        repr_str += f"final_act={self.final_act})"
+        repr_str += f"add_residual={self.add_residual})"
         return repr_str
