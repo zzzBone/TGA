@@ -126,10 +126,9 @@ class TGAGraphAttention(nn.Module):
         self.residual = residual
 
         # 第一层 GAT
-        self.gat1 = EGConv(in_channels, hidden_channels, num_heads=num_heads)
-        # 第二层 GAT
-        self.gat2 = EGConv(hidden_channels, out_channels, num_heads=1)
-        self.linear = nn.Linear(hidden_channels, out_channels)
+        self.gat1 = EGConv(in_channels, out_channels, num_heads=num_heads)
+        # # 第二层 GAT
+        # self.gat2 = EGConv(hidden_channels, out_channels, num_heads=1)
 
     def forward(self, batch):
         """
@@ -137,20 +136,8 @@ class TGAGraphAttention(nn.Module):
         edge_index: [batch_size, 2, num_edge]
         """
 
-        x, edge_index = batch.x, batch.edge_index
-
         # 第一层 GAT
-        x_out = self.gat1(x, edge_index)
-        x_out = F.elu(x_out)
-
-        # 第二层 GAT
-        x_out = self.gat2(x_out, edge_index)
-        if self.residual:
-            x_out = x + F.log_softmax(x_out, dim=1)
-        else:
-            x_out = F.log_softmax(x_out, dim=1)
-
-        return x_out
+        return self.gat1(batch.x, batch.edge_index)
 
 
 class TGATransformer(nn.Module):
