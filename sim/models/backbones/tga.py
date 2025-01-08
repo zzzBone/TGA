@@ -16,8 +16,27 @@ from torch_geometric.data import Data, Batch
 import numpy as np
 
 
+class FCConvToBinary(nn.Module):
+    def __init__(self, in_channels):
+        super(FCConvToBinary, self).__init__()
+        # 使用1x1卷积将 c 个通道映射为 1 个通道
+        self.conv = nn.Conv2d(in_channels, 1, kernel_size=1)
+        
+    def forward(self, x):
+        # 输入 x 的形状是 [batch_size, c, w, h]
+        # 通过1x1卷积得到输出 [batch_size, 1, w, h]
+        x = self.conv(x)
+        
+        # 使用 Sigmoid 激活函数将输出映射到 [0, 1]
+        x = torch.sigmoid(x)
+        
+        # 使用阈值化操作转换为 [0, 1] 的二进制矩阵
+        x = torch.round(x)  # 将小于 0.5 的值置为 0，大于等于 0.5 的值置为 1
+        
+        return x
+
 class TGAMultiHeadAttion(nn.Module):
-    def __init__(self, input_dim, output_dim, num_heads, dropout=0.0, percent=0.001):
+    def __init__(self, input_dim, output_dim, num_heads, dropout=0.0, percent=0.9):
         super(TGAMultiHeadAttion, self).__init__()
         assert (
             output_dim % num_heads == 0
@@ -38,6 +57,8 @@ class TGAMultiHeadAttion(nn.Module):
 
         # dropout层
         self.dropout = nn.Dropout(dropout)
+
+        self.graphConv = FCConvToBinary(num_heads)
 
     def forward(self, x, mask=None):
         # x: shape (batch_size, seq_len, input_size)
@@ -100,14 +121,19 @@ class TGAMultiHeadAttion(nn.Module):
         # 选择注意力分数大于threshold的边
         edge_index_list = []
 
-        attention_scores = attention_weights.max(dim=1)[0]
+        # attention_scores = 0.2 * attention_weights.mean(dim=1)[0] + 0.8 * attention_weights.max(dim=1)[0]
 
-        flat_score = attention_scores.flatten()
-        threshold = torch.quantile(flat_score, self.percent)
+        attention_scores = self.graphConv(attention_weights)
+        attention_scores = attention_scores.squeeze(1)
+
+        # flat_score = attention_scores.flatten()
+        # # threshold = min(flat_score)
+        # threshold = torch.quantile(flat_score, self.percent)
 
         for b in range(batch_size):
             # 过滤 scores
-            edge_mask = attention_scores[b] >= threshold
+            # edge_mask = attention_scores[b] >= threshold
+            edge_mask = attention_scores[b] == 1
 
             # 使用 nonzero 提取符合条件的边索引
             edge_indices = torch.nonzero(edge_mask, as_tuple=False)  # (num_edges, 2)

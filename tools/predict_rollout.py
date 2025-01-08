@@ -19,6 +19,8 @@ import mmcv
 from mmcv.runner import load_checkpoint
 from sim.models import build_simulator
 
+from sim.models.losses.mse_loss import physical_error
+
 
 def parse_args():
     parser = argparse.ArgumentParser()

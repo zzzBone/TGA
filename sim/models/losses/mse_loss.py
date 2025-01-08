@@ -1,11 +1,36 @@
+import torch
 import torch.nn as nn
 import torch.nn.functional as F
 
 from ..builder import LOSSES
 from .utils import weight_reduce_loss
 
+def physical_error(pred, inputs, dt):
+    state = inputs['state'].squeeze(1).transpose(-1, -2)
+    rigid_mask = inputs['rigid_mask'].squeeze(1)
+    fluid_mask = inputs['fluid_mask'].squeeze(1)
+    # bs, 2, 3, 3
+    stat = inputs['stat']
+    # bs, 3
+    mean_p = stat[:, 0, :, 0]
+    std_p = stat[:, 0, :, 1]
+    mean_v = stat[:, 1, :, 0]
+    std_v = stat[:, 1, :, 1]
 
-def mean_squared_error(pred, label, weight=None, reduction='mean', avg_factor=None):
+    rigid_mask = rigid_mask.unsqueeze(2)
+    fluid_mask = fluid_mask.unsqueeze(2)
+
+    p_0 = (state[:, :, :3] * std_p.unsqueeze(1) + mean_p.unsqueeze(1))
+    v_pred = (pred - p_0) / dt
+
+    v_gt = state[:, :, 3:6] * std_v.unsqueeze(1) + mean_v.unsqueeze(1)
+
+    loss = F.mse_loss(v_pred ** 2, v_gt ** 2, reduction='none')
+
+    return loss
+
+
+def mean_squared_error(pred, label, dt, weight=None, reduction='mean', avg_factor=None, **kwargs):
     """Calculate the CrossEntropy loss.
 
     Args:
@@ -20,9 +45,12 @@ def mean_squared_error(pred, label, weight=None, reduction='mean', avg_factor=No
     Returns:
         torch.Tensor: The calculated loss
     """
+    inputs = kwargs.get('inputs', None)
+    
     # element-wise losses
     # pred : [bs, n, c]  label: [bs, n, c]
     loss = F.mse_loss(pred, label, reduction='none')
+    loss2 = physical_error(pred, inputs, dt)
 
     # apply weights and do the reduction
     if weight is not None:
@@ -55,6 +83,7 @@ class MSELoss(nn.Module):
     def forward(self,
                 cls_score,
                 label,
+                dt,
                 weight=None,
                 avg_factor=None,
                 reduction_override=None,
@@ -65,6 +94,7 @@ class MSELoss(nn.Module):
         loss_cls = self.loss_weight * self.criterion(
             cls_score,
             label,
+            dt,
             weight,
             reduction=reduction,
             avg_factor=avg_factor,
