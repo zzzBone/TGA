@@ -15,6 +15,8 @@ from torch_geometric.data import Data, Batch
 
 import numpy as np
 
+from .transformer_implicit_edges import TransformerEncoder
+
 
 class FCConvToBinary(nn.Module):
     def __init__(self, in_channels):
@@ -206,6 +208,8 @@ class TGA(BaseBackbone):
         num_layers,
         dropouts,
         output_dim,
+        order=('selfattn', 'norm', 'ffn', 'norm'),
+        act_cfg=dict(type='ReLU', inplace=True),
         norm_cfg=dict(type="LN"),
         norm_eval=False,
         num_abs_token=0,
@@ -226,17 +230,27 @@ class TGA(BaseBackbone):
             [self.input_dim, self.embed_dim], final_act=True, bias=True
         )
 
+        self.rs_weight = nn.Parameter(torch.Tensor(embed_dim, 2 * attr_dim + 2 * state_dim))
+        nn.init.kaiming_uniform_(self.rs_weight, a=math.sqrt(5))
+
         if norm_cfg is not None:
+            self.receiver_norm = build_norm_layer(norm_cfg, embed_dim)[1]
+            self.sender_norm = build_norm_layer(norm_cfg, embed_dim)[1]
             self.particle_norm = build_norm_layer(norm_cfg, embed_dim)[1]
         else:
+            self.receiver_norm = nn.Identity()
+            self.sender_norm = nn.Identity()
             self.particle_norm = nn.Identity()
 
         if self.num_abs_token > 0:
             assert self.num_abs_token == 2
-            self.abs_token = nn.Parameter(
-                torch.Tensor(self.num_abs_token, attr_dim + state_dim)
-            )
+            self.abs_token = nn.Parameter(torch.Tensor(self.num_abs_token, attr_dim + state_dim))
             nn.init.zeros_(self.abs_token)
+
+        self.tie_encoder = TransformerEncoder(4, embed_dim,
+                                          attn_num_heads[0],
+                                          dropouts[0], order, act_cfg,
+                                          norm_cfg, **kwargs)
 
         self.encoder = nn.ModuleList(
             TGATransformer(
@@ -274,15 +288,28 @@ class TGA(BaseBackbone):
             dim=-1,
         )
         if self.num_abs_token > 0:
-            x[:, -self.num_abs_token :] = self.abs_token
+            x[:, -self.num_abs_token:] = self.abs_token
             abs_mask = torch.cat([rigid_mask, fluid_mask], dim=1).unsqueeze(1)
             # pad_mask[:, :, -self.num_abs_token:] = ~(abs_mask.sum(dim=-1) > 0)
             abs_mask = ~(abs_mask.bool())
-            attn_mask[:, :, -self.num_abs_token :] = abs_mask
-            attn_mask[:, :, :, -self.num_abs_token :] = abs_mask.transpose(-1, -2)
+            attn_mask[:, :, -self.num_abs_token:] = abs_mask
+            attn_mask[:, :, :, -self.num_abs_token:] = abs_mask.transpose(-1, -2)
 
-        x_out = self.input_projection(x)
-        x = x_out
+        r_r_w = self.rs_weight[:, :self.attr_dim + self.state_dim]
+        r_s_w = self.rs_weight[:, self.attr_dim + self.state_dim:]
+        receiver_val_res = x.matmul(r_r_w.t())
+        sender_val_res = x.matmul(r_s_w.t())
+        receiver_val_res = receiver_val_res.permute(1, 0, 2)
+        sender_val_res = sender_val_res.permute(1, 0, 2)
+
+        x = self.input_projection(x)
+        x = x.permute(1, 0, 2)  # [bs, n_p, c] -> [n_p, bs, c]
+        x = self.tie_encoder(
+            x,
+            attn_mask=attn_mask, key_padding_mask=None, output_mask=output_mask,
+            receiver_val_res=receiver_val_res, sender_val_res=sender_val_res)
+        x = x.permute(1, 0, 2)
+        x_out = x
         edge_index = []
         for i in range(self.num_encoder_layers):
             x_out, edge = self.encoder[i](x_out)
