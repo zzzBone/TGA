@@ -50,7 +50,7 @@ def mean_squared_error(pred, label, dt, weight=None, reduction='mean', avg_facto
     # element-wise losses
     # pred : [bs, n, c]  label: [bs, n, c]
     loss = F.mse_loss(pred, label, reduction='none')
-    loss2 = physical_error(pred, inputs, dt)
+    # loss2 = physical_error(pred, inputs, dt)
 
     # apply weights and do the reduction
     if weight is not None:

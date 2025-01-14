@@ -1,6 +1,9 @@
 __pycache__/
 /data/
 work_dirs/
+
+!*.log
+
 predict/
 render_out/
 sim.egg-info/
