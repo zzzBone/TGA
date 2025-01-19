@@ -1,0 +1,684 @@
+2024-11-29 16:43:39,410 - sim - INFO - Environment info:
+------------------------------------------------------------
+sys.platform: linux
+Python: 3.8.20 (default, Oct  3 2024, 15:24:27) [GCC 11.2.0]
+CUDA available: True
+GPU 0: NVIDIA GeForce RTX 2080 Ti
+CUDA_HOME: /usr/local/cuda-9.1
+NVCC: Cuda compilation tools, release 9.1, V9.1.8
+GCC: gcc (Ubuntu 9.4.0-1ubuntu1~16.04) 9.4.0
+PyTorch: 1.12.1
+PyTorch compiling details: PyTorch built with:
+  - GCC 9.3
+  - C++ Version: 201402
+  - Intel(R) oneAPI Math Kernel Library Version 2023.1-Product Build 20230303 for Intel(R) 64 architecture applications
+  - Intel(R) MKL-DNN v2.6.0 (Git Hash 52b5f107dd9cf10910aaa19cb47f3abf9b349815)
+  - OpenMP 201511 (a.k.a. OpenMP 4.5)
+  - LAPACK is enabled (usually provided by MKL)
+  - NNPACK is enabled
+  - CPU capability usage: AVX2
+  - CUDA Runtime 11.3
+  - NVCC architecture flags: -gencode;arch=compute_37,code=sm_37;-gencode;arch=compute_50,code=sm_50;-gencode;arch=compute_60,code=sm_60;-gencode;arch=compute_61,code=sm_61;-gencode;arch=compute_70,code=sm_70;-gencode;arch=compute_75,code=sm_75;-gencode;arch=compute_80,code=sm_80;-gencode;arch=compute_86,code=sm_86;-gencode;arch=compute_37,code=compute_37
+  - CuDNN 8.3.2  (built against CUDA 11.5)
+  - Magma 2.5.2
+  - Build settings: BLAS_INFO=mkl, BUILD_TYPE=Release, CUDA_VERSION=11.3, CUDNN_VERSION=8.3.2, CXX_COMPILER=/opt/rh/devtoolset-9/root/usr/bin/c++, CXX_FLAGS= -fabi-version=11 -Wno-deprecated -fvisibility-inlines-hidden -DUSE_PTHREADPOOL -fopenmp -DNDEBUG -DUSE_KINETO -DUSE_FBGEMM -DUSE_QNNPACK -DUSE_PYTORCH_QNNPACK -DUSE_XNNPACK -DSYMBOLICATE_MOBILE_DEBUG_HANDLE -DEDGE_PROFILER_USE_KINETO -O2 -fPIC -Wno-narrowing -Wall -Wextra -Werror=return-type -Wno-missing-field-initializers -Wno-type-limits -Wno-array-bounds -Wno-unknown-pragmas -Wno-unused-parameter -Wno-unused-function -Wno-unused-result -Wno-unused-local-typedefs -Wno-strict-overflow -Wno-strict-aliasing -Wno-error=deprecated-declarations -Wno-stringop-overflow -Wno-psabi -Wno-error=pedantic -Wno-error=redundant-decls -Wno-error=old-style-cast -fdiagnostics-color=always -faligned-new -Wno-unused-but-set-variable -Wno-maybe-uninitialized -fno-math-errno -fno-trapping-math -Werror=format -Werror=cast-function-type -Wno-stringop-overflow, LAPACK_INFO=mkl, PERF_WITH_AVX=1, PERF_WITH_AVX2=1, PERF_WITH_AVX512=1, TORCH_VERSION=1.12.1, USE_CUDA=ON, USE_CUDNN=ON, USE_EXCEPTION_PTR=1, USE_GFLAGS=OFF, USE_GLOG=OFF, USE_MKL=ON, USE_MKLDNN=OFF, USE_MPI=OFF, USE_NCCL=ON, USE_NNPACK=ON, USE_OPENMP=ON, USE_ROCM=OFF, 
+
+TorchVision: 0.13.1
+OpenCV: 4.10.0
+MMCV: 1.7.0
+MMCV Compiler: GCC 9.3
+MMCV CUDA Compiler: 11.3
+Simulation: 0.7.0+6d63780
+------------------------------------------------------------
+
+2024-11-29 16:43:39,410 - sim - INFO - Distributed training: False
+2024-11-29 16:43:39,521 - sim - INFO - Config:
+model = dict(
+    type='ParticleSimulator',
+    backbone=dict(
+        type='TGA',
+        attr_dim=3,
+        state_dim=6,
+        position_dim=3,
+        embed_dim=256,
+        attn_dims=(256, 256),
+        attn_num_heads=(8, 8),
+        gat_hidden_dims=(256, 256),
+        gat_num_heads=(8, 8),
+        num_layers=2,
+        dropouts=(0.0, 0.0),
+        output_dim=256),
+    head=dict(
+        type='ParticleHead',
+        in_channels=256,
+        out_channels=3,
+        seperate=False,
+        rotation_dim=0,
+        weighted=False,
+        loss=dict(type='MSELoss', loss_weight=1.0)))
+dataset_type = 'PhysicsFleXDataset'
+env_cfg = dict(
+    env='FluidFall',
+    num_abs_token=0,
+    baseline=False,
+    gen_data=False,
+    gen_meta=False,
+    hierarchy=False,
+    scene_params=[],
+    eval_ratio=10000000.0,
+    dataf='./data/data_FluidFall',
+    n_rollout=3000,
+    time_step=121,
+    time_step_clip=5,
+    attn_mask=8,
+    dt=0.016666666666666666,
+    nf_relation=300,
+    nf_particle=200,
+    nf_effect=200,
+    train_valid_ratio=0.9,
+    n_instance=1,
+    n_stages=1,
+    n_his=0,
+    shape_state_dim=14,
+    attr_dim=3,
+    state_dim=6,
+    position_dim=3,
+    relation_dim=1,
+    neighbor_radius=0.08,
+    pstep=2,
+    phases_dict=dict(
+        instance_idx=[0, 189],
+        root_num=[[]],
+        instance=['fluid'],
+        material=['fluid']))
+data = dict(
+    samples_per_gpu=8,
+    workers_per_gpu=8,
+    train=dict(
+        type='PhysicsFleXDataset',
+        phase='train',
+        env_cfg=dict(
+            env='FluidFall',
+            num_abs_token=0,
+            baseline=False,
+            gen_data=False,
+            gen_meta=False,
+            hierarchy=False,
+            scene_params=[],
+            eval_ratio=10000000.0,
+            dataf='./data/data_FluidFall',
+            n_rollout=3000,
+            time_step=121,
+            time_step_clip=5,
+            attn_mask=8,
+            dt=0.016666666666666666,
+            nf_relation=300,
+            nf_particle=200,
+            nf_effect=200,
+            train_valid_ratio=0.9,
+            n_instance=1,
+            n_stages=1,
+            n_his=0,
+            shape_state_dim=14,
+            attr_dim=3,
+            state_dim=6,
+            position_dim=3,
+            relation_dim=1,
+            neighbor_radius=0.08,
+            pstep=2,
+            phases_dict=dict(
+                instance_idx=[0, 189],
+                root_num=[[]],
+                instance=['fluid'],
+                material=['fluid'])),
+        verbose=False),
+    val=dict(
+        type='PhysicsFleXDataset',
+        phase='valid',
+        env_cfg=dict(
+            env='FluidFall',
+            num_abs_token=0,
+            baseline=False,
+            gen_data=False,
+            gen_meta=False,
+            hierarchy=False,
+            scene_params=[],
+            eval_ratio=10000000.0,
+            dataf='./data/data_FluidFall',
+            n_rollout=3000,
+            time_step=121,
+            time_step_clip=5,
+            attn_mask=8,
+            dt=0.016666666666666666,
+            nf_relation=300,
+            nf_particle=200,
+            nf_effect=200,
+            train_valid_ratio=0.9,
+            n_instance=1,
+            n_stages=1,
+            n_his=0,
+            shape_state_dim=14,
+            attr_dim=3,
+            state_dim=6,
+            position_dim=3,
+            relation_dim=1,
+            neighbor_radius=0.08,
+            pstep=2,
+            phases_dict=dict(
+                instance_idx=[0, 189],
+                root_num=[[]],
+                instance=['fluid'],
+                material=['fluid'])),
+        verbose=False),
+    test=dict(
+        type='PhysicsFleXDataset',
+        phase='valid',
+        env_cfg=dict(
+            env='FluidFall',
+            num_abs_token=0,
+            baseline=False,
+            gen_data=False,
+            gen_meta=False,
+            hierarchy=False,
+            scene_params=[],
+            eval_ratio=10000000.0,
+            dataf='./data/data_FluidFall',
+            n_rollout=3000,
+            time_step=121,
+            time_step_clip=5,
+            attn_mask=8,
+            dt=0.016666666666666666,
+            nf_relation=300,
+            nf_particle=200,
+            nf_effect=200,
+            train_valid_ratio=0.9,
+            n_instance=1,
+            n_stages=1,
+            n_his=0,
+            shape_state_dim=14,
+            attr_dim=3,
+            state_dim=6,
+            position_dim=3,
+            relation_dim=1,
+            neighbor_radius=0.08,
+            pstep=2,
+            phases_dict=dict(
+                instance_idx=[0, 189],
+                root_num=[[]],
+                instance=['fluid'],
+                material=['fluid'])),
+        verbose=False))
+optimizer = dict(
+    type='Adam', lr=0.0008, betas=(0.9, 0.999), weight_decay=0, amsgrad=False)
+optimizer_config = dict(grad_clip=None)
+lr_config = dict(policy='Plateau', mode='min', factor=0.8, patience=3)
+runner = dict(type='EpochBasedRunner', max_epochs=13)
+checkpoint_config = dict(interval=1)
+log_config = dict(interval=100, hooks=[dict(type='TextLoggerHook')])
+dist_params = dict(backend='nccl', port='29513')
+log_level = 'INFO'
+load_from = None
+resume_from = None
+workflow = [('train', 1)]
+find_unused_parameters = True
+work_dir = 'work_dirs/tga_fix_fluidfall/'
+gpu_ids = range(0, 1)
+
+2024-11-29 16:43:39,554 - sim - INFO - Model parameters: 878915
+2024-11-29 16:43:40,343 - sim - INFO - Start running, host: zbl@lab601-2, work_dir: /home/zbl/sim/TIE_ECCV2022/work_dirs/tga_fix_fluidfall
+2024-11-29 16:43:40,343 - sim - INFO - Hooks will be executed in the following order:
+before_run:
+(VERY_HIGH   ) PlateauLrUpdaterHook               
+(NORMAL      ) CheckpointHook                     
+(VERY_LOW    ) TextLoggerHook                     
+ -------------------- 
+before_train_epoch:
+(VERY_HIGH   ) PlateauLrUpdaterHook               
+(NORMAL      ) MSEAccuracy                        
+(LOW         ) IterTimerHook                      
+(VERY_LOW    ) TextLoggerHook                     
+ -------------------- 
+before_train_iter:
+(VERY_HIGH   ) PlateauLrUpdaterHook               
+(LOW         ) IterTimerHook                      
+ -------------------- 
+after_train_iter:
+(ABOVE_NORMAL) OptimizerHook                      
+(NORMAL      ) CheckpointHook                     
+(NORMAL      ) EvalHook                           
+(LOW         ) IterTimerHook                      
+(VERY_LOW    ) TextLoggerHook                     
+ -------------------- 
+after_train_epoch:
+(NORMAL      ) CheckpointHook                     
+(NORMAL      ) EvalHook                           
+(VERY_LOW    ) TextLoggerHook                     
+ -------------------- 
+before_val_epoch:
+(NORMAL      ) MSEAccuracy                        
+(LOW         ) IterTimerHook                      
+(VERY_LOW    ) TextLoggerHook                     
+ -------------------- 
+before_val_iter:
+(LOW         ) IterTimerHook                      
+ -------------------- 
+after_val_iter:
+(LOW         ) IterTimerHook                      
+ -------------------- 
+after_val_epoch:
+(VERY_LOW    ) TextLoggerHook                     
+ -------------------- 
+after_run:
+(VERY_LOW    ) TextLoggerHook                     
+ -------------------- 
+2024-11-29 16:43:40,343 - sim - INFO - workflow: [('train', 1)], max: 13 epochs
+2024-11-29 16:43:40,343 - sim - INFO - Checkpoints will be saved to /home/zbl/sim/TIE_ECCV2022/work_dirs/tga_fix_fluidfall by HardDiskBackend.
+2024-11-29 16:43:47,142 - sim - INFO - Epoch [1][100/40500]	lr: 8.000e-04, eta: 9:56:18, time: 0.068, data_time: 0.049, memory: 379, loss: 0.2935, Batch std: 0.4547, Agg std: 0.5936
+2024-11-29 16:43:50,982 - sim - INFO - Epoch [1][200/40500]	lr: 8.000e-04, eta: 7:46:30, time: 0.038, data_time: 0.023, memory: 379, loss: 0.2005, Batch std: 0.3842, Agg std: 0.4342
+2024-11-29 16:43:54,910 - sim - INFO - Epoch [1][300/40500]	lr: 8.000e-04, eta: 7:05:46, time: 0.039, data_time: 0.024, memory: 379, loss: 0.1949, Batch std: 0.3738, Agg std: 0.4094
+2024-11-29 16:43:58,568 - sim - INFO - Epoch [1][400/40500]	lr: 8.000e-04, eta: 6:39:27, time: 0.037, data_time: 0.022, memory: 379, loss: 0.1868, Batch std: 0.3712, Agg std: 0.3985
+2024-11-29 16:44:02,567 - sim - INFO - Epoch [1][500/40500]	lr: 8.000e-04, eta: 6:29:35, time: 0.040, data_time: 0.025, memory: 379, loss: 0.1668, Batch std: 0.3523, Agg std: 0.3917
+2024-11-29 16:44:06,215 - sim - INFO - Epoch [1][600/40500]	lr: 8.000e-04, eta: 6:17:53, time: 0.036, data_time: 0.022, memory: 379, loss: 0.1788, Batch std: 0.3656, Agg std: 0.3863
+2024-11-29 16:44:10,127 - sim - INFO - Epoch [1][700/40500]	lr: 8.000e-04, eta: 6:12:49, time: 0.039, data_time: 0.024, memory: 379, loss: 0.1682, Batch std: 0.3501, Agg std: 0.3809
+2024-11-29 16:44:13,884 - sim - INFO - Epoch [1][800/40500]	lr: 8.000e-04, eta: 6:07:18, time: 0.038, data_time: 0.023, memory: 379, loss: 0.1657, Batch std: 0.3523, Agg std: 0.3771
+2024-11-29 16:44:17,818 - sim - INFO - Epoch [1][900/40500]	lr: 8.000e-04, eta: 6:04:42, time: 0.039, data_time: 0.025, memory: 379, loss: 0.1730, Batch std: 0.3590, Agg std: 0.3742
+2024-11-29 16:44:21,614 - sim - INFO - Epoch [1][1000/40500]	lr: 8.000e-04, eta: 6:01:25, time: 0.038, data_time: 0.023, memory: 379, loss: 0.1762, Batch std: 0.3583, Agg std: 0.3723
+2024-11-29 16:44:25,510 - sim - INFO - Epoch [1][1100/40500]	lr: 8.000e-04, eta: 5:59:30, time: 0.039, data_time: 0.024, memory: 379, loss: 0.1598, Batch std: 0.3473, Agg std: 0.3713
+2024-11-29 16:44:29,153 - sim - INFO - Epoch [1][1200/40500]	lr: 8.000e-04, eta: 5:56:04, time: 0.036, data_time: 0.022, memory: 379, loss: 0.1664, Batch std: 0.3515, Agg std: 0.3691
+2024-11-29 16:44:33,161 - sim - INFO - Epoch [1][1300/40500]	lr: 8.000e-04, eta: 5:55:35, time: 0.040, data_time: 0.025, memory: 379, loss: 0.1592, Batch std: 0.3450, Agg std: 0.3674
+2024-11-29 16:44:36,790 - sim - INFO - Epoch [1][1400/40500]	lr: 8.000e-04, eta: 5:52:49, time: 0.036, data_time: 0.021, memory: 379, loss: 0.1710, Batch std: 0.3570, Agg std: 0.3661
+2024-11-29 16:44:40,680 - sim - INFO - Epoch [1][1500/40500]	lr: 8.000e-04, eta: 5:51:55, time: 0.039, data_time: 0.024, memory: 379, loss: 0.1757, Batch std: 0.3559, Agg std: 0.3658
+2024-11-29 16:44:44,359 - sim - INFO - Epoch [1][1600/40500]	lr: 8.000e-04, eta: 5:49:58, time: 0.037, data_time: 0.022, memory: 379, loss: 0.1733, Batch std: 0.3566, Agg std: 0.3649
+2024-11-29 16:44:48,290 - sim - INFO - Epoch [1][1700/40500]	lr: 8.000e-04, eta: 5:49:33, time: 0.039, data_time: 0.025, memory: 379, loss: 0.1683, Batch std: 0.3512, Agg std: 0.3643
+2024-11-29 16:44:51,997 - sim - INFO - Epoch [1][1800/40500]	lr: 8.000e-04, eta: 5:48:04, time: 0.037, data_time: 0.022, memory: 379, loss: 0.1804, Batch std: 0.3657, Agg std: 0.3640
+2024-11-29 16:44:56,003 - sim - INFO - Epoch [1][1900/40500]	lr: 8.000e-04, eta: 5:48:07, time: 0.040, data_time: 0.025, memory: 379, loss: 0.1707, Batch std: 0.3532, Agg std: 0.3636
+2024-11-29 16:44:59,623 - sim - INFO - Epoch [1][2000/40500]	lr: 8.000e-04, eta: 5:46:28, time: 0.036, data_time: 0.021, memory: 379, loss: 0.1559, Batch std: 0.3393, Agg std: 0.3629
+2024-11-29 16:45:03,519 - sim - INFO - Epoch [1][2100/40500]	lr: 8.000e-04, eta: 5:46:07, time: 0.039, data_time: 0.024, memory: 379, loss: 0.1701, Batch std: 0.3517, Agg std: 0.3619
+2024-11-29 16:45:07,221 - sim - INFO - Epoch [1][2200/40500]	lr: 8.000e-04, eta: 5:45:02, time: 0.037, data_time: 0.022, memory: 379, loss: 0.1682, Batch std: 0.3497, Agg std: 0.3614
+2024-11-29 16:45:11,142 - sim - INFO - Epoch [1][2300/40500]	lr: 8.000e-04, eta: 5:44:51, time: 0.039, data_time: 0.024, memory: 379, loss: 0.1625, Batch std: 0.3469, Agg std: 0.3608
+2024-11-29 16:45:14,967 - sim - INFO - Epoch [1][2400/40500]	lr: 8.000e-04, eta: 5:44:21, time: 0.038, data_time: 0.023, memory: 379, loss: 0.1699, Batch std: 0.3541, Agg std: 0.3602
+2024-11-29 16:45:18,776 - sim - INFO - Epoch [1][2500/40500]	lr: 8.000e-04, eta: 5:43:49, time: 0.038, data_time: 0.023, memory: 379, loss: 0.1777, Batch std: 0.3631, Agg std: 0.3602
+2024-11-29 16:45:22,464 - sim - INFO - Epoch [1][2600/40500]	lr: 8.000e-04, eta: 5:42:55, time: 0.037, data_time: 0.022, memory: 379, loss: 0.1516, Batch std: 0.3379, Agg std: 0.3599
+2024-11-29 16:45:26,300 - sim - INFO - Epoch [1][2700/40500]	lr: 8.000e-04, eta: 5:42:33, time: 0.038, data_time: 0.024, memory: 379, loss: 0.1710, Batch std: 0.3538, Agg std: 0.3594
+2024-11-29 16:45:30,056 - sim - INFO - Epoch [1][2800/40500]	lr: 8.000e-04, eta: 5:41:57, time: 0.038, data_time: 0.023, memory: 379, loss: 0.1583, Batch std: 0.3404, Agg std: 0.3590
+2024-11-29 16:45:33,914 - sim - INFO - Epoch [1][2900/40500]	lr: 8.000e-04, eta: 5:41:43, time: 0.039, data_time: 0.024, memory: 379, loss: 0.1841, Batch std: 0.3652, Agg std: 0.3589
+2024-11-29 16:45:37,690 - sim - INFO - Epoch [1][3000/40500]	lr: 8.000e-04, eta: 5:41:14, time: 0.038, data_time: 0.023, memory: 379, loss: 0.1672, Batch std: 0.3500, Agg std: 0.3586
+2024-11-29 16:45:41,573 - sim - INFO - Epoch [1][3100/40500]	lr: 8.000e-04, eta: 5:41:06, time: 0.039, data_time: 0.024, memory: 379, loss: 0.1628, Batch std: 0.3448, Agg std: 0.3584
+2024-11-29 16:45:45,293 - sim - INFO - Epoch [1][3200/40500]	lr: 8.000e-04, eta: 5:40:31, time: 0.037, data_time: 0.022, memory: 379, loss: 0.1540, Batch std: 0.3406, Agg std: 0.3579
+2024-11-29 16:45:49,232 - sim - INFO - Epoch [1][3300/40500]	lr: 8.000e-04, eta: 5:40:32, time: 0.039, data_time: 0.024, memory: 379, loss: 0.1678, Batch std: 0.3494, Agg std: 0.3574
+2024-11-29 16:45:52,910 - sim - INFO - Epoch [1][3400/40500]	lr: 8.000e-04, eta: 5:39:53, time: 0.037, data_time: 0.022, memory: 379, loss: 0.1643, Batch std: 0.3467, Agg std: 0.3571
+2024-11-29 16:45:56,824 - sim - INFO - Epoch [1][3500/40500]	lr: 8.000e-04, eta: 5:39:51, time: 0.039, data_time: 0.024, memory: 379, loss: 0.1609, Batch std: 0.3435, Agg std: 0.3568
+2024-11-29 16:46:00,617 - sim - INFO - Epoch [1][3600/40500]	lr: 8.000e-04, eta: 5:39:32, time: 0.038, data_time: 0.023, memory: 379, loss: 0.1571, Batch std: 0.3375, Agg std: 0.3563
+2024-11-29 16:46:04,612 - sim - INFO - Epoch [1][3700/40500]	lr: 8.000e-04, eta: 5:39:42, time: 0.040, data_time: 0.025, memory: 379, loss: 0.1622, Batch std: 0.3449, Agg std: 0.3560
+2024-11-29 16:46:08,157 - sim - INFO - Epoch [1][3800/40500]	lr: 8.000e-04, eta: 5:38:50, time: 0.035, data_time: 0.020, memory: 379, loss: 0.1664, Batch std: 0.3502, Agg std: 0.3558
+2024-11-29 16:46:12,008 - sim - INFO - Epoch [1][3900/40500]	lr: 8.000e-04, eta: 5:38:41, time: 0.039, data_time: 0.024, memory: 379, loss: 0.1571, Batch std: 0.3412, Agg std: 0.3555
+2024-11-29 16:46:15,834 - sim - INFO - Epoch [1][4000/40500]	lr: 8.000e-04, eta: 5:38:28, time: 0.038, data_time: 0.023, memory: 379, loss: 0.1557, Batch std: 0.3385, Agg std: 0.3550
+2024-11-29 16:46:19,651 - sim - INFO - Epoch [1][4100/40500]	lr: 8.000e-04, eta: 5:38:16, time: 0.038, data_time: 0.023, memory: 379, loss: 0.1731, Batch std: 0.3600, Agg std: 0.3549
+2024-11-29 16:46:23,399 - sim - INFO - Epoch [1][4200/40500]	lr: 8.000e-04, eta: 5:37:55, time: 0.037, data_time: 0.023, memory: 379, loss: 0.1589, Batch std: 0.3426, Agg std: 0.3547
+2024-11-29 16:46:27,426 - sim - INFO - Epoch [1][4300/40500]	lr: 8.000e-04, eta: 5:38:08, time: 0.040, data_time: 0.025, memory: 379, loss: 0.1621, Batch std: 0.3455, Agg std: 0.3544
+2024-11-29 16:46:31,105 - sim - INFO - Epoch [1][4400/40500]	lr: 8.000e-04, eta: 5:37:40, time: 0.037, data_time: 0.022, memory: 379, loss: 0.1763, Batch std: 0.3588, Agg std: 0.3546
+2024-11-29 16:46:34,966 - sim - INFO - Epoch [1][4500/40500]	lr: 8.000e-04, eta: 5:37:34, time: 0.039, data_time: 0.024, memory: 379, loss: 0.1568, Batch std: 0.3421, Agg std: 0.3544
+2024-11-29 16:46:38,698 - sim - INFO - Epoch [1][4600/40500]	lr: 8.000e-04, eta: 5:37:13, time: 0.037, data_time: 0.023, memory: 379, loss: 0.1599, Batch std: 0.3443, Agg std: 0.3542
+2024-11-29 16:46:42,608 - sim - INFO - Epoch [1][4700/40500]	lr: 8.000e-04, eta: 5:37:13, time: 0.039, data_time: 0.024, memory: 379, loss: 0.1556, Batch std: 0.3402, Agg std: 0.3540
+2024-11-29 16:46:46,329 - sim - INFO - Epoch [1][4800/40500]	lr: 8.000e-04, eta: 5:36:52, time: 0.037, data_time: 0.022, memory: 379, loss: 0.1646, Batch std: 0.3507, Agg std: 0.3538
+2024-11-29 16:46:50,256 - sim - INFO - Epoch [1][4900/40500]	lr: 8.000e-04, eta: 5:36:53, time: 0.039, data_time: 0.024, memory: 379, loss: 0.1531, Batch std: 0.3392, Agg std: 0.3535
+2024-11-29 16:46:53,929 - sim - INFO - Epoch [1][5000/40500]	lr: 8.000e-04, eta: 5:36:28, time: 0.037, data_time: 0.022, memory: 379, loss: 0.1750, Batch std: 0.3589, Agg std: 0.3535
+2024-11-29 16:46:57,821 - sim - INFO - Epoch [1][5100/40500]	lr: 8.000e-04, eta: 5:36:27, time: 0.039, data_time: 0.024, memory: 379, loss: 0.1616, Batch std: 0.3460, Agg std: 0.3534
+2024-11-29 16:47:01,671 - sim - INFO - Epoch [1][5200/40500]	lr: 8.000e-04, eta: 5:36:21, time: 0.038, data_time: 0.024, memory: 379, loss: 0.1516, Batch std: 0.3350, Agg std: 0.3533
+2024-11-29 16:47:05,468 - sim - INFO - Epoch [1][5300/40500]	lr: 8.000e-04, eta: 5:36:09, time: 0.038, data_time: 0.023, memory: 379, loss: 0.1495, Batch std: 0.3355, Agg std: 0.3529
+2024-11-29 16:47:09,165 - sim - INFO - Epoch [1][5400/40500]	lr: 8.000e-04, eta: 5:35:49, time: 0.037, data_time: 0.022, memory: 379, loss: 0.1597, Batch std: 0.3426, Agg std: 0.3526
+2024-11-29 16:47:13,096 - sim - INFO - Epoch [1][5500/40500]	lr: 8.000e-04, eta: 5:35:51, time: 0.039, data_time: 0.024, memory: 379, loss: 0.1549, Batch std: 0.3421, Agg std: 0.3524
+2024-11-29 16:47:16,788 - sim - INFO - Epoch [1][5600/40500]	lr: 8.000e-04, eta: 5:35:31, time: 0.037, data_time: 0.022, memory: 379, loss: 0.1704, Batch std: 0.3562, Agg std: 0.3524
+2024-11-29 16:47:20,752 - sim - INFO - Epoch [1][5700/40500]	lr: 8.000e-04, eta: 5:35:36, time: 0.040, data_time: 0.025, memory: 379, loss: 0.1661, Batch std: 0.3493, Agg std: 0.3524
+2024-11-29 16:47:24,456 - sim - INFO - Epoch [1][5800/40500]	lr: 8.000e-04, eta: 5:35:17, time: 0.037, data_time: 0.022, memory: 379, loss: 0.1498, Batch std: 0.3389, Agg std: 0.3522
+2024-11-29 16:47:28,347 - sim - INFO - Epoch [1][5900/40500]	lr: 8.000e-04, eta: 5:35:16, time: 0.039, data_time: 0.024, memory: 379, loss: 0.1524, Batch std: 0.3357, Agg std: 0.3520
+2024-11-29 16:47:32,163 - sim - INFO - Epoch [1][6000/40500]	lr: 8.000e-04, eta: 5:35:08, time: 0.038, data_time: 0.023, memory: 379, loss: 0.1624, Batch std: 0.3464, Agg std: 0.3518
+2024-11-29 16:47:35,896 - sim - INFO - Epoch [1][6100/40500]	lr: 8.000e-04, eta: 5:34:53, time: 0.037, data_time: 0.023, memory: 379, loss: 0.1626, Batch std: 0.3426, Agg std: 0.3516
+2024-11-29 16:47:39,658 - sim - INFO - Epoch [1][6200/40500]	lr: 8.000e-04, eta: 5:34:41, time: 0.038, data_time: 0.023, memory: 379, loss: 0.1472, Batch std: 0.3317, Agg std: 0.3514
+2024-11-29 16:47:43,657 - sim - INFO - Epoch [1][6300/40500]	lr: 8.000e-04, eta: 5:34:48, time: 0.040, data_time: 0.025, memory: 379, loss: 0.1579, Batch std: 0.3450, Agg std: 0.3513
+2024-11-29 16:47:47,380 - sim - INFO - Epoch [1][6400/40500]	lr: 8.000e-04, eta: 5:34:33, time: 0.037, data_time: 0.022, memory: 379, loss: 0.1549, Batch std: 0.3418, Agg std: 0.3511
+2024-11-29 16:47:51,240 - sim - INFO - Epoch [1][6500/40500]	lr: 8.000e-04, eta: 5:34:29, time: 0.039, data_time: 0.024, memory: 379, loss: 0.1510, Batch std: 0.3367, Agg std: 0.3509
+2024-11-29 16:47:54,935 - sim - INFO - Epoch [1][6600/40500]	lr: 8.000e-04, eta: 5:34:12, time: 0.037, data_time: 0.022, memory: 379, loss: 0.1492, Batch std: 0.3352, Agg std: 0.3507
+2024-11-29 16:47:58,913 - sim - INFO - Epoch [1][6700/40500]	lr: 8.000e-04, eta: 5:34:18, time: 0.040, data_time: 0.025, memory: 379, loss: 0.1468, Batch std: 0.3287, Agg std: 0.3504
+2024-11-29 16:48:02,580 - sim - INFO - Epoch [1][6800/40500]	lr: 8.000e-04, eta: 5:33:59, time: 0.037, data_time: 0.022, memory: 379, loss: 0.1515, Batch std: 0.3372, Agg std: 0.3501
+2024-11-29 16:48:06,532 - sim - INFO - Epoch [1][6900/40500]	lr: 8.000e-04, eta: 5:34:03, time: 0.040, data_time: 0.025, memory: 379, loss: 0.1625, Batch std: 0.3455, Agg std: 0.3500
+2024-11-29 16:48:10,229 - sim - INFO - Epoch [1][7000/40500]	lr: 8.000e-04, eta: 5:33:47, time: 0.037, data_time: 0.022, memory: 379, loss: 0.1561, Batch std: 0.3428, Agg std: 0.3499
+2024-11-29 16:48:14,207 - sim - INFO - Epoch [1][7100/40500]	lr: 8.000e-04, eta: 5:33:52, time: 0.040, data_time: 0.025, memory: 379, loss: 0.1565, Batch std: 0.3432, Agg std: 0.3498
+2024-11-29 16:48:17,910 - sim - INFO - Epoch [1][7200/40500]	lr: 8.000e-04, eta: 5:33:37, time: 0.037, data_time: 0.022, memory: 379, loss: 0.1553, Batch std: 0.3392, Agg std: 0.3497
+2024-11-29 16:48:21,789 - sim - INFO - Epoch [1][7300/40500]	lr: 8.000e-04, eta: 5:33:35, time: 0.039, data_time: 0.024, memory: 379, loss: 0.1554, Batch std: 0.3396, Agg std: 0.3496
+2024-11-29 16:48:25,504 - sim - INFO - Epoch [1][7400/40500]	lr: 8.000e-04, eta: 5:33:21, time: 0.037, data_time: 0.022, memory: 379, loss: 0.1470, Batch std: 0.3322, Agg std: 0.3494
+2024-11-29 16:48:29,430 - sim - INFO - Epoch [1][7500/40500]	lr: 8.000e-04, eta: 5:33:22, time: 0.039, data_time: 0.024, memory: 379, loss: 0.1555, Batch std: 0.3420, Agg std: 0.3492
+2024-11-29 16:48:33,262 - sim - INFO - Epoch [1][7600/40500]	lr: 8.000e-04, eta: 5:33:17, time: 0.038, data_time: 0.024, memory: 379, loss: 0.1529, Batch std: 0.3377, Agg std: 0.3491
+2024-11-29 16:48:37,073 - sim - INFO - Epoch [1][7700/40500]	lr: 8.000e-04, eta: 5:33:10, time: 0.038, data_time: 0.023, memory: 379, loss: 0.1515, Batch std: 0.3367, Agg std: 0.3489
+2024-11-29 16:48:40,839 - sim - INFO - Epoch [1][7800/40500]	lr: 8.000e-04, eta: 5:33:01, time: 0.038, data_time: 0.023, memory: 379, loss: 0.1445, Batch std: 0.3294, Agg std: 0.3487
+2024-11-29 16:48:44,702 - sim - INFO - Epoch [1][7900/40500]	lr: 8.000e-04, eta: 5:32:57, time: 0.039, data_time: 0.024, memory: 379, loss: 0.1548, Batch std: 0.3388, Agg std: 0.3485
+2024-11-29 16:48:48,484 - sim - INFO - Epoch [1][8000/40500]	lr: 8.000e-04, eta: 5:32:49, time: 0.038, data_time: 0.023, memory: 379, loss: 0.1675, Batch std: 0.3516, Agg std: 0.3485
+2024-11-29 16:48:52,375 - sim - INFO - Epoch [1][8100/40500]	lr: 8.000e-04, eta: 5:32:48, time: 0.039, data_time: 0.024, memory: 379, loss: 0.1574, Batch std: 0.3422, Agg std: 0.3485
+2024-11-29 16:48:56,066 - sim - INFO - Epoch [1][8200/40500]	lr: 8.000e-04, eta: 5:32:34, time: 0.037, data_time: 0.022, memory: 379, loss: 0.1414, Batch std: 0.3266, Agg std: 0.3483
+2024-11-29 16:48:59,961 - sim - INFO - Epoch [1][8300/40500]	lr: 8.000e-04, eta: 5:32:33, time: 0.039, data_time: 0.024, memory: 379, loss: 0.1628, Batch std: 0.3487, Agg std: 0.3482
+2024-11-29 16:49:03,727 - sim - INFO - Epoch [1][8400/40500]	lr: 8.000e-04, eta: 5:32:23, time: 0.038, data_time: 0.023, memory: 379, loss: 0.1523, Batch std: 0.3354, Agg std: 0.3481
+2024-11-29 16:49:07,598 - sim - INFO - Epoch [1][8500/40500]	lr: 8.000e-04, eta: 5:32:21, time: 0.039, data_time: 0.024, memory: 379, loss: 0.1566, Batch std: 0.3410, Agg std: 0.3480
+2024-11-29 16:49:11,376 - sim - INFO - Epoch [1][8600/40500]	lr: 8.000e-04, eta: 5:32:13, time: 0.038, data_time: 0.023, memory: 379, loss: 0.1445, Batch std: 0.3270, Agg std: 0.3478
+2024-11-29 16:49:15,271 - sim - INFO - Epoch [1][8700/40500]	lr: 8.000e-04, eta: 5:32:12, time: 0.039, data_time: 0.024, memory: 379, loss: 0.1492, Batch std: 0.3357, Agg std: 0.3477
+2024-11-29 16:49:18,987 - sim - INFO - Epoch [1][8800/40500]	lr: 8.000e-04, eta: 5:32:00, time: 0.037, data_time: 0.022, memory: 379, loss: 0.1477, Batch std: 0.3308, Agg std: 0.3475
+2024-11-29 16:49:22,875 - sim - INFO - Epoch [1][8900/40500]	lr: 8.000e-04, eta: 5:31:58, time: 0.039, data_time: 0.024, memory: 379, loss: 0.1520, Batch std: 0.3353, Agg std: 0.3473
+2024-11-29 16:49:26,708 - sim - INFO - Epoch [1][9000/40500]	lr: 8.000e-04, eta: 5:31:54, time: 0.038, data_time: 0.024, memory: 379, loss: 0.1431, Batch std: 0.3296, Agg std: 0.3471
+2024-11-29 16:49:30,611 - sim - INFO - Epoch [1][9100/40500]	lr: 8.000e-04, eta: 5:31:53, time: 0.039, data_time: 0.024, memory: 379, loss: 0.1571, Batch std: 0.3415, Agg std: 0.3470
+2024-11-29 16:49:34,357 - sim - INFO - Epoch [1][9200/40500]	lr: 8.000e-04, eta: 5:31:43, time: 0.037, data_time: 0.023, memory: 379, loss: 0.1549, Batch std: 0.3397, Agg std: 0.3470
+2024-11-29 16:49:38,237 - sim - INFO - Epoch [1][9300/40500]	lr: 8.000e-04, eta: 5:31:41, time: 0.039, data_time: 0.024, memory: 379, loss: 0.1522, Batch std: 0.3388, Agg std: 0.3469
+2024-11-29 16:49:41,956 - sim - INFO - Epoch [1][9400/40500]	lr: 8.000e-04, eta: 5:31:30, time: 0.037, data_time: 0.022, memory: 379, loss: 0.1496, Batch std: 0.3317, Agg std: 0.3467
+2024-11-29 16:49:45,874 - sim - INFO - Epoch [1][9500/40500]	lr: 8.000e-04, eta: 5:31:30, time: 0.039, data_time: 0.024, memory: 379, loss: 0.1573, Batch std: 0.3384, Agg std: 0.3466
+2024-11-29 16:49:49,679 - sim - INFO - Epoch [1][9600/40500]	lr: 8.000e-04, eta: 5:31:24, time: 0.038, data_time: 0.023, memory: 379, loss: 0.1571, Batch std: 0.3419, Agg std: 0.3465
+2024-11-29 16:49:53,424 - sim - INFO - Epoch [1][9700/40500]	lr: 8.000e-04, eta: 5:31:15, time: 0.037, data_time: 0.023, memory: 379, loss: 0.1523, Batch std: 0.3361, Agg std: 0.3465
+2024-11-29 16:49:57,156 - sim - INFO - Epoch [1][9800/40500]	lr: 8.000e-04, eta: 5:31:05, time: 0.037, data_time: 0.023, memory: 379, loss: 0.1410, Batch std: 0.3265, Agg std: 0.3463
+2024-11-29 16:50:01,104 - sim - INFO - Epoch [1][9900/40500]	lr: 8.000e-04, eta: 5:31:06, time: 0.039, data_time: 0.025, memory: 379, loss: 0.1453, Batch std: 0.3288, Agg std: 0.3462
+2024-11-29 16:50:04,718 - sim - INFO - Epoch [1][10000/40500]	lr: 8.000e-04, eta: 5:30:51, time: 0.036, data_time: 0.021, memory: 379, loss: 0.1479, Batch std: 0.3311, Agg std: 0.3460
+2024-11-29 16:50:08,716 - sim - INFO - Epoch [1][10100/40500]	lr: 8.000e-04, eta: 5:30:55, time: 0.040, data_time: 0.025, memory: 379, loss: 0.1513, Batch std: 0.3364, Agg std: 0.3458
+2024-11-29 16:50:12,442 - sim - INFO - Epoch [1][10200/40500]	lr: 8.000e-04, eta: 5:30:45, time: 0.037, data_time: 0.022, memory: 379, loss: 0.1421, Batch std: 0.3225, Agg std: 0.3457
+2024-11-29 16:50:16,414 - sim - INFO - Epoch [1][10300/40500]	lr: 8.000e-04, eta: 5:30:47, time: 0.040, data_time: 0.025, memory: 379, loss: 0.1606, Batch std: 0.3477, Agg std: 0.3455
+2024-11-29 16:50:20,158 - sim - INFO - Epoch [1][10400/40500]	lr: 8.000e-04, eta: 5:30:38, time: 0.037, data_time: 0.023, memory: 379, loss: 0.1467, Batch std: 0.3304, Agg std: 0.3455
+2024-11-29 16:50:24,009 - sim - INFO - Epoch [1][10500/40500]	lr: 8.000e-04, eta: 5:30:35, time: 0.039, data_time: 0.024, memory: 379, loss: 0.1495, Batch std: 0.3319, Agg std: 0.3454
+2024-11-29 16:50:27,639 - sim - INFO - Epoch [1][10600/40500]	lr: 8.000e-04, eta: 5:30:21, time: 0.036, data_time: 0.021, memory: 379, loss: 0.1540, Batch std: 0.3407, Agg std: 0.3453
+2024-11-29 16:50:31,578 - sim - INFO - Epoch [1][10700/40500]	lr: 8.000e-04, eta: 5:30:21, time: 0.039, data_time: 0.025, memory: 379, loss: 0.1580, Batch std: 0.3430, Agg std: 0.3452
+2024-11-29 16:50:35,294 - sim - INFO - Epoch [1][10800/40500]	lr: 8.000e-04, eta: 5:30:12, time: 0.037, data_time: 0.022, memory: 379, loss: 0.1390, Batch std: 0.3239, Agg std: 0.3451
+2024-11-29 16:50:39,205 - sim - INFO - Epoch [1][10900/40500]	lr: 8.000e-04, eta: 5:30:11, time: 0.039, data_time: 0.024, memory: 379, loss: 0.1516, Batch std: 0.3334, Agg std: 0.3450
+2024-11-29 16:50:42,926 - sim - INFO - Epoch [1][11000/40500]	lr: 8.000e-04, eta: 5:30:01, time: 0.037, data_time: 0.022, memory: 379, loss: 0.1520, Batch std: 0.3374, Agg std: 0.3449
+2024-11-29 16:50:46,844 - sim - INFO - Epoch [1][11100/40500]	lr: 8.000e-04, eta: 5:30:01, time: 0.039, data_time: 0.024, memory: 379, loss: 0.1461, Batch std: 0.3289, Agg std: 0.3448
+2024-11-29 16:50:50,472 - sim - INFO - Epoch [1][11200/40500]	lr: 8.000e-04, eta: 5:29:47, time: 0.036, data_time: 0.022, memory: 379, loss: 0.1526, Batch std: 0.3369, Agg std: 0.3447
+2024-11-29 16:50:54,447 - sim - INFO - Epoch [1][11300/40500]	lr: 8.000e-04, eta: 5:29:50, time: 0.040, data_time: 0.025, memory: 379, loss: 0.1386, Batch std: 0.3197, Agg std: 0.3446
+2024-11-29 16:50:58,121 - sim - INFO - Epoch [1][11400/40500]	lr: 8.000e-04, eta: 5:29:38, time: 0.037, data_time: 0.022, memory: 379, loss: 0.1503, Batch std: 0.3335, Agg std: 0.3444
+2024-11-29 16:51:02,073 - sim - INFO - Epoch [1][11500/40500]	lr: 8.000e-04, eta: 5:29:39, time: 0.040, data_time: 0.025, memory: 379, loss: 0.1518, Batch std: 0.3387, Agg std: 0.3443
+2024-11-29 16:51:05,714 - sim - INFO - Epoch [1][11600/40500]	lr: 8.000e-04, eta: 5:29:27, time: 0.036, data_time: 0.022, memory: 379, loss: 0.1521, Batch std: 0.3362, Agg std: 0.3443
+2024-11-29 16:51:09,692 - sim - INFO - Epoch [1][11700/40500]	lr: 8.000e-04, eta: 5:29:29, time: 0.040, data_time: 0.025, memory: 379, loss: 0.1500, Batch std: 0.3350, Agg std: 0.3442
+2024-11-29 16:51:13,380 - sim - INFO - Epoch [1][11800/40500]	lr: 8.000e-04, eta: 5:29:19, time: 0.037, data_time: 0.022, memory: 379, loss: 0.1518, Batch std: 0.3348, Agg std: 0.3441
+2024-11-29 16:51:17,233 - sim - INFO - Epoch [1][11900/40500]	lr: 8.000e-04, eta: 5:29:15, time: 0.039, data_time: 0.024, memory: 379, loss: 0.1480, Batch std: 0.3348, Agg std: 0.3440
+2024-11-29 16:51:20,951 - sim - INFO - Epoch [1][12000/40500]	lr: 8.000e-04, eta: 5:29:06, time: 0.037, data_time: 0.022, memory: 379, loss: 0.1510, Batch std: 0.3372, Agg std: 0.3440
+2024-11-29 16:51:24,877 - sim - INFO - Epoch [1][12100/40500]	lr: 8.000e-04, eta: 5:29:06, time: 0.039, data_time: 0.025, memory: 379, loss: 0.1601, Batch std: 0.3477, Agg std: 0.3440
+2024-11-29 16:51:28,615 - sim - INFO - Epoch [1][12200/40500]	lr: 8.000e-04, eta: 5:28:58, time: 0.037, data_time: 0.023, memory: 379, loss: 0.1498, Batch std: 0.3346, Agg std: 0.3439
+2024-11-29 16:51:32,504 - sim - INFO - Epoch [1][12300/40500]	lr: 8.000e-04, eta: 5:28:56, time: 0.039, data_time: 0.024, memory: 379, loss: 0.1427, Batch std: 0.3272, Agg std: 0.3438
+2024-11-29 16:51:36,242 - sim - INFO - Epoch [1][12400/40500]	lr: 8.000e-04, eta: 5:28:48, time: 0.037, data_time: 0.023, memory: 379, loss: 0.1430, Batch std: 0.3286, Agg std: 0.3437
+2024-11-29 16:51:40,090 - sim - INFO - Epoch [1][12500/40500]	lr: 8.000e-04, eta: 5:28:45, time: 0.038, data_time: 0.024, memory: 379, loss: 0.1430, Batch std: 0.3314, Agg std: 0.3436
+2024-11-29 16:51:43,839 - sim - INFO - Epoch [1][12600/40500]	lr: 8.000e-04, eta: 5:28:37, time: 0.037, data_time: 0.023, memory: 379, loss: 0.1419, Batch std: 0.3265, Agg std: 0.3435
+2024-11-29 16:51:47,714 - sim - INFO - Epoch [1][12700/40500]	lr: 8.000e-04, eta: 5:28:35, time: 0.039, data_time: 0.024, memory: 379, loss: 0.1375, Batch std: 0.3180, Agg std: 0.3433
+2024-11-29 16:51:51,411 - sim - INFO - Epoch [1][12800/40500]	lr: 8.000e-04, eta: 5:28:26, time: 0.037, data_time: 0.022, memory: 379, loss: 0.1431, Batch std: 0.3264, Agg std: 0.3432
+2024-11-29 16:51:55,314 - sim - INFO - Epoch [1][12900/40500]	lr: 8.000e-04, eta: 5:28:24, time: 0.039, data_time: 0.024, memory: 379, loss: 0.1507, Batch std: 0.3354, Agg std: 0.3430
+2024-11-29 16:51:59,014 - sim - INFO - Epoch [1][13000/40500]	lr: 8.000e-04, eta: 5:28:15, time: 0.037, data_time: 0.022, memory: 379, loss: 0.1627, Batch std: 0.3485, Agg std: 0.3430
+2024-11-29 16:52:02,922 - sim - INFO - Epoch [1][13100/40500]	lr: 8.000e-04, eta: 5:28:14, time: 0.039, data_time: 0.024, memory: 379, loss: 0.1356, Batch std: 0.3225, Agg std: 0.3430
+2024-11-29 16:52:06,567 - sim - INFO - Epoch [1][13200/40500]	lr: 8.000e-04, eta: 5:28:03, time: 0.036, data_time: 0.022, memory: 379, loss: 0.1410, Batch std: 0.3240, Agg std: 0.3428
+2024-11-29 16:52:10,464 - sim - INFO - Epoch [1][13300/40500]	lr: 8.000e-04, eta: 5:28:01, time: 0.039, data_time: 0.024, memory: 379, loss: 0.1589, Batch std: 0.3409, Agg std: 0.3427
+2024-11-29 16:52:14,137 - sim - INFO - Epoch [1][13400/40500]	lr: 8.000e-04, eta: 5:27:51, time: 0.037, data_time: 0.022, memory: 379, loss: 0.1366, Batch std: 0.3184, Agg std: 0.3426
+2024-11-29 16:52:18,075 - sim - INFO - Epoch [1][13500/40500]	lr: 8.000e-04, eta: 5:27:51, time: 0.039, data_time: 0.025, memory: 379, loss: 0.1512, Batch std: 0.3373, Agg std: 0.3426
+2024-11-29 16:52:21,758 - sim - INFO - Epoch [1][13600/40500]	lr: 8.000e-04, eta: 5:27:42, time: 0.037, data_time: 0.022, memory: 379, loss: 0.1503, Batch std: 0.3319, Agg std: 0.3425
+2024-11-29 16:52:25,695 - sim - INFO - Epoch [1][13700/40500]	lr: 8.000e-04, eta: 5:27:42, time: 0.039, data_time: 0.025, memory: 379, loss: 0.1356, Batch std: 0.3184, Agg std: 0.3423
+2024-11-29 16:52:29,355 - sim - INFO - Epoch [1][13800/40500]	lr: 8.000e-04, eta: 5:27:32, time: 0.037, data_time: 0.022, memory: 379, loss: 0.1512, Batch std: 0.3337, Agg std: 0.3422
+2024-11-29 16:52:33,264 - sim - INFO - Epoch [1][13900/40500]	lr: 8.000e-04, eta: 5:27:31, time: 0.039, data_time: 0.024, memory: 379, loss: 0.1538, Batch std: 0.3387, Agg std: 0.3422
+2024-11-29 16:52:36,943 - sim - INFO - Epoch [1][14000/40500]	lr: 8.000e-04, eta: 5:27:21, time: 0.037, data_time: 0.022, memory: 379, loss: 0.1423, Batch std: 0.3258, Agg std: 0.3421
+2024-11-29 16:52:40,804 - sim - INFO - Epoch [1][14100/40500]	lr: 8.000e-04, eta: 5:27:18, time: 0.039, data_time: 0.024, memory: 379, loss: 0.1507, Batch std: 0.3346, Agg std: 0.3420
+2024-11-29 16:52:44,647 - sim - INFO - Epoch [1][14200/40500]	lr: 8.000e-04, eta: 5:27:15, time: 0.038, data_time: 0.024, memory: 379, loss: 0.1542, Batch std: 0.3396, Agg std: 0.3420
+2024-11-29 16:52:48,381 - sim - INFO - Epoch [1][14300/40500]	lr: 8.000e-04, eta: 5:27:07, time: 0.037, data_time: 0.023, memory: 379, loss: 0.1563, Batch std: 0.3415, Agg std: 0.3420
+2024-11-29 16:52:52,130 - sim - INFO - Epoch [1][14400/40500]	lr: 8.000e-04, eta: 5:27:01, time: 0.037, data_time: 0.023, memory: 379, loss: 0.1460, Batch std: 0.3275, Agg std: 0.3419
+2024-11-29 16:52:56,056 - sim - INFO - Epoch [1][14500/40500]	lr: 8.000e-04, eta: 5:27:00, time: 0.039, data_time: 0.024, memory: 379, loss: 0.1505, Batch std: 0.3361, Agg std: 0.3419
+2024-11-29 16:52:59,694 - sim - INFO - Epoch [1][14600/40500]	lr: 8.000e-04, eta: 5:26:49, time: 0.036, data_time: 0.022, memory: 379, loss: 0.1448, Batch std: 0.3331, Agg std: 0.3418
+2024-11-29 16:53:03,523 - sim - INFO - Epoch [1][14700/40500]	lr: 8.000e-04, eta: 5:26:46, time: 0.038, data_time: 0.023, memory: 379, loss: 0.1489, Batch std: 0.3328, Agg std: 0.3418
+2024-11-29 16:53:07,300 - sim - INFO - Epoch [1][14800/40500]	lr: 8.000e-04, eta: 5:26:40, time: 0.038, data_time: 0.023, memory: 379, loss: 0.1568, Batch std: 0.3440, Agg std: 0.3417
+2024-11-29 16:53:11,211 - sim - INFO - Epoch [1][14900/40500]	lr: 8.000e-04, eta: 5:26:39, time: 0.039, data_time: 0.024, memory: 379, loss: 0.1446, Batch std: 0.3329, Agg std: 0.3417
+2024-11-29 16:53:15,003 - sim - INFO - Epoch [1][15000/40500]	lr: 8.000e-04, eta: 5:26:34, time: 0.038, data_time: 0.023, memory: 379, loss: 0.1410, Batch std: 0.3233, Agg std: 0.3416
+2024-11-29 16:53:18,744 - sim - INFO - Epoch [1][15100/40500]	lr: 8.000e-04, eta: 5:26:27, time: 0.037, data_time: 0.023, memory: 379, loss: 0.1421, Batch std: 0.3280, Agg std: 0.3415
+2024-11-29 16:53:22,490 - sim - INFO - Epoch [1][15200/40500]	lr: 8.000e-04, eta: 5:26:20, time: 0.037, data_time: 0.023, memory: 379, loss: 0.1526, Batch std: 0.3385, Agg std: 0.3414
+2024-11-29 16:53:26,504 - sim - INFO - Epoch [1][15300/40500]	lr: 8.000e-04, eta: 5:26:22, time: 0.040, data_time: 0.025, memory: 379, loss: 0.1404, Batch std: 0.3244, Agg std: 0.3414
+2024-11-29 16:53:30,109 - sim - INFO - Epoch [1][15400/40500]	lr: 8.000e-04, eta: 5:26:11, time: 0.036, data_time: 0.021, memory: 379, loss: 0.1473, Batch std: 0.3326, Agg std: 0.3413
+2024-11-29 16:53:34,120 - sim - INFO - Epoch [1][15500/40500]	lr: 8.000e-04, eta: 5:26:13, time: 0.040, data_time: 0.025, memory: 379, loss: 0.1485, Batch std: 0.3385, Agg std: 0.3413
+2024-11-29 16:53:37,689 - sim - INFO - Epoch [1][15600/40500]	lr: 8.000e-04, eta: 5:26:01, time: 0.036, data_time: 0.021, memory: 379, loss: 0.1426, Batch std: 0.3293, Agg std: 0.3412
+2024-11-29 16:53:41,627 - sim - INFO - Epoch [1][15700/40500]	lr: 8.000e-04, eta: 5:26:00, time: 0.039, data_time: 0.024, memory: 379, loss: 0.1435, Batch std: 0.3300, Agg std: 0.3412
+2024-11-29 16:53:45,454 - sim - INFO - Epoch [1][15800/40500]	lr: 8.000e-04, eta: 5:25:57, time: 0.038, data_time: 0.023, memory: 379, loss: 0.1431, Batch std: 0.3290, Agg std: 0.3411
+2024-11-29 16:53:49,292 - sim - INFO - Epoch [1][15900/40500]	lr: 8.000e-04, eta: 5:25:53, time: 0.038, data_time: 0.024, memory: 379, loss: 0.1387, Batch std: 0.3210, Agg std: 0.3410
+2024-11-29 16:53:52,990 - sim - INFO - Epoch [1][16000/40500]	lr: 8.000e-04, eta: 5:25:45, time: 0.037, data_time: 0.022, memory: 379, loss: 0.1411, Batch std: 0.3275, Agg std: 0.3409
+2024-11-29 16:53:56,951 - sim - INFO - Epoch [1][16100/40500]	lr: 8.000e-04, eta: 5:25:45, time: 0.040, data_time: 0.025, memory: 379, loss: 0.1379, Batch std: 0.3224, Agg std: 0.3408
+2024-11-29 16:54:00,636 - sim - INFO - Epoch [1][16200/40500]	lr: 8.000e-04, eta: 5:25:37, time: 0.037, data_time: 0.022, memory: 379, loss: 0.1530, Batch std: 0.3433, Agg std: 0.3407
+2024-11-29 16:54:04,595 - sim - INFO - Epoch [1][16300/40500]	lr: 8.000e-04, eta: 5:25:37, time: 0.040, data_time: 0.025, memory: 379, loss: 0.1510, Batch std: 0.3351, Agg std: 0.3407
+2024-11-29 16:54:08,279 - sim - INFO - Epoch [1][16400/40500]	lr: 8.000e-04, eta: 5:25:29, time: 0.037, data_time: 0.022, memory: 379, loss: 0.1439, Batch std: 0.3285, Agg std: 0.3406
+2024-11-29 16:54:12,142 - sim - INFO - Epoch [1][16500/40500]	lr: 8.000e-04, eta: 5:25:26, time: 0.039, data_time: 0.024, memory: 379, loss: 0.1502, Batch std: 0.3351, Agg std: 0.3406
+2024-11-29 16:54:15,825 - sim - INFO - Epoch [1][16600/40500]	lr: 8.000e-04, eta: 5:25:18, time: 0.037, data_time: 0.022, memory: 379, loss: 0.1381, Batch std: 0.3207, Agg std: 0.3405
+2024-11-29 16:54:19,785 - sim - INFO - Epoch [1][16700/40500]	lr: 8.000e-04, eta: 5:25:18, time: 0.040, data_time: 0.025, memory: 379, loss: 0.1409, Batch std: 0.3263, Agg std: 0.3404
+2024-11-29 16:54:23,503 - sim - INFO - Epoch [1][16800/40500]	lr: 8.000e-04, eta: 5:25:11, time: 0.037, data_time: 0.022, memory: 379, loss: 0.1437, Batch std: 0.3228, Agg std: 0.3403
+2024-11-29 16:54:27,486 - sim - INFO - Epoch [1][16900/40500]	lr: 8.000e-04, eta: 5:25:12, time: 0.040, data_time: 0.025, memory: 379, loss: 0.1490, Batch std: 0.3327, Agg std: 0.3403
+2024-11-29 16:54:31,046 - sim - INFO - Epoch [1][17000/40500]	lr: 8.000e-04, eta: 5:25:00, time: 0.036, data_time: 0.021, memory: 379, loss: 0.1381, Batch std: 0.3219, Agg std: 0.3402
+2024-11-29 16:54:35,015 - sim - INFO - Epoch [1][17100/40500]	lr: 8.000e-04, eta: 5:25:00, time: 0.040, data_time: 0.025, memory: 379, loss: 0.1585, Batch std: 0.3423, Agg std: 0.3401
+2024-11-29 16:54:38,656 - sim - INFO - Epoch [1][17200/40500]	lr: 8.000e-04, eta: 5:24:51, time: 0.036, data_time: 0.022, memory: 379, loss: 0.1456, Batch std: 0.3282, Agg std: 0.3401
+2024-11-29 16:54:42,559 - sim - INFO - Epoch [1][17300/40500]	lr: 8.000e-04, eta: 5:24:49, time: 0.039, data_time: 0.024, memory: 379, loss: 0.1407, Batch std: 0.3277, Agg std: 0.3400
+2024-11-29 16:54:46,330 - sim - INFO - Epoch [1][17400/40500]	lr: 8.000e-04, eta: 5:24:44, time: 0.038, data_time: 0.023, memory: 379, loss: 0.1333, Batch std: 0.3161, Agg std: 0.3399
+2024-11-29 16:54:50,171 - sim - INFO - Epoch [1][17500/40500]	lr: 8.000e-04, eta: 5:24:40, time: 0.038, data_time: 0.024, memory: 379, loss: 0.1363, Batch std: 0.3195, Agg std: 0.3398
+2024-11-29 16:54:53,890 - sim - INFO - Epoch [1][17600/40500]	lr: 8.000e-04, eta: 5:24:33, time: 0.037, data_time: 0.022, memory: 379, loss: 0.1408, Batch std: 0.3237, Agg std: 0.3397
+2024-11-29 16:54:57,853 - sim - INFO - Epoch [1][17700/40500]	lr: 8.000e-04, eta: 5:24:33, time: 0.040, data_time: 0.025, memory: 379, loss: 0.1425, Batch std: 0.3254, Agg std: 0.3396
+2024-11-29 16:55:01,611 - sim - INFO - Epoch [1][17800/40500]	lr: 8.000e-04, eta: 5:24:27, time: 0.038, data_time: 0.023, memory: 379, loss: 0.1577, Batch std: 0.3425, Agg std: 0.3396
+2024-11-29 16:55:05,444 - sim - INFO - Epoch [1][17900/40500]	lr: 8.000e-04, eta: 5:24:24, time: 0.038, data_time: 0.024, memory: 379, loss: 0.1425, Batch std: 0.3262, Agg std: 0.3396
+2024-11-29 16:55:09,192 - sim - INFO - Epoch [1][18000/40500]	lr: 8.000e-04, eta: 5:24:18, time: 0.037, data_time: 0.023, memory: 379, loss: 0.1513, Batch std: 0.3348, Agg std: 0.3395
+2024-11-29 16:55:12,982 - sim - INFO - Epoch [1][18100/40500]	lr: 8.000e-04, eta: 5:24:13, time: 0.038, data_time: 0.023, memory: 379, loss: 0.1433, Batch std: 0.3286, Agg std: 0.3395
+2024-11-29 16:55:16,760 - sim - INFO - Epoch [1][18200/40500]	lr: 8.000e-04, eta: 5:24:08, time: 0.038, data_time: 0.023, memory: 379, loss: 0.1414, Batch std: 0.3260, Agg std: 0.3394
+2024-11-29 16:55:20,678 - sim - INFO - Epoch [1][18300/40500]	lr: 8.000e-04, eta: 5:24:06, time: 0.039, data_time: 0.024, memory: 379, loss: 0.1412, Batch std: 0.3220, Agg std: 0.3393
+2024-11-29 16:55:24,358 - sim - INFO - Epoch [1][18400/40500]	lr: 8.000e-04, eta: 5:23:58, time: 0.037, data_time: 0.022, memory: 379, loss: 0.1479, Batch std: 0.3316, Agg std: 0.3392
+2024-11-29 16:55:28,383 - sim - INFO - Epoch [1][18500/40500]	lr: 8.000e-04, eta: 5:24:00, time: 0.040, data_time: 0.025, memory: 379, loss: 0.1469, Batch std: 0.3303, Agg std: 0.3392
+2024-11-29 16:55:32,094 - sim - INFO - Epoch [1][18600/40500]	lr: 8.000e-04, eta: 5:23:53, time: 0.037, data_time: 0.022, memory: 379, loss: 0.1302, Batch std: 0.3160, Agg std: 0.3391
+2024-11-29 16:55:35,870 - sim - INFO - Epoch [1][18700/40500]	lr: 8.000e-04, eta: 5:23:48, time: 0.038, data_time: 0.023, memory: 379, loss: 0.1433, Batch std: 0.3260, Agg std: 0.3390
+2024-11-29 16:55:39,628 - sim - INFO - Epoch [1][18800/40500]	lr: 8.000e-04, eta: 5:23:42, time: 0.038, data_time: 0.023, memory: 379, loss: 0.1357, Batch std: 0.3209, Agg std: 0.3389
+2024-11-29 16:55:43,499 - sim - INFO - Epoch [1][18900/40500]	lr: 8.000e-04, eta: 5:23:40, time: 0.039, data_time: 0.024, memory: 379, loss: 0.1326, Batch std: 0.3131, Agg std: 0.3388
+2024-11-29 16:55:47,339 - sim - INFO - Epoch [1][19000/40500]	lr: 8.000e-04, eta: 5:23:36, time: 0.038, data_time: 0.024, memory: 379, loss: 0.1478, Batch std: 0.3326, Agg std: 0.3387
+2024-11-29 16:55:51,128 - sim - INFO - Epoch [1][19100/40500]	lr: 8.000e-04, eta: 5:23:31, time: 0.038, data_time: 0.023, memory: 379, loss: 0.1422, Batch std: 0.3263, Agg std: 0.3387
+2024-11-29 16:55:54,829 - sim - INFO - Epoch [1][19200/40500]	lr: 8.000e-04, eta: 5:23:24, time: 0.037, data_time: 0.022, memory: 379, loss: 0.1456, Batch std: 0.3275, Agg std: 0.3386
+2024-11-29 16:55:58,790 - sim - INFO - Epoch [1][19300/40500]	lr: 8.000e-04, eta: 5:23:24, time: 0.040, data_time: 0.025, memory: 379, loss: 0.1424, Batch std: 0.3233, Agg std: 0.3385
+2024-11-29 16:56:02,439 - sim - INFO - Epoch [1][19400/40500]	lr: 8.000e-04, eta: 5:23:15, time: 0.036, data_time: 0.021, memory: 379, loss: 0.1384, Batch std: 0.3223, Agg std: 0.3385
+2024-11-29 16:56:06,355 - sim - INFO - Epoch [1][19500/40500]	lr: 8.000e-04, eta: 5:23:14, time: 0.039, data_time: 0.024, memory: 379, loss: 0.1348, Batch std: 0.3198, Agg std: 0.3384
+2024-11-29 16:56:10,134 - sim - INFO - Epoch [1][19600/40500]	lr: 8.000e-04, eta: 5:23:09, time: 0.038, data_time: 0.023, memory: 379, loss: 0.1452, Batch std: 0.3291, Agg std: 0.3383
+2024-11-29 16:56:14,009 - sim - INFO - Epoch [1][19700/40500]	lr: 8.000e-04, eta: 5:23:06, time: 0.039, data_time: 0.024, memory: 379, loss: 0.1519, Batch std: 0.3337, Agg std: 0.3383
+2024-11-29 16:56:17,713 - sim - INFO - Epoch [1][19800/40500]	lr: 8.000e-04, eta: 5:22:59, time: 0.037, data_time: 0.022, memory: 379, loss: 0.1310, Batch std: 0.3106, Agg std: 0.3382
+2024-11-29 16:56:21,634 - sim - INFO - Epoch [1][19900/40500]	lr: 8.000e-04, eta: 5:22:58, time: 0.039, data_time: 0.024, memory: 379, loss: 0.1410, Batch std: 0.3264, Agg std: 0.3381
+2024-11-29 16:56:25,325 - sim - INFO - Epoch [1][20000/40500]	lr: 8.000e-04, eta: 5:22:51, time: 0.037, data_time: 0.022, memory: 379, loss: 0.1424, Batch std: 0.3246, Agg std: 0.3380
+2024-11-29 16:56:29,258 - sim - INFO - Epoch [1][20100/40500]	lr: 8.000e-04, eta: 5:22:50, time: 0.039, data_time: 0.024, memory: 379, loss: 0.1425, Batch std: 0.3275, Agg std: 0.3380
+2024-11-29 16:56:32,989 - sim - INFO - Epoch [1][20200/40500]	lr: 8.000e-04, eta: 5:22:44, time: 0.037, data_time: 0.022, memory: 379, loss: 0.1559, Batch std: 0.3403, Agg std: 0.3379
+2024-11-29 16:56:36,897 - sim - INFO - Epoch [1][20300/40500]	lr: 8.000e-04, eta: 5:22:42, time: 0.039, data_time: 0.024, memory: 379, loss: 0.1430, Batch std: 0.3271, Agg std: 0.3379
+2024-11-29 16:56:40,614 - sim - INFO - Epoch [1][20400/40500]	lr: 8.000e-04, eta: 5:22:35, time: 0.037, data_time: 0.022, memory: 379, loss: 0.1369, Batch std: 0.3168, Agg std: 0.3379
+2024-11-29 16:56:44,550 - sim - INFO - Epoch [1][20500/40500]	lr: 8.000e-04, eta: 5:22:34, time: 0.039, data_time: 0.025, memory: 379, loss: 0.1456, Batch std: 0.3303, Agg std: 0.3378
+2024-11-29 16:56:48,224 - sim - INFO - Epoch [1][20600/40500]	lr: 8.000e-04, eta: 5:22:27, time: 0.037, data_time: 0.022, memory: 379, loss: 0.1382, Batch std: 0.3225, Agg std: 0.3377
+2024-11-29 16:56:52,166 - sim - INFO - Epoch [1][20700/40500]	lr: 8.000e-04, eta: 5:22:26, time: 0.039, data_time: 0.025, memory: 379, loss: 0.1466, Batch std: 0.3308, Agg std: 0.3377
+2024-11-29 16:56:55,906 - sim - INFO - Epoch [1][20800/40500]	lr: 8.000e-04, eta: 5:22:20, time: 0.037, data_time: 0.023, memory: 379, loss: 0.1421, Batch std: 0.3273, Agg std: 0.3376
+2024-11-29 16:56:59,773 - sim - INFO - Epoch [1][20900/40500]	lr: 8.000e-04, eta: 5:22:17, time: 0.039, data_time: 0.024, memory: 379, loss: 0.1348, Batch std: 0.3166, Agg std: 0.3375
+2024-11-29 16:57:03,508 - sim - INFO - Epoch [1][21000/40500]	lr: 8.000e-04, eta: 5:22:11, time: 0.037, data_time: 0.022, memory: 379, loss: 0.1414, Batch std: 0.3250, Agg std: 0.3375
+2024-11-29 16:57:07,412 - sim - INFO - Epoch [1][21100/40500]	lr: 8.000e-04, eta: 5:22:09, time: 0.039, data_time: 0.024, memory: 379, loss: 0.1468, Batch std: 0.3291, Agg std: 0.3374
+2024-11-29 16:57:11,233 - sim - INFO - Epoch [1][21200/40500]	lr: 8.000e-04, eta: 5:22:05, time: 0.038, data_time: 0.023, memory: 379, loss: 0.1417, Batch std: 0.3234, Agg std: 0.3374
+2024-11-29 16:57:15,042 - sim - INFO - Epoch [1][21300/40500]	lr: 8.000e-04, eta: 5:22:01, time: 0.038, data_time: 0.023, memory: 379, loss: 0.1354, Batch std: 0.3187, Agg std: 0.3373
+2024-11-29 16:57:18,785 - sim - INFO - Epoch [1][21400/40500]	lr: 8.000e-04, eta: 5:21:55, time: 0.037, data_time: 0.023, memory: 379, loss: 0.1406, Batch std: 0.3256, Agg std: 0.3372
+2024-11-29 16:57:22,740 - sim - INFO - Epoch [1][21500/40500]	lr: 8.000e-04, eta: 5:21:54, time: 0.040, data_time: 0.025, memory: 379, loss: 0.1382, Batch std: 0.3216, Agg std: 0.3371
+2024-11-29 16:57:26,362 - sim - INFO - Epoch [1][21600/40500]	lr: 8.000e-04, eta: 5:21:46, time: 0.036, data_time: 0.022, memory: 379, loss: 0.1486, Batch std: 0.3325, Agg std: 0.3371
+2024-11-29 16:57:30,213 - sim - INFO - Epoch [1][21700/40500]	lr: 8.000e-04, eta: 5:21:43, time: 0.039, data_time: 0.024, memory: 379, loss: 0.1396, Batch std: 0.3257, Agg std: 0.3371
+2024-11-29 16:57:33,993 - sim - INFO - Epoch [1][21800/40500]	lr: 8.000e-04, eta: 5:21:38, time: 0.038, data_time: 0.023, memory: 379, loss: 0.1418, Batch std: 0.3252, Agg std: 0.3370
+2024-11-29 16:57:37,942 - sim - INFO - Epoch [1][21900/40500]	lr: 8.000e-04, eta: 5:21:37, time: 0.039, data_time: 0.025, memory: 379, loss: 0.1476, Batch std: 0.3294, Agg std: 0.3370
+2024-11-29 16:57:41,577 - sim - INFO - Epoch [1][22000/40500]	lr: 8.000e-04, eta: 5:21:29, time: 0.036, data_time: 0.021, memory: 379, loss: 0.1361, Batch std: 0.3174, Agg std: 0.3369
+2024-11-29 16:57:45,498 - sim - INFO - Epoch [1][22100/40500]	lr: 8.000e-04, eta: 5:21:27, time: 0.039, data_time: 0.025, memory: 379, loss: 0.1363, Batch std: 0.3195, Agg std: 0.3368
+2024-11-29 16:57:49,235 - sim - INFO - Epoch [1][22200/40500]	lr: 8.000e-04, eta: 5:21:21, time: 0.037, data_time: 0.023, memory: 379, loss: 0.1371, Batch std: 0.3219, Agg std: 0.3368
+2024-11-29 16:57:53,221 - sim - INFO - Epoch [1][22300/40500]	lr: 8.000e-04, eta: 5:21:21, time: 0.040, data_time: 0.025, memory: 379, loss: 0.1353, Batch std: 0.3239, Agg std: 0.3367
+2024-11-29 16:57:56,918 - sim - INFO - Epoch [1][22400/40500]	lr: 8.000e-04, eta: 5:21:14, time: 0.037, data_time: 0.022, memory: 379, loss: 0.1498, Batch std: 0.3333, Agg std: 0.3366
+2024-11-29 16:58:00,848 - sim - INFO - Epoch [1][22500/40500]	lr: 8.000e-04, eta: 5:21:13, time: 0.039, data_time: 0.024, memory: 379, loss: 0.1422, Batch std: 0.3276, Agg std: 0.3366
+2024-11-29 16:58:04,595 - sim - INFO - Epoch [1][22600/40500]	lr: 8.000e-04, eta: 5:21:07, time: 0.037, data_time: 0.023, memory: 379, loss: 0.1465, Batch std: 0.3286, Agg std: 0.3366
+2024-11-29 16:58:08,492 - sim - INFO - Epoch [1][22700/40500]	lr: 8.000e-04, eta: 5:21:05, time: 0.039, data_time: 0.024, memory: 379, loss: 0.1374, Batch std: 0.3210, Agg std: 0.3365
+2024-11-29 16:58:12,215 - sim - INFO - Epoch [1][22800/40500]	lr: 8.000e-04, eta: 5:20:59, time: 0.037, data_time: 0.022, memory: 379, loss: 0.1401, Batch std: 0.3236, Agg std: 0.3365
+2024-11-29 16:58:16,109 - sim - INFO - Epoch [1][22900/40500]	lr: 8.000e-04, eta: 5:20:57, time: 0.039, data_time: 0.024, memory: 379, loss: 0.1385, Batch std: 0.3216, Agg std: 0.3364
+2024-11-29 16:58:19,829 - sim - INFO - Epoch [1][23000/40500]	lr: 8.000e-04, eta: 5:20:51, time: 0.037, data_time: 0.022, memory: 379, loss: 0.1393, Batch std: 0.3209, Agg std: 0.3364
+2024-11-29 16:58:23,717 - sim - INFO - Epoch [1][23100/40500]	lr: 8.000e-04, eta: 5:20:48, time: 0.039, data_time: 0.024, memory: 379, loss: 0.1419, Batch std: 0.3268, Agg std: 0.3363
+2024-11-29 16:58:27,417 - sim - INFO - Epoch [1][23200/40500]	lr: 8.000e-04, eta: 5:20:42, time: 0.037, data_time: 0.022, memory: 379, loss: 0.1394, Batch std: 0.3202, Agg std: 0.3363
+2024-11-29 16:58:31,314 - sim - INFO - Epoch [1][23300/40500]	lr: 8.000e-04, eta: 5:20:40, time: 0.039, data_time: 0.024, memory: 379, loss: 0.1307, Batch std: 0.3151, Agg std: 0.3362
+2024-11-29 16:58:35,046 - sim - INFO - Epoch [1][23400/40500]	lr: 8.000e-04, eta: 5:20:34, time: 0.037, data_time: 0.022, memory: 379, loss: 0.1396, Batch std: 0.3241, Agg std: 0.3361
+2024-11-29 16:58:38,873 - sim - INFO - Epoch [1][23500/40500]	lr: 8.000e-04, eta: 5:20:30, time: 0.038, data_time: 0.023, memory: 379, loss: 0.1440, Batch std: 0.3278, Agg std: 0.3361
+2024-11-29 16:58:42,589 - sim - INFO - Epoch [1][23600/40500]	lr: 8.000e-04, eta: 5:20:24, time: 0.037, data_time: 0.022, memory: 379, loss: 0.1420, Batch std: 0.3286, Agg std: 0.3360
+2024-11-29 16:58:46,492 - sim - INFO - Epoch [1][23700/40500]	lr: 8.000e-04, eta: 5:20:22, time: 0.039, data_time: 0.024, memory: 379, loss: 0.1390, Batch std: 0.3225, Agg std: 0.3360
+2024-11-29 16:58:50,228 - sim - INFO - Epoch [1][23800/40500]	lr: 8.000e-04, eta: 5:20:16, time: 0.037, data_time: 0.022, memory: 379, loss: 0.1434, Batch std: 0.3264, Agg std: 0.3359
+2024-11-29 16:58:54,146 - sim - INFO - Epoch [1][23900/40500]	lr: 8.000e-04, eta: 5:20:14, time: 0.039, data_time: 0.024, memory: 379, loss: 0.1443, Batch std: 0.3285, Agg std: 0.3359
+2024-11-29 16:58:57,818 - sim - INFO - Epoch [1][24000/40500]	lr: 8.000e-04, eta: 5:20:07, time: 0.037, data_time: 0.022, memory: 379, loss: 0.1341, Batch std: 0.3172, Agg std: 0.3358
+2024-11-29 16:59:01,752 - sim - INFO - Epoch [1][24100/40500]	lr: 8.000e-04, eta: 5:20:06, time: 0.039, data_time: 0.024, memory: 379, loss: 0.1331, Batch std: 0.3183, Agg std: 0.3358
+2024-11-29 16:59:05,512 - sim - INFO - Epoch [1][24200/40500]	lr: 8.000e-04, eta: 5:20:01, time: 0.038, data_time: 0.023, memory: 379, loss: 0.1465, Batch std: 0.3307, Agg std: 0.3357
+2024-11-29 16:59:09,396 - sim - INFO - Epoch [1][24300/40500]	lr: 8.000e-04, eta: 5:19:58, time: 0.039, data_time: 0.024, memory: 379, loss: 0.1385, Batch std: 0.3224, Agg std: 0.3357
+2024-11-29 16:59:13,126 - sim - INFO - Epoch [1][24400/40500]	lr: 8.000e-04, eta: 5:19:52, time: 0.037, data_time: 0.022, memory: 379, loss: 0.1415, Batch std: 0.3239, Agg std: 0.3356
+2024-11-29 16:59:16,988 - sim - INFO - Epoch [1][24500/40500]	lr: 8.000e-04, eta: 5:19:49, time: 0.039, data_time: 0.024, memory: 379, loss: 0.1362, Batch std: 0.3205, Agg std: 0.3356
+2024-11-29 16:59:20,675 - sim - INFO - Epoch [1][24600/40500]	lr: 8.000e-04, eta: 5:19:43, time: 0.037, data_time: 0.022, memory: 379, loss: 0.1543, Batch std: 0.3402, Agg std: 0.3356
+2024-11-29 16:59:24,545 - sim - INFO - Epoch [1][24700/40500]	lr: 8.000e-04, eta: 5:19:40, time: 0.039, data_time: 0.024, memory: 379, loss: 0.1382, Batch std: 0.3238, Agg std: 0.3355
+2024-11-29 16:59:28,282 - sim - INFO - Epoch [1][24800/40500]	lr: 8.000e-04, eta: 5:19:34, time: 0.037, data_time: 0.022, memory: 379, loss: 0.1409, Batch std: 0.3259, Agg std: 0.3355
+2024-11-29 16:59:32,184 - sim - INFO - Epoch [1][24900/40500]	lr: 8.000e-04, eta: 5:19:32, time: 0.039, data_time: 0.024, memory: 379, loss: 0.1486, Batch std: 0.3324, Agg std: 0.3355
+2024-11-29 16:59:35,858 - sim - INFO - Epoch [1][25000/40500]	lr: 8.000e-04, eta: 5:19:25, time: 0.037, data_time: 0.022, memory: 379, loss: 0.1312, Batch std: 0.3155, Agg std: 0.3354
+2024-11-29 16:59:39,577 - sim - INFO - Epoch [1][25100/40500]	lr: 8.000e-04, eta: 5:19:19, time: 0.037, data_time: 0.022, memory: 379, loss: 0.1492, Batch std: 0.3339, Agg std: 0.3354
+2024-11-29 16:59:43,384 - sim - INFO - Epoch [1][25200/40500]	lr: 8.000e-04, eta: 5:19:15, time: 0.038, data_time: 0.023, memory: 379, loss: 0.1414, Batch std: 0.3247, Agg std: 0.3353
+2024-11-29 16:59:47,232 - sim - INFO - Epoch [1][25300/40500]	lr: 8.000e-04, eta: 5:19:12, time: 0.038, data_time: 0.024, memory: 379, loss: 0.1383, Batch std: 0.3196, Agg std: 0.3353
+2024-11-29 16:59:50,957 - sim - INFO - Epoch [1][25400/40500]	lr: 8.000e-04, eta: 5:19:06, time: 0.037, data_time: 0.022, memory: 379, loss: 0.1447, Batch std: 0.3321, Agg std: 0.3353
+2024-11-29 16:59:54,875 - sim - INFO - Epoch [1][25500/40500]	lr: 8.000e-04, eta: 5:19:04, time: 0.039, data_time: 0.024, memory: 379, loss: 0.1397, Batch std: 0.3242, Agg std: 0.3352
+2024-11-29 16:59:58,586 - sim - INFO - Epoch [1][25600/40500]	lr: 8.000e-04, eta: 5:18:58, time: 0.037, data_time: 0.022, memory: 379, loss: 0.1409, Batch std: 0.3237, Agg std: 0.3352
+2024-11-29 17:00:02,485 - sim - INFO - Epoch [1][25700/40500]	lr: 8.000e-04, eta: 5:18:56, time: 0.039, data_time: 0.024, memory: 379, loss: 0.1428, Batch std: 0.3274, Agg std: 0.3352
+2024-11-29 17:00:06,207 - sim - INFO - Epoch [1][25800/40500]	lr: 8.000e-04, eta: 5:18:50, time: 0.037, data_time: 0.022, memory: 379, loss: 0.1396, Batch std: 0.3200, Agg std: 0.3351
+2024-11-29 17:00:10,067 - sim - INFO - Epoch [1][25900/40500]	lr: 8.000e-04, eta: 5:18:47, time: 0.039, data_time: 0.024, memory: 379, loss: 0.1246, Batch std: 0.3035, Agg std: 0.3350
+2024-11-29 17:00:13,856 - sim - INFO - Epoch [1][26000/40500]	lr: 8.000e-04, eta: 5:18:43, time: 0.038, data_time: 0.023, memory: 379, loss: 0.1394, Batch std: 0.3223, Agg std: 0.3349
+2024-11-29 17:00:17,674 - sim - INFO - Epoch [1][26100/40500]	lr: 8.000e-04, eta: 5:18:39, time: 0.038, data_time: 0.023, memory: 379, loss: 0.1339, Batch std: 0.3153, Agg std: 0.3349
+2024-11-29 17:00:21,477 - sim - INFO - Epoch [1][26200/40500]	lr: 8.000e-04, eta: 5:18:35, time: 0.038, data_time: 0.023, memory: 379, loss: 0.1368, Batch std: 0.3253, Agg std: 0.3348
+2024-11-29 17:00:25,329 - sim - INFO - Epoch [1][26300/40500]	lr: 8.000e-04, eta: 5:18:32, time: 0.039, data_time: 0.024, memory: 379, loss: 0.1409, Batch std: 0.3255, Agg std: 0.3348
+2024-11-29 17:00:29,053 - sim - INFO - Epoch [1][26400/40500]	lr: 8.000e-04, eta: 5:18:26, time: 0.037, data_time: 0.022, memory: 379, loss: 0.1293, Batch std: 0.3086, Agg std: 0.3347
+2024-11-29 17:00:32,958 - sim - INFO - Epoch [1][26500/40500]	lr: 8.000e-04, eta: 5:18:24, time: 0.039, data_time: 0.024, memory: 379, loss: 0.1363, Batch std: 0.3192, Agg std: 0.3346
+2024-11-29 17:00:36,729 - sim - INFO - Epoch [1][26600/40500]	lr: 8.000e-04, eta: 5:18:19, time: 0.038, data_time: 0.023, memory: 379, loss: 0.1425, Batch std: 0.3285, Agg std: 0.3346
+2024-11-29 17:00:40,504 - sim - INFO - Epoch [1][26700/40500]	lr: 8.000e-04, eta: 5:18:14, time: 0.038, data_time: 0.023, memory: 379, loss: 0.1330, Batch std: 0.3182, Agg std: 0.3346
+2024-11-29 17:00:44,228 - sim - INFO - Epoch [1][26800/40500]	lr: 8.000e-04, eta: 5:18:09, time: 0.037, data_time: 0.022, memory: 379, loss: 0.1374, Batch std: 0.3223, Agg std: 0.3345
+2024-11-29 17:00:48,172 - sim - INFO - Epoch [1][26900/40500]	lr: 8.000e-04, eta: 5:18:07, time: 0.039, data_time: 0.025, memory: 379, loss: 0.1399, Batch std: 0.3257, Agg std: 0.3345
+2024-11-29 17:00:51,865 - sim - INFO - Epoch [1][27000/40500]	lr: 8.000e-04, eta: 5:18:01, time: 0.037, data_time: 0.022, memory: 379, loss: 0.1403, Batch std: 0.3210, Agg std: 0.3344
+2024-11-29 17:00:55,684 - sim - INFO - Epoch [1][27100/40500]	lr: 8.000e-04, eta: 5:17:57, time: 0.038, data_time: 0.023, memory: 379, loss: 0.1311, Batch std: 0.3118, Agg std: 0.3343
+2024-11-29 17:00:59,465 - sim - INFO - Epoch [1][27200/40500]	lr: 8.000e-04, eta: 5:17:53, time: 0.038, data_time: 0.023, memory: 379, loss: 0.1549, Batch std: 0.3402, Agg std: 0.3343
+2024-11-29 17:01:03,296 - sim - INFO - Epoch [1][27300/40500]	lr: 8.000e-04, eta: 5:17:49, time: 0.038, data_time: 0.023, memory: 379, loss: 0.1382, Batch std: 0.3207, Agg std: 0.3343
+2024-11-29 17:01:07,114 - sim - INFO - Epoch [1][27400/40500]	lr: 8.000e-04, eta: 5:17:45, time: 0.038, data_time: 0.023, memory: 379, loss: 0.1484, Batch std: 0.3316, Agg std: 0.3343
+2024-11-29 17:01:10,915 - sim - INFO - Epoch [1][27500/40500]	lr: 8.000e-04, eta: 5:17:41, time: 0.038, data_time: 0.023, memory: 379, loss: 0.1443, Batch std: 0.3287, Agg std: 0.3343
+2024-11-29 17:01:14,763 - sim - INFO - Epoch [1][27600/40500]	lr: 8.000e-04, eta: 5:17:38, time: 0.038, data_time: 0.024, memory: 379, loss: 0.1462, Batch std: 0.3326, Agg std: 0.3342
+2024-11-29 17:01:18,559 - sim - INFO - Epoch [1][27700/40500]	lr: 8.000e-04, eta: 5:17:33, time: 0.038, data_time: 0.023, memory: 379, loss: 0.1392, Batch std: 0.3208, Agg std: 0.3342
+2024-11-29 17:01:22,320 - sim - INFO - Epoch [1][27800/40500]	lr: 8.000e-04, eta: 5:17:28, time: 0.038, data_time: 0.023, memory: 379, loss: 0.1457, Batch std: 0.3291, Agg std: 0.3342
+2024-11-29 17:01:26,162 - sim - INFO - Epoch [1][27900/40500]	lr: 8.000e-04, eta: 5:17:25, time: 0.038, data_time: 0.023, memory: 379, loss: 0.1303, Batch std: 0.3146, Agg std: 0.3341
+2024-11-29 17:01:29,992 - sim - INFO - Epoch [1][28000/40500]	lr: 8.000e-04, eta: 5:17:21, time: 0.038, data_time: 0.023, memory: 379, loss: 0.1368, Batch std: 0.3253, Agg std: 0.3341
+2024-11-29 17:01:33,763 - sim - INFO - Epoch [1][28100/40500]	lr: 8.000e-04, eta: 5:17:17, time: 0.038, data_time: 0.023, memory: 379, loss: 0.1385, Batch std: 0.3215, Agg std: 0.3340
+2024-11-29 17:01:37,475 - sim - INFO - Epoch [1][28200/40500]	lr: 8.000e-04, eta: 5:17:11, time: 0.037, data_time: 0.022, memory: 379, loss: 0.1452, Batch std: 0.3302, Agg std: 0.3340
+2024-11-29 17:01:41,387 - sim - INFO - Epoch [1][28300/40500]	lr: 8.000e-04, eta: 5:17:09, time: 0.039, data_time: 0.024, memory: 379, loss: 0.1262, Batch std: 0.3086, Agg std: 0.3340
+2024-11-29 17:01:45,123 - sim - INFO - Epoch [1][28400/40500]	lr: 8.000e-04, eta: 5:17:03, time: 0.037, data_time: 0.023, memory: 379, loss: 0.1381, Batch std: 0.3212, Agg std: 0.3339
+2024-11-29 17:01:49,052 - sim - INFO - Epoch [1][28500/40500]	lr: 8.000e-04, eta: 5:17:02, time: 0.039, data_time: 0.025, memory: 379, loss: 0.1333, Batch std: 0.3178, Agg std: 0.3339
+2024-11-29 17:01:52,772 - sim - INFO - Epoch [1][28600/40500]	lr: 8.000e-04, eta: 5:16:56, time: 0.037, data_time: 0.022, memory: 379, loss: 0.1333, Batch std: 0.3162, Agg std: 0.3338
+2024-11-29 17:01:56,684 - sim - INFO - Epoch [1][28700/40500]	lr: 8.000e-04, eta: 5:16:54, time: 0.039, data_time: 0.024, memory: 379, loss: 0.1417, Batch std: 0.3267, Agg std: 0.3337
+2024-11-29 17:02:00,357 - sim - INFO - Epoch [1][28800/40500]	lr: 8.000e-04, eta: 5:16:47, time: 0.037, data_time: 0.022, memory: 379, loss: 0.1331, Batch std: 0.3143, Agg std: 0.3337
+2024-11-29 17:02:04,238 - sim - INFO - Epoch [1][28900/40500]	lr: 8.000e-04, eta: 5:16:45, time: 0.039, data_time: 0.024, memory: 379, loss: 0.1318, Batch std: 0.3134, Agg std: 0.3336
+2024-11-29 17:02:08,044 - sim - INFO - Epoch [1][29000/40500]	lr: 8.000e-04, eta: 5:16:41, time: 0.038, data_time: 0.023, memory: 379, loss: 0.1362, Batch std: 0.3185, Agg std: 0.3336
+2024-11-29 17:02:11,925 - sim - INFO - Epoch [1][29100/40500]	lr: 8.000e-04, eta: 5:16:38, time: 0.039, data_time: 0.024, memory: 379, loss: 0.1251, Batch std: 0.3050, Agg std: 0.3335
+2024-11-29 17:02:15,594 - sim - INFO - Epoch [1][29200/40500]	lr: 8.000e-04, eta: 5:16:31, time: 0.037, data_time: 0.022, memory: 379, loss: 0.1419, Batch std: 0.3250, Agg std: 0.3334
+2024-11-29 17:02:19,489 - sim - INFO - Epoch [1][29300/40500]	lr: 8.000e-04, eta: 5:16:29, time: 0.039, data_time: 0.024, memory: 379, loss: 0.1331, Batch std: 0.3167, Agg std: 0.3334
+2024-11-29 17:02:23,305 - sim - INFO - Epoch [1][29400/40500]	lr: 8.000e-04, eta: 5:16:25, time: 0.038, data_time: 0.023, memory: 379, loss: 0.1426, Batch std: 0.3254, Agg std: 0.3333
+2024-11-29 17:02:27,150 - sim - INFO - Epoch [1][29500/40500]	lr: 8.000e-04, eta: 5:16:22, time: 0.038, data_time: 0.024, memory: 379, loss: 0.1337, Batch std: 0.3142, Agg std: 0.3333
+2024-11-29 17:02:30,960 - sim - INFO - Epoch [1][29600/40500]	lr: 8.000e-04, eta: 5:16:18, time: 0.038, data_time: 0.023, memory: 379, loss: 0.1444, Batch std: 0.3281, Agg std: 0.3333
+2024-11-29 17:02:34,801 - sim - INFO - Epoch [1][29700/40500]	lr: 8.000e-04, eta: 5:16:14, time: 0.038, data_time: 0.024, memory: 379, loss: 0.1370, Batch std: 0.3201, Agg std: 0.3332
+2024-11-29 17:02:38,462 - sim - INFO - Epoch [1][29800/40500]	lr: 8.000e-04, eta: 5:16:08, time: 0.037, data_time: 0.021, memory: 379, loss: 0.1477, Batch std: 0.3338, Agg std: 0.3332
+2024-11-29 17:02:42,272 - sim - INFO - Epoch [1][29900/40500]	lr: 8.000e-04, eta: 5:16:04, time: 0.038, data_time: 0.023, memory: 379, loss: 0.1311, Batch std: 0.3129, Agg std: 0.3332
+2024-11-29 17:02:46,083 - sim - INFO - Epoch [1][30000/40500]	lr: 8.000e-04, eta: 5:16:00, time: 0.038, data_time: 0.023, memory: 379, loss: 0.1323, Batch std: 0.3122, Agg std: 0.3331
+2024-11-29 17:02:49,989 - sim - INFO - Epoch [1][30100/40500]	lr: 8.000e-04, eta: 5:15:57, time: 0.039, data_time: 0.024, memory: 379, loss: 0.1444, Batch std: 0.3255, Agg std: 0.3331
+2024-11-29 17:02:53,769 - sim - INFO - Epoch [1][30200/40500]	lr: 8.000e-04, eta: 5:15:53, time: 0.038, data_time: 0.023, memory: 379, loss: 0.1449, Batch std: 0.3255, Agg std: 0.3330
+2024-11-29 17:02:57,614 - sim - INFO - Epoch [1][30300/40500]	lr: 8.000e-04, eta: 5:15:49, time: 0.038, data_time: 0.023, memory: 379, loss: 0.1467, Batch std: 0.3300, Agg std: 0.3330
+2024-11-29 17:03:01,310 - sim - INFO - Epoch [1][30400/40500]	lr: 8.000e-04, eta: 5:15:44, time: 0.037, data_time: 0.022, memory: 379, loss: 0.1390, Batch std: 0.3214, Agg std: 0.3330
+2024-11-29 17:03:05,203 - sim - INFO - Epoch [1][30500/40500]	lr: 8.000e-04, eta: 5:15:41, time: 0.039, data_time: 0.024, memory: 379, loss: 0.1300, Batch std: 0.3137, Agg std: 0.3329
+2024-11-29 17:03:09,046 - sim - INFO - Epoch [1][30600/40500]	lr: 8.000e-04, eta: 5:15:38, time: 0.038, data_time: 0.024, memory: 379, loss: 0.1396, Batch std: 0.3230, Agg std: 0.3329
+2024-11-29 17:03:12,908 - sim - INFO - Epoch [1][30700/40500]	lr: 8.000e-04, eta: 5:15:35, time: 0.039, data_time: 0.024, memory: 379, loss: 0.1461, Batch std: 0.3295, Agg std: 0.3329
+2024-11-29 17:03:16,530 - sim - INFO - Epoch [1][30800/40500]	lr: 8.000e-04, eta: 5:15:27, time: 0.036, data_time: 0.021, memory: 379, loss: 0.1371, Batch std: 0.3190, Agg std: 0.3329
+2024-11-29 17:03:20,476 - sim - INFO - Epoch [1][30900/40500]	lr: 8.000e-04, eta: 5:15:26, time: 0.039, data_time: 0.025, memory: 379, loss: 0.1448, Batch std: 0.3321, Agg std: 0.3328
+2024-11-29 17:03:24,198 - sim - INFO - Epoch [1][31000/40500]	lr: 8.000e-04, eta: 5:15:20, time: 0.037, data_time: 0.022, memory: 379, loss: 0.1322, Batch std: 0.3155, Agg std: 0.3328
+2024-11-29 17:03:28,080 - sim - INFO - Epoch [1][31100/40500]	lr: 8.000e-04, eta: 5:15:18, time: 0.039, data_time: 0.024, memory: 379, loss: 0.1425, Batch std: 0.3277, Agg std: 0.3328
+2024-11-29 17:03:31,991 - sim - INFO - Epoch [1][31200/40500]	lr: 8.000e-04, eta: 5:15:15, time: 0.039, data_time: 0.024, memory: 379, loss: 0.1462, Batch std: 0.3303, Agg std: 0.3327
+2024-11-29 17:03:35,713 - sim - INFO - Epoch [1][31300/40500]	lr: 8.000e-04, eta: 5:15:10, time: 0.037, data_time: 0.022, memory: 379, loss: 0.1408, Batch std: 0.3254, Agg std: 0.3327
+2024-11-29 17:03:39,440 - sim - INFO - Epoch [1][31400/40500]	lr: 8.000e-04, eta: 5:15:05, time: 0.037, data_time: 0.022, memory: 379, loss: 0.1367, Batch std: 0.3211, Agg std: 0.3327
+2024-11-29 17:03:43,516 - sim - INFO - Epoch [1][31500/40500]	lr: 8.000e-04, eta: 5:15:05, time: 0.041, data_time: 0.026, memory: 379, loss: 0.1297, Batch std: 0.3110, Agg std: 0.3326
+2024-11-29 17:03:47,216 - sim - INFO - Epoch [1][31600/40500]	lr: 8.000e-04, eta: 5:14:59, time: 0.037, data_time: 0.022, memory: 379, loss: 0.1431, Batch std: 0.3301, Agg std: 0.3326
+2024-11-29 17:03:50,976 - sim - INFO - Epoch [1][31700/40500]	lr: 8.000e-04, eta: 5:14:54, time: 0.038, data_time: 0.023, memory: 379, loss: 0.1435, Batch std: 0.3288, Agg std: 0.3326
+2024-11-29 17:03:54,805 - sim - INFO - Epoch [1][31800/40500]	lr: 8.000e-04, eta: 5:14:51, time: 0.038, data_time: 0.023, memory: 379, loss: 0.1416, Batch std: 0.3232, Agg std: 0.3326
+2024-11-29 17:03:58,568 - sim - INFO - Epoch [1][31900/40500]	lr: 8.000e-04, eta: 5:14:46, time: 0.038, data_time: 0.023, memory: 379, loss: 0.1349, Batch std: 0.3181, Agg std: 0.3325
+2024-11-29 17:04:02,308 - sim - INFO - Epoch [1][32000/40500]	lr: 8.000e-04, eta: 5:14:41, time: 0.037, data_time: 0.022, memory: 379, loss: 0.1457, Batch std: 0.3310, Agg std: 0.3325
+2024-11-29 17:04:06,166 - sim - INFO - Epoch [1][32100/40500]	lr: 8.000e-04, eta: 5:14:38, time: 0.039, data_time: 0.024, memory: 379, loss: 0.1319, Batch std: 0.3148, Agg std: 0.3325
+2024-11-29 17:04:09,970 - sim - INFO - Epoch [1][32200/40500]	lr: 8.000e-04, eta: 5:14:34, time: 0.038, data_time: 0.023, memory: 379, loss: 0.1352, Batch std: 0.3180, Agg std: 0.3324
+2024-11-29 17:04:13,860 - sim - INFO - Epoch [1][32300/40500]	lr: 8.000e-04, eta: 5:14:31, time: 0.039, data_time: 0.024, memory: 379, loss: 0.1366, Batch std: 0.3213, Agg std: 0.3324
+2024-11-29 17:04:17,731 - sim - INFO - Epoch [1][32400/40500]	lr: 8.000e-04, eta: 5:14:28, time: 0.039, data_time: 0.024, memory: 379, loss: 0.1363, Batch std: 0.3228, Agg std: 0.3324
+2024-11-29 17:04:21,510 - sim - INFO - Epoch [1][32500/40500]	lr: 8.000e-04, eta: 5:14:24, time: 0.038, data_time: 0.023, memory: 379, loss: 0.1297, Batch std: 0.3112, Agg std: 0.3323
+2024-11-29 17:04:25,211 - sim - INFO - Epoch [1][32600/40500]	lr: 8.000e-04, eta: 5:14:18, time: 0.037, data_time: 0.022, memory: 379, loss: 0.1342, Batch std: 0.3142, Agg std: 0.3323
+2024-11-29 17:04:29,101 - sim - INFO - Epoch [1][32700/40500]	lr: 8.000e-04, eta: 5:14:15, time: 0.039, data_time: 0.024, memory: 379, loss: 0.1299, Batch std: 0.3153, Agg std: 0.3322
+2024-11-29 17:04:32,849 - sim - INFO - Epoch [1][32800/40500]	lr: 8.000e-04, eta: 5:14:10, time: 0.037, data_time: 0.023, memory: 379, loss: 0.1445, Batch std: 0.3298, Agg std: 0.3322
+2024-11-29 17:04:36,728 - sim - INFO - Epoch [1][32900/40500]	lr: 8.000e-04, eta: 5:14:07, time: 0.039, data_time: 0.024, memory: 379, loss: 0.1290, Batch std: 0.3163, Agg std: 0.3321
+2024-11-29 17:04:40,454 - sim - INFO - Epoch [1][33000/40500]	lr: 8.000e-04, eta: 5:14:02, time: 0.037, data_time: 0.022, memory: 379, loss: 0.1332, Batch std: 0.3162, Agg std: 0.3321
+2024-11-29 17:04:44,383 - sim - INFO - Epoch [1][33100/40500]	lr: 8.000e-04, eta: 5:14:00, time: 0.039, data_time: 0.024, memory: 379, loss: 0.1350, Batch std: 0.3156, Agg std: 0.3321
+2024-11-29 17:04:48,128 - sim - INFO - Epoch [1][33200/40500]	lr: 8.000e-04, eta: 5:13:55, time: 0.037, data_time: 0.023, memory: 379, loss: 0.1257, Batch std: 0.3090, Agg std: 0.3320
+2024-11-29 17:04:52,044 - sim - INFO - Epoch [1][33300/40500]	lr: 8.000e-04, eta: 5:13:53, time: 0.039, data_time: 0.024, memory: 379, loss: 0.1391, Batch std: 0.3232, Agg std: 0.3319
+2024-11-29 17:04:55,719 - sim - INFO - Epoch [1][33400/40500]	lr: 8.000e-04, eta: 5:13:47, time: 0.037, data_time: 0.022, memory: 379, loss: 0.1384, Batch std: 0.3197, Agg std: 0.3319
+2024-11-29 17:04:59,590 - sim - INFO - Epoch [1][33500/40500]	lr: 8.000e-04, eta: 5:13:44, time: 0.039, data_time: 0.024, memory: 379, loss: 0.1346, Batch std: 0.3169, Agg std: 0.3319
+2024-11-29 17:05:03,362 - sim - INFO - Epoch [1][33600/40500]	lr: 8.000e-04, eta: 5:13:39, time: 0.038, data_time: 0.023, memory: 379, loss: 0.1445, Batch std: 0.3275, Agg std: 0.3318
+2024-11-29 17:05:07,306 - sim - INFO - Epoch [1][33700/40500]	lr: 8.000e-04, eta: 5:13:37, time: 0.039, data_time: 0.024, memory: 379, loss: 0.1360, Batch std: 0.3230, Agg std: 0.3318
+2024-11-29 17:05:11,024 - sim - INFO - Epoch [1][33800/40500]	lr: 8.000e-04, eta: 5:13:32, time: 0.037, data_time: 0.022, memory: 379, loss: 0.1379, Batch std: 0.3222, Agg std: 0.3318
+2024-11-29 17:05:14,947 - sim - INFO - Epoch [1][33900/40500]	lr: 8.000e-04, eta: 5:13:30, time: 0.039, data_time: 0.024, memory: 379, loss: 0.1417, Batch std: 0.3270, Agg std: 0.3318
+2024-11-29 17:05:18,658 - sim - INFO - Epoch [1][34000/40500]	lr: 8.000e-04, eta: 5:13:24, time: 0.037, data_time: 0.022, memory: 379, loss: 0.1365, Batch std: 0.3162, Agg std: 0.3317
+2024-11-29 17:05:22,498 - sim - INFO - Epoch [1][34100/40500]	lr: 8.000e-04, eta: 5:13:21, time: 0.038, data_time: 0.024, memory: 379, loss: 0.1494, Batch std: 0.3320, Agg std: 0.3317
+2024-11-29 17:05:26,299 - sim - INFO - Epoch [1][34200/40500]	lr: 8.000e-04, eta: 5:13:17, time: 0.038, data_time: 0.023, memory: 379, loss: 0.1346, Batch std: 0.3193, Agg std: 0.3317
+2024-11-29 17:05:30,137 - sim - INFO - Epoch [1][34300/40500]	lr: 8.000e-04, eta: 5:13:13, time: 0.038, data_time: 0.024, memory: 379, loss: 0.1395, Batch std: 0.3234, Agg std: 0.3317
+2024-11-29 17:05:33,870 - sim - INFO - Epoch [1][34400/40500]	lr: 8.000e-04, eta: 5:13:08, time: 0.037, data_time: 0.022, memory: 379, loss: 0.1434, Batch std: 0.3266, Agg std: 0.3316
+2024-11-29 17:05:37,770 - sim - INFO - Epoch [1][34500/40500]	lr: 8.000e-04, eta: 5:13:05, time: 0.039, data_time: 0.024, memory: 379, loss: 0.1356, Batch std: 0.3153, Agg std: 0.3316
+2024-11-29 17:05:41,555 - sim - INFO - Epoch [1][34600/40500]	lr: 8.000e-04, eta: 5:13:01, time: 0.038, data_time: 0.023, memory: 379, loss: 0.1330, Batch std: 0.3151, Agg std: 0.3316
+2024-11-29 17:05:45,406 - sim - INFO - Epoch [1][34700/40500]	lr: 8.000e-04, eta: 5:12:58, time: 0.039, data_time: 0.024, memory: 379, loss: 0.1307, Batch std: 0.3152, Agg std: 0.3315
+2024-11-29 17:05:49,148 - sim - INFO - Epoch [1][34800/40500]	lr: 8.000e-04, eta: 5:12:53, time: 0.037, data_time: 0.023, memory: 379, loss: 0.1341, Batch std: 0.3142, Agg std: 0.3315
+2024-11-29 17:05:53,042 - sim - INFO - Epoch [1][34900/40500]	lr: 8.000e-04, eta: 5:12:50, time: 0.039, data_time: 0.024, memory: 379, loss: 0.1338, Batch std: 0.3169, Agg std: 0.3314
+2024-11-29 17:05:56,789 - sim - INFO - Epoch [1][35000/40500]	lr: 8.000e-04, eta: 5:12:45, time: 0.037, data_time: 0.023, memory: 379, loss: 0.1351, Batch std: 0.3209, Agg std: 0.3314
+2024-11-29 17:06:00,665 - sim - INFO - Epoch [1][35100/40500]	lr: 8.000e-04, eta: 5:12:42, time: 0.039, data_time: 0.024, memory: 379, loss: 0.1455, Batch std: 0.3318, Agg std: 0.3314
+2024-11-29 17:06:04,395 - sim - INFO - Epoch [1][35200/40500]	lr: 8.000e-04, eta: 5:12:37, time: 0.037, data_time: 0.022, memory: 379, loss: 0.1356, Batch std: 0.3180, Agg std: 0.3314
+2024-11-29 17:06:08,304 - sim - INFO - Epoch [1][35300/40500]	lr: 8.000e-04, eta: 5:12:35, time: 0.039, data_time: 0.024, memory: 379, loss: 0.1372, Batch std: 0.3179, Agg std: 0.3313
+2024-11-29 17:06:12,021 - sim - INFO - Epoch [1][35400/40500]	lr: 8.000e-04, eta: 5:12:29, time: 0.037, data_time: 0.022, memory: 379, loss: 0.1323, Batch std: 0.3121, Agg std: 0.3313
+2024-11-29 17:06:15,948 - sim - INFO - Epoch [1][35500/40500]	lr: 8.000e-04, eta: 5:12:27, time: 0.039, data_time: 0.024, memory: 379, loss: 0.1398, Batch std: 0.3218, Agg std: 0.3312
+2024-11-29 17:06:19,623 - sim - INFO - Epoch [1][35600/40500]	lr: 8.000e-04, eta: 5:12:21, time: 0.037, data_time: 0.022, memory: 379, loss: 0.1399, Batch std: 0.3240, Agg std: 0.3312
+2024-11-29 17:06:23,523 - sim - INFO - Epoch [1][35700/40500]	lr: 8.000e-04, eta: 5:12:19, time: 0.039, data_time: 0.024, memory: 379, loss: 0.1332, Batch std: 0.3156, Agg std: 0.3312
+2024-11-29 17:06:27,180 - sim - INFO - Epoch [1][35800/40500]	lr: 8.000e-04, eta: 5:12:13, time: 0.037, data_time: 0.022, memory: 379, loss: 0.1318, Batch std: 0.3181, Agg std: 0.3311
+2024-11-29 17:06:31,143 - sim - INFO - Epoch [1][35900/40500]	lr: 8.000e-04, eta: 5:12:11, time: 0.040, data_time: 0.025, memory: 379, loss: 0.1294, Batch std: 0.3108, Agg std: 0.3311
+2024-11-29 17:06:34,862 - sim - INFO - Epoch [1][36000/40500]	lr: 8.000e-04, eta: 5:12:06, time: 0.037, data_time: 0.022, memory: 379, loss: 0.1343, Batch std: 0.3173, Agg std: 0.3310
+2024-11-29 17:06:38,760 - sim - INFO - Epoch [1][36100/40500]	lr: 8.000e-04, eta: 5:12:03, time: 0.039, data_time: 0.024, memory: 379, loss: 0.1423, Batch std: 0.3257, Agg std: 0.3310
+2024-11-29 17:06:42,405 - sim - INFO - Epoch [1][36200/40500]	lr: 8.000e-04, eta: 5:11:57, time: 0.036, data_time: 0.022, memory: 379, loss: 0.1282, Batch std: 0.3102, Agg std: 0.3310
+2024-11-29 17:06:46,346 - sim - INFO - Epoch [1][36300/40500]	lr: 8.000e-04, eta: 5:11:55, time: 0.039, data_time: 0.025, memory: 379, loss: 0.1269, Batch std: 0.3121, Agg std: 0.3309
+2024-11-29 17:06:50,038 - sim - INFO - Epoch [1][36400/40500]	lr: 8.000e-04, eta: 5:11:49, time: 0.037, data_time: 0.022, memory: 379, loss: 0.1272, Batch std: 0.3123, Agg std: 0.3309
+2024-11-29 17:06:54,003 - sim - INFO - Epoch [1][36500/40500]	lr: 8.000e-04, eta: 5:11:47, time: 0.040, data_time: 0.025, memory: 379, loss: 0.1350, Batch std: 0.3197, Agg std: 0.3308
+2024-11-29 17:06:57,652 - sim - INFO - Epoch [1][36600/40500]	lr: 8.000e-04, eta: 5:11:41, time: 0.036, data_time: 0.022, memory: 379, loss: 0.1277, Batch std: 0.3090, Agg std: 0.3308
+2024-11-29 17:07:01,565 - sim - INFO - Epoch [1][36700/40500]	lr: 8.000e-04, eta: 5:11:39, time: 0.039, data_time: 0.024, memory: 379, loss: 0.1291, Batch std: 0.3122, Agg std: 0.3307
+2024-11-29 17:07:05,344 - sim - INFO - Epoch [1][36800/40500]	lr: 8.000e-04, eta: 5:11:34, time: 0.038, data_time: 0.023, memory: 379, loss: 0.1323, Batch std: 0.3140, Agg std: 0.3307
+2024-11-29 17:07:09,076 - sim - INFO - Epoch [1][36900/40500]	lr: 8.000e-04, eta: 5:11:29, time: 0.037, data_time: 0.022, memory: 379, loss: 0.1449, Batch std: 0.3302, Agg std: 0.3307
+2024-11-29 17:07:12,820 - sim - INFO - Epoch [1][37000/40500]	lr: 8.000e-04, eta: 5:11:24, time: 0.037, data_time: 0.023, memory: 379, loss: 0.1415, Batch std: 0.3244, Agg std: 0.3307
+2024-11-29 17:07:16,693 - sim - INFO - Epoch [1][37100/40500]	lr: 8.000e-04, eta: 5:11:21, time: 0.039, data_time: 0.024, memory: 379, loss: 0.1336, Batch std: 0.3182, Agg std: 0.3306
+2024-11-29 17:07:20,530 - sim - INFO - Epoch [1][37200/40500]	lr: 8.000e-04, eta: 5:11:18, time: 0.038, data_time: 0.024, memory: 379, loss: 0.1415, Batch std: 0.3262, Agg std: 0.3306
+2024-11-29 17:07:24,293 - sim - INFO - Epoch [1][37300/40500]	lr: 8.000e-04, eta: 5:11:13, time: 0.038, data_time: 0.023, memory: 379, loss: 0.1312, Batch std: 0.3135, Agg std: 0.3306
+2024-11-29 17:07:28,027 - sim - INFO - Epoch [1][37400/40500]	lr: 8.000e-04, eta: 5:11:08, time: 0.037, data_time: 0.023, memory: 379, loss: 0.1315, Batch std: 0.3146, Agg std: 0.3305
+2024-11-29 17:07:31,905 - sim - INFO - Epoch [1][37500/40500]	lr: 8.000e-04, eta: 5:11:05, time: 0.039, data_time: 0.024, memory: 379, loss: 0.1276, Batch std: 0.3131, Agg std: 0.3305
+2024-11-29 17:07:35,650 - sim - INFO - Epoch [1][37600/40500]	lr: 8.000e-04, eta: 5:11:01, time: 0.037, data_time: 0.023, memory: 379, loss: 0.1300, Batch std: 0.3115, Agg std: 0.3304
+2024-11-29 17:07:39,515 - sim - INFO - Epoch [1][37700/40500]	lr: 8.000e-04, eta: 5:10:57, time: 0.039, data_time: 0.024, memory: 379, loss: 0.1331, Batch std: 0.3177, Agg std: 0.3304
+2024-11-29 17:07:43,243 - sim - INFO - Epoch [1][37800/40500]	lr: 8.000e-04, eta: 5:10:52, time: 0.037, data_time: 0.022, memory: 379, loss: 0.1303, Batch std: 0.3149, Agg std: 0.3304
+2024-11-29 17:07:47,130 - sim - INFO - Epoch [1][37900/40500]	lr: 8.000e-04, eta: 5:10:50, time: 0.039, data_time: 0.024, memory: 379, loss: 0.1397, Batch std: 0.3231, Agg std: 0.3303
+2024-11-29 17:07:50,755 - sim - INFO - Epoch [1][38000/40500]	lr: 8.000e-04, eta: 5:10:43, time: 0.036, data_time: 0.021, memory: 379, loss: 0.1374, Batch std: 0.3217, Agg std: 0.3303
+2024-11-29 17:07:54,721 - sim - INFO - Epoch [1][38100/40500]	lr: 8.000e-04, eta: 5:10:41, time: 0.040, data_time: 0.025, memory: 379, loss: 0.1382, Batch std: 0.3215, Agg std: 0.3303
+2024-11-29 17:07:58,374 - sim - INFO - Epoch [1][38200/40500]	lr: 8.000e-04, eta: 5:10:35, time: 0.037, data_time: 0.022, memory: 379, loss: 0.1307, Batch std: 0.3142, Agg std: 0.3303
+2024-11-29 17:08:02,334 - sim - INFO - Epoch [1][38300/40500]	lr: 8.000e-04, eta: 5:10:33, time: 0.040, data_time: 0.025, memory: 379, loss: 0.1391, Batch std: 0.3206, Agg std: 0.3302
+2024-11-29 17:08:06,084 - sim - INFO - Epoch [1][38400/40500]	lr: 8.000e-04, eta: 5:10:29, time: 0.038, data_time: 0.023, memory: 379, loss: 0.1297, Batch std: 0.3140, Agg std: 0.3302
+2024-11-29 17:08:09,968 - sim - INFO - Epoch [1][38500/40500]	lr: 8.000e-04, eta: 5:10:26, time: 0.039, data_time: 0.024, memory: 379, loss: 0.1377, Batch std: 0.3195, Agg std: 0.3302
+2024-11-29 17:08:13,604 - sim - INFO - Epoch [1][38600/40500]	lr: 8.000e-04, eta: 5:10:20, time: 0.036, data_time: 0.021, memory: 379, loss: 0.1400, Batch std: 0.3267, Agg std: 0.3301
+2024-11-29 17:08:17,598 - sim - INFO - Epoch [1][38700/40500]	lr: 8.000e-04, eta: 5:10:18, time: 0.040, data_time: 0.025, memory: 379, loss: 0.1267, Batch std: 0.3088, Agg std: 0.3301
+2024-11-29 17:08:21,295 - sim - INFO - Epoch [1][38800/40500]	lr: 8.000e-04, eta: 5:10:13, time: 0.037, data_time: 0.022, memory: 379, loss: 0.1410, Batch std: 0.3233, Agg std: 0.3301
+2024-11-29 17:08:25,200 - sim - INFO - Epoch [1][38900/40500]	lr: 8.000e-04, eta: 5:10:10, time: 0.039, data_time: 0.024, memory: 379, loss: 0.1332, Batch std: 0.3178, Agg std: 0.3300
+2024-11-29 17:08:28,964 - sim - INFO - Epoch [1][39000/40500]	lr: 8.000e-04, eta: 5:10:06, time: 0.038, data_time: 0.023, memory: 379, loss: 0.1302, Batch std: 0.3126, Agg std: 0.3300
+2024-11-29 17:08:32,849 - sim - INFO - Epoch [1][39100/40500]	lr: 8.000e-04, eta: 5:10:03, time: 0.039, data_time: 0.024, memory: 379, loss: 0.1297, Batch std: 0.3145, Agg std: 0.3300
+2024-11-29 17:08:36,460 - sim - INFO - Epoch [1][39200/40500]	lr: 8.000e-04, eta: 5:09:56, time: 0.036, data_time: 0.021, memory: 379, loss: 0.1277, Batch std: 0.3084, Agg std: 0.3299
+2024-11-29 17:08:40,417 - sim - INFO - Epoch [1][39300/40500]	lr: 8.000e-04, eta: 5:09:54, time: 0.040, data_time: 0.025, memory: 379, loss: 0.1393, Batch std: 0.3217, Agg std: 0.3299
+2024-11-29 17:08:44,074 - sim - INFO - Epoch [1][39400/40500]	lr: 8.000e-04, eta: 5:09:48, time: 0.037, data_time: 0.022, memory: 379, loss: 0.1354, Batch std: 0.3164, Agg std: 0.3299
+2024-11-29 17:08:48,009 - sim - INFO - Epoch [1][39500/40500]	lr: 8.000e-04, eta: 5:09:46, time: 0.039, data_time: 0.024, memory: 379, loss: 0.1282, Batch std: 0.3078, Agg std: 0.3298
+2024-11-29 17:08:51,722 - sim - INFO - Epoch [1][39600/40500]	lr: 8.000e-04, eta: 5:09:41, time: 0.037, data_time: 0.022, memory: 379, loss: 0.1252, Batch std: 0.3072, Agg std: 0.3298
+2024-11-29 17:08:55,615 - sim - INFO - Epoch [1][39700/40500]	lr: 8.000e-04, eta: 5:09:38, time: 0.039, data_time: 0.024, memory: 379, loss: 0.1243, Batch std: 0.3082, Agg std: 0.3297
+2024-11-29 17:08:59,359 - sim - INFO - Epoch [1][39800/40500]	lr: 8.000e-04, eta: 5:09:33, time: 0.037, data_time: 0.023, memory: 379, loss: 0.1256, Batch std: 0.3075, Agg std: 0.3296
+2024-11-29 17:09:03,257 - sim - INFO - Epoch [1][39900/40500]	lr: 8.000e-04, eta: 5:09:30, time: 0.039, data_time: 0.024, memory: 379, loss: 0.1290, Batch std: 0.3109, Agg std: 0.3296
+2024-11-29 17:09:06,927 - sim - INFO - Epoch [1][40000/40500]	lr: 8.000e-04, eta: 5:09:25, time: 0.037, data_time: 0.022, memory: 379, loss: 0.1387, Batch std: 0.3239, Agg std: 0.3296
+2024-11-29 17:09:10,888 - sim - INFO - Epoch [1][40100/40500]	lr: 8.000e-04, eta: 5:09:23, time: 0.040, data_time: 0.025, memory: 379, loss: 0.1412, Batch std: 0.3261, Agg std: 0.3296
+2024-11-29 17:09:14,552 - sim - INFO - Epoch [1][40200/40500]	lr: 8.000e-04, eta: 5:09:17, time: 0.037, data_time: 0.022, memory: 379, loss: 0.1446, Batch std: 0.3300, Agg std: 0.3295
+2024-11-29 17:09:18,422 - sim - INFO - Epoch [1][40300/40500]	lr: 8.000e-04, eta: 5:09:14, time: 0.039, data_time: 0.024, memory: 379, loss: 0.1457, Batch std: 0.3315, Agg std: 0.3295
+2024-11-29 17:09:22,139 - sim - INFO - Epoch [1][40400/40500]	lr: 8.000e-04, eta: 5:09:09, time: 0.037, data_time: 0.022, memory: 379, loss: 0.1352, Batch std: 0.3203, Agg std: 0.3295
+2024-11-29 17:09:25,819 - sim - INFO - Epoch [1][40500/40500]	lr: 8.000e-04, eta: 5:09:04, time: 0.037, data_time: 0.022, memory: 379, loss: 0.1404, Batch std: 0.3239, Agg std: 0.3295
+2024-11-29 17:09:25,966 - sim - INFO - Saving checkpoint at 1 epochs
+2024-11-29 17:12:21,358 - sim - INFO - Epoch(val) [1][40500]	pos mse mean: 1.8421, pos mse std: 0.1005, vel mean: 0.3186458945274353, vel std: 0.18374401330947876, eval ratio: 10000000.0000
+2024-11-29 17:12:27,866 - sim - INFO - Epoch [2][100/40500]	lr: 8.000e-04, eta: 5:09:32, time: 0.065, data_time: 0.050, memory: 379, loss: 0.1358, Batch std: 0.3210, Agg std: 0.2697
+2024-11-29 17:12:31,754 - sim - INFO - Epoch [2][200/40500]	lr: 8.000e-04, eta: 5:09:29, time: 0.039, data_time: 0.024, memory: 379, loss: 0.1400, Batch std: 0.3203, Agg std: 0.2698

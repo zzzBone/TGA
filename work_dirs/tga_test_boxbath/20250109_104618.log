@@ -1,0 +1,442 @@
+2025-01-09 10:46:18,839 - sim - INFO - Environment info:
+------------------------------------------------------------
+sys.platform: linux
+Python: 3.8.20 (default, Oct  3 2024, 15:24:27) [GCC 11.2.0]
+CUDA available: True
+GPU 0: NVIDIA GeForce RTX 2080 Ti
+CUDA_HOME: /usr/local/cuda-11.3
+NVCC: Cuda compilation tools, release 11.3, V11.3.109
+GCC: gcc (Ubuntu 9.4.0-1ubuntu1~16.04) 9.4.0
+PyTorch: 1.12.1
+PyTorch compiling details: PyTorch built with:
+  - GCC 9.3
+  - C++ Version: 201402
+  - Intel(R) oneAPI Math Kernel Library Version 2023.1-Product Build 20230303 for Intel(R) 64 architecture applications
+  - Intel(R) MKL-DNN v2.6.0 (Git Hash 52b5f107dd9cf10910aaa19cb47f3abf9b349815)
+  - OpenMP 201511 (a.k.a. OpenMP 4.5)
+  - LAPACK is enabled (usually provided by MKL)
+  - NNPACK is enabled
+  - CPU capability usage: AVX2
+  - CUDA Runtime 11.3
+  - NVCC architecture flags: -gencode;arch=compute_37,code=sm_37;-gencode;arch=compute_50,code=sm_50;-gencode;arch=compute_60,code=sm_60;-gencode;arch=compute_61,code=sm_61;-gencode;arch=compute_70,code=sm_70;-gencode;arch=compute_75,code=sm_75;-gencode;arch=compute_80,code=sm_80;-gencode;arch=compute_86,code=sm_86;-gencode;arch=compute_37,code=compute_37
+  - CuDNN 8.3.2  (built against CUDA 11.5)
+  - Magma 2.5.2
+  - Build settings: BLAS_INFO=mkl, BUILD_TYPE=Release, CUDA_VERSION=11.3, CUDNN_VERSION=8.3.2, CXX_COMPILER=/opt/rh/devtoolset-9/root/usr/bin/c++, CXX_FLAGS= -fabi-version=11 -Wno-deprecated -fvisibility-inlines-hidden -DUSE_PTHREADPOOL -fopenmp -DNDEBUG -DUSE_KINETO -DUSE_FBGEMM -DUSE_QNNPACK -DUSE_PYTORCH_QNNPACK -DUSE_XNNPACK -DSYMBOLICATE_MOBILE_DEBUG_HANDLE -DEDGE_PROFILER_USE_KINETO -O2 -fPIC -Wno-narrowing -Wall -Wextra -Werror=return-type -Wno-missing-field-initializers -Wno-type-limits -Wno-array-bounds -Wno-unknown-pragmas -Wno-unused-parameter -Wno-unused-function -Wno-unused-result -Wno-unused-local-typedefs -Wno-strict-overflow -Wno-strict-aliasing -Wno-error=deprecated-declarations -Wno-stringop-overflow -Wno-psabi -Wno-error=pedantic -Wno-error=redundant-decls -Wno-error=old-style-cast -fdiagnostics-color=always -faligned-new -Wno-unused-but-set-variable -Wno-maybe-uninitialized -fno-math-errno -fno-trapping-math -Werror=format -Werror=cast-function-type -Wno-stringop-overflow, LAPACK_INFO=mkl, PERF_WITH_AVX=1, PERF_WITH_AVX2=1, PERF_WITH_AVX512=1, TORCH_VERSION=1.12.1, USE_CUDA=ON, USE_CUDNN=ON, USE_EXCEPTION_PTR=1, USE_GFLAGS=OFF, USE_GLOG=OFF, USE_MKL=ON, USE_MKLDNN=OFF, USE_MPI=OFF, USE_NCCL=ON, USE_NNPACK=ON, USE_OPENMP=ON, USE_ROCM=OFF, 
+
+TorchVision: 0.13.1
+OpenCV: 4.10.0
+MMCV: 1.7.0
+MMCV Compiler: GCC 9.3
+MMCV CUDA Compiler: 11.3
+Simulation: 0.7.0+5fed9d1
+------------------------------------------------------------
+
+2025-01-09 10:46:18,840 - sim - INFO - Distributed training: False
+2025-01-09 10:46:19,013 - sim - INFO - Config:
+model = dict(
+    type='ParticleSimulator',
+    backbone=dict(
+        type='TGA',
+        attr_dim=7,
+        state_dim=6,
+        position_dim=3,
+        embed_dim=128,
+        attn_dims=(128, 128),
+        attn_num_heads=(8, 8),
+        gat_hidden_dims=(128, 128),
+        gat_num_heads=(8, 8),
+        num_layers=2,
+        dropouts=(0.2, 0.2),
+        output_dim=128,
+        num_abs_token=2),
+    head=dict(
+        type='ParticleHead',
+        in_channels=128,
+        out_channels=3,
+        seperate=False,
+        rotation_dim=4,
+        weighted=False,
+        loss=dict(type='MSELoss', loss_weight=1.0)))
+dataset_type = 'PhysicsFleXDataset'
+pstep = 2
+env_cfg = dict(
+    gen_data=False,
+    scene_params=[0.25, 0.25, 0.25, 0.25, 0, 8, 15, 8],
+    env='BoxBath',
+    hierarchy=False,
+    num_abs_token=0,
+    eval_ratio=10000000.0,
+    dataf='./data/data_BoxBath',
+    n_rollout=3000,
+    time_step=151,
+    time_step_clip=0,
+    attn_mask=8,
+    dt=0.016666666666666666,
+    nf_relation=300,
+    nf_particle=200,
+    nf_effect=200,
+    train_valid_ratio=0.9,
+    n_instance=2,
+    n_stages=4,
+    n_his=0,
+    shape_state_dim=14,
+    attr_dim=7,
+    state_dim=6,
+    position_dim=3,
+    relation_dim=1,
+    pstep=2,
+    neighbor_radius=0.08,
+    phases_dict=dict(
+        instance_idx=[0, 64, 1024],
+        root_num=[[8], []],
+        root_sib_radius=[[0.4], []],
+        root_des_radius=[[0.08], []],
+        root_pstep=[[2], []],
+        instance=['cube', 'fluid'],
+        material=['rigid', 'fluid']))
+data = dict(
+    samples_per_gpu=2,
+    workers_per_gpu=8,
+    train=dict(
+        type='PhysicsFleXDataset',
+        phase='train',
+        env_cfg=dict(
+            gen_data=False,
+            scene_params=[0.25, 0.25, 0.25, 0.25, 0, 8, 15, 8],
+            env='BoxBath',
+            hierarchy=False,
+            num_abs_token=2,
+            eval_ratio=10000000.0,
+            dataf='./data/data_BoxBath',
+            n_rollout=3000,
+            time_step=151,
+            time_step_clip=0,
+            attn_mask=8,
+            dt=0.016666666666666666,
+            nf_relation=300,
+            nf_particle=200,
+            nf_effect=200,
+            train_valid_ratio=0.9,
+            n_instance=2,
+            n_stages=4,
+            n_his=0,
+            shape_state_dim=14,
+            attr_dim=7,
+            state_dim=6,
+            position_dim=3,
+            relation_dim=1,
+            pstep=2,
+            neighbor_radius=0.08,
+            phases_dict=dict(
+                instance_idx=[0, 64, 1024],
+                root_num=[[8], []],
+                root_sib_radius=[[0.4], []],
+                root_des_radius=[[0.08], []],
+                root_pstep=[[2], []],
+                instance=['cube', 'fluid'],
+                material=['rigid', 'fluid'])),
+        verbose=False),
+    val=dict(
+        type='PhysicsFleXDataset',
+        phase='valid',
+        env_cfg=dict(
+            gen_data=False,
+            scene_params=[0.25, 0.25, 0.25, 0.25, 0, 8, 15, 8],
+            env='BoxBath',
+            hierarchy=False,
+            num_abs_token=2,
+            eval_ratio=10000000.0,
+            dataf='./data/data_BoxBath',
+            n_rollout=3000,
+            time_step=151,
+            time_step_clip=0,
+            attn_mask=8,
+            dt=0.016666666666666666,
+            nf_relation=300,
+            nf_particle=200,
+            nf_effect=200,
+            train_valid_ratio=0.9,
+            n_instance=2,
+            n_stages=4,
+            n_his=0,
+            shape_state_dim=14,
+            attr_dim=7,
+            state_dim=6,
+            position_dim=3,
+            relation_dim=1,
+            pstep=2,
+            neighbor_radius=0.08,
+            phases_dict=dict(
+                instance_idx=[0, 64, 1024],
+                root_num=[[8], []],
+                root_sib_radius=[[0.4], []],
+                root_des_radius=[[0.08], []],
+                root_pstep=[[2], []],
+                instance=['cube', 'fluid'],
+                material=['rigid', 'fluid'])),
+        verbose=False),
+    test=dict(
+        type='PhysicsFleXDataset',
+        phase='valid',
+        env_cfg=dict(
+            gen_data=False,
+            scene_params=[0.25, 0.25, 0.25, 0.25, 0, 8, 15, 8],
+            env='BoxBath',
+            hierarchy=False,
+            num_abs_token=2,
+            eval_ratio=10000000.0,
+            dataf='./data/data_BoxBath',
+            n_rollout=3000,
+            time_step=151,
+            time_step_clip=0,
+            attn_mask=8,
+            dt=0.016666666666666666,
+            nf_relation=300,
+            nf_particle=200,
+            nf_effect=200,
+            train_valid_ratio=0.9,
+            n_instance=2,
+            n_stages=4,
+            n_his=0,
+            shape_state_dim=14,
+            attr_dim=7,
+            state_dim=6,
+            position_dim=3,
+            relation_dim=1,
+            pstep=2,
+            neighbor_radius=0.08,
+            phases_dict=dict(
+                instance_idx=[0, 64, 1024],
+                root_num=[[8], []],
+                root_sib_radius=[[0.4], []],
+                root_des_radius=[[0.08], []],
+                root_pstep=[[2], []],
+                instance=['cube', 'fluid'],
+                material=['rigid', 'fluid'])),
+        verbose=False))
+optimizer = dict(
+    type='Adam', lr=0.0008, betas=(0.9, 0.999), weight_decay=0, amsgrad=False)
+optimizer_config = dict(grad_clip=None)
+lr_config = dict(policy='Plateau', mode='min', factor=0.8, patience=3)
+runner = dict(type='EpochBasedRunner', max_epochs=5)
+checkpoint_config = dict(interval=1)
+log_config = dict(interval=100, hooks=[dict(type='TextLoggerHook')])
+dist_params = dict(backend='nccl', port='29511')
+log_level = 'INFO'
+load_from = None
+resume_from = None
+workflow = [('train', 1)]
+find_unused_parameters = True
+num_abs_token = 2
+work_dir = 'work_dirs/tga_test_boxbath/'
+gpu_ids = range(0, 1)
+
+2025-01-09 10:46:19,060 - sim - INFO - Model parameters: 960499
+2025-01-09 10:46:20,138 - sim - INFO - Start running, host: zbl@lab601-2, work_dir: /home/zbl/sim/TIE_ECCV2022/work_dirs/tga_test_boxbath
+2025-01-09 10:46:20,138 - sim - INFO - Hooks will be executed in the following order:
+before_run:
+(VERY_HIGH   ) PlateauLrUpdaterHook               
+(NORMAL      ) CheckpointHook                     
+(VERY_LOW    ) TextLoggerHook                     
+ -------------------- 
+before_train_epoch:
+(VERY_HIGH   ) PlateauLrUpdaterHook               
+(NORMAL      ) MSEAccuracy                        
+(LOW         ) IterTimerHook                      
+(VERY_LOW    ) TextLoggerHook                     
+ -------------------- 
+before_train_iter:
+(VERY_HIGH   ) PlateauLrUpdaterHook               
+(LOW         ) IterTimerHook                      
+ -------------------- 
+after_train_iter:
+(ABOVE_NORMAL) OptimizerHook                      
+(NORMAL      ) CheckpointHook                     
+(LOW         ) IterTimerHook                      
+(VERY_LOW    ) TextLoggerHook                     
+ -------------------- 
+after_train_epoch:
+(NORMAL      ) CheckpointHook                     
+(VERY_LOW    ) TextLoggerHook                     
+ -------------------- 
+before_val_epoch:
+(NORMAL      ) MSEAccuracy                        
+(LOW         ) IterTimerHook                      
+(VERY_LOW    ) TextLoggerHook                     
+ -------------------- 
+before_val_iter:
+(LOW         ) IterTimerHook                      
+ -------------------- 
+after_val_iter:
+(LOW         ) IterTimerHook                      
+ -------------------- 
+after_val_epoch:
+(VERY_LOW    ) TextLoggerHook                     
+ -------------------- 
+after_run:
+(VERY_LOW    ) TextLoggerHook                     
+ -------------------- 
+2025-01-09 10:46:20,139 - sim - INFO - workflow: [('train', 1)], max: 5 epochs
+2025-01-09 10:46:20,140 - sim - INFO - Checkpoints will be saved to /home/zbl/sim/TIE_ECCV2022/work_dirs/tga_test_boxbath by HardDiskBackend.
+2025-01-09 10:46:38,382 - sim - INFO - Epoch [1][100/202500]	lr: 8.000e-04, eta: 2 days, 3:17:29, time: 0.182, data_time: 0.032, memory: 3732, loss: 1.4662, Batch std: 0.9617, Agg std: 1.3463
+2025-01-09 10:46:53,000 - sim - INFO - Epoch [1][200/202500]	lr: 8.000e-04, eta: 1 day, 22:11:44, time: 0.146, data_time: 0.005, memory: 3732, loss: 0.8417, Batch std: 0.7677, Agg std: 0.9060
+2025-01-09 10:47:07,745 - sim - INFO - Epoch [1][300/202500]	lr: 8.000e-04, eta: 1 day, 20:36:48, time: 0.147, data_time: 0.004, memory: 3732, loss: 0.5631, Batch std: 0.6474, Agg std: 0.8275
+2025-01-09 10:47:22,926 - sim - INFO - Epoch [1][400/202500]	lr: 8.000e-04, eta: 1 day, 20:07:34, time: 0.152, data_time: 0.005, memory: 3732, loss: 0.2901, Batch std: 0.4693, Agg std: 0.7502
+2025-01-09 10:47:38,871 - sim - INFO - Epoch [1][500/202500]	lr: 8.000e-04, eta: 1 day, 20:15:41, time: 0.159, data_time: 0.008, memory: 3732, loss: 0.2044, Batch std: 0.3981, Agg std: 0.6790
+2025-01-09 10:47:54,418 - sim - INFO - Epoch [1][600/202500]	lr: 8.000e-04, eta: 1 day, 20:09:49, time: 0.155, data_time: 0.004, memory: 3732, loss: 0.1441, Batch std: 0.3315, Agg std: 0.6219
+2025-01-09 10:48:10,178 - sim - INFO - Epoch [1][700/202500]	lr: 8.000e-04, eta: 1 day, 20:10:42, time: 0.158, data_time: 0.004, memory: 3732, loss: 0.1361, Batch std: 0.3165, Agg std: 0.5751
+2025-01-09 10:48:26,210 - sim - INFO - Epoch [1][800/202500]	lr: 8.000e-04, eta: 1 day, 20:17:02, time: 0.160, data_time: 0.003, memory: 3732, loss: 0.1367, Batch std: 0.3050, Agg std: 0.5393
+2025-01-09 10:48:42,425 - sim - INFO - Epoch [1][900/202500]	lr: 8.000e-04, eta: 1 day, 20:25:20, time: 0.162, data_time: 0.005, memory: 3732, loss: 0.1314, Batch std: 0.3165, Agg std: 0.5130
+2025-01-09 10:48:59,044 - sim - INFO - Epoch [1][1000/202500]	lr: 8.000e-04, eta: 1 day, 20:38:43, time: 0.166, data_time: 0.005, memory: 3732, loss: 0.1281, Batch std: 0.2984, Agg std: 0.4908
+2025-01-09 10:49:15,453 - sim - INFO - Epoch [1][1100/202500]	lr: 8.000e-04, eta: 1 day, 20:46:24, time: 0.164, data_time: 0.003, memory: 3732, loss: 0.1101, Batch std: 0.2843, Agg std: 0.4719
+2025-01-09 10:49:32,112 - sim - INFO - Epoch [1][1200/202500]	lr: 8.000e-04, eta: 1 day, 20:56:17, time: 0.167, data_time: 0.004, memory: 3732, loss: 0.1441, Batch std: 0.3240, Agg std: 0.4581
+2025-01-09 10:49:48,562 - sim - INFO - Epoch [1][1300/202500]	lr: 8.000e-04, eta: 1 day, 21:01:52, time: 0.164, data_time: 0.003, memory: 3732, loss: 0.1574, Batch std: 0.3401, Agg std: 0.4472
+2025-01-09 10:50:05,297 - sim - INFO - Epoch [1][1400/202500]	lr: 8.000e-04, eta: 1 day, 21:10:04, time: 0.167, data_time: 0.005, memory: 3732, loss: 0.0941, Batch std: 0.2591, Agg std: 0.4363
+2025-01-09 10:50:21,998 - sim - INFO - Epoch [1][1500/202500]	lr: 8.000e-04, eta: 1 day, 21:16:45, time: 0.167, data_time: 0.004, memory: 3732, loss: 0.1234, Batch std: 0.2908, Agg std: 0.4248
+2025-01-09 10:50:38,842 - sim - INFO - Epoch [1][1600/202500]	lr: 8.000e-04, eta: 1 day, 21:24:04, time: 0.168, data_time: 0.005, memory: 3732, loss: 0.1204, Batch std: 0.3000, Agg std: 0.4166
+2025-01-09 10:50:55,509 - sim - INFO - Epoch [1][1700/202500]	lr: 8.000e-04, eta: 1 day, 21:28:44, time: 0.167, data_time: 0.004, memory: 3732, loss: 0.1165, Batch std: 0.2827, Agg std: 0.4094
+2025-01-09 10:51:13,381 - sim - INFO - Epoch [1][1800/202500]	lr: 8.000e-04, eta: 1 day, 21:44:08, time: 0.179, data_time: 0.011, memory: 3732, loss: 0.1336, Batch std: 0.3108, Agg std: 0.4028
+2025-01-09 10:51:30,523 - sim - INFO - Epoch [1][1900/202500]	lr: 8.000e-04, eta: 1 day, 21:51:24, time: 0.171, data_time: 0.006, memory: 3732, loss: 0.1157, Batch std: 0.2794, Agg std: 0.3971
+2025-01-09 10:51:47,638 - sim - INFO - Epoch [1][2000/202500]	lr: 8.000e-04, eta: 1 day, 21:57:42, time: 0.171, data_time: 0.005, memory: 3732, loss: 0.1192, Batch std: 0.2901, Agg std: 0.3913
+2025-01-09 10:52:04,648 - sim - INFO - Epoch [1][2100/202500]	lr: 8.000e-04, eta: 1 day, 22:02:31, time: 0.170, data_time: 0.004, memory: 3732, loss: 0.1029, Batch std: 0.2701, Agg std: 0.3859
+2025-01-09 10:52:21,877 - sim - INFO - Epoch [1][2200/202500]	lr: 8.000e-04, eta: 1 day, 22:08:33, time: 0.172, data_time: 0.006, memory: 3732, loss: 0.1155, Batch std: 0.2820, Agg std: 0.3804
+2025-01-09 10:52:38,648 - sim - INFO - Epoch [1][2300/202500]	lr: 8.000e-04, eta: 1 day, 22:10:41, time: 0.168, data_time: 0.004, memory: 3732, loss: 0.1266, Batch std: 0.2975, Agg std: 0.3767
+2025-01-09 10:52:53,245 - sim - INFO - Epoch [1][2400/202500]	lr: 8.000e-04, eta: 1 day, 21:57:22, time: 0.146, data_time: 0.003, memory: 3732, loss: 0.1313, Batch std: 0.3076, Agg std: 0.3734
+2025-01-09 10:53:07,607 - sim - INFO - Epoch [1][2500/202500]	lr: 8.000e-04, eta: 1 day, 21:43:30, time: 0.144, data_time: 0.003, memory: 3732, loss: 0.1252, Batch std: 0.3029, Agg std: 0.3710
+2025-01-09 10:53:22,093 - sim - INFO - Epoch [1][2600/202500]	lr: 8.000e-04, eta: 1 day, 21:31:30, time: 0.145, data_time: 0.003, memory: 3732, loss: 0.0921, Batch std: 0.2586, Agg std: 0.3670
+2025-01-09 10:53:36,620 - sim - INFO - Epoch [1][2700/202500]	lr: 8.000e-04, eta: 1 day, 21:20:37, time: 0.145, data_time: 0.003, memory: 3732, loss: 0.1285, Batch std: 0.3058, Agg std: 0.3639
+2025-01-09 10:53:51,142 - sim - INFO - Epoch [1][2800/202500]	lr: 8.000e-04, eta: 1 day, 21:10:28, time: 0.145, data_time: 0.003, memory: 3732, loss: 0.0894, Batch std: 0.2522, Agg std: 0.3611
+2025-01-09 10:54:05,722 - sim - INFO - Epoch [1][2900/202500]	lr: 8.000e-04, eta: 1 day, 21:01:21, time: 0.146, data_time: 0.003, memory: 3732, loss: 0.1332, Batch std: 0.3068, Agg std: 0.3579
+2025-01-09 10:54:20,329 - sim - INFO - Epoch [1][3000/202500]	lr: 8.000e-04, eta: 1 day, 20:52:58, time: 0.146, data_time: 0.003, memory: 3732, loss: 0.1026, Batch std: 0.2692, Agg std: 0.3557
+2025-01-09 10:54:34,977 - sim - INFO - Epoch [1][3100/202500]	lr: 8.000e-04, eta: 1 day, 20:45:19, time: 0.146, data_time: 0.003, memory: 3732, loss: 0.0795, Batch std: 0.2319, Agg std: 0.3521
+2025-01-09 10:54:49,654 - sim - INFO - Epoch [1][3200/202500]	lr: 8.000e-04, eta: 1 day, 20:38:18, time: 0.147, data_time: 0.003, memory: 3732, loss: 0.1155, Batch std: 0.2869, Agg std: 0.3493
+2025-01-09 10:55:04,331 - sim - INFO - Epoch [1][3300/202500]	lr: 8.000e-04, eta: 1 day, 20:31:41, time: 0.147, data_time: 0.003, memory: 3732, loss: 0.1005, Batch std: 0.2681, Agg std: 0.3472
+2025-01-09 10:55:18,968 - sim - INFO - Epoch [1][3400/202500]	lr: 8.000e-04, eta: 1 day, 20:25:15, time: 0.146, data_time: 0.003, memory: 3732, loss: 0.0969, Batch std: 0.2616, Agg std: 0.3445
+2025-01-09 10:55:33,602 - sim - INFO - Epoch [1][3500/202500]	lr: 8.000e-04, eta: 1 day, 20:19:09, time: 0.146, data_time: 0.003, memory: 3732, loss: 0.1190, Batch std: 0.2921, Agg std: 0.3424
+2025-01-09 10:55:48,267 - sim - INFO - Epoch [1][3600/202500]	lr: 8.000e-04, eta: 1 day, 20:13:32, time: 0.147, data_time: 0.003, memory: 3732, loss: 0.1136, Batch std: 0.2845, Agg std: 0.3409
+2025-01-09 10:56:02,960 - sim - INFO - Epoch [1][3700/202500]	lr: 8.000e-04, eta: 1 day, 20:08:19, time: 0.147, data_time: 0.003, memory: 3732, loss: 0.1177, Batch std: 0.2867, Agg std: 0.3399
+2025-01-09 10:56:17,661 - sim - INFO - Epoch [1][3800/202500]	lr: 8.000e-04, eta: 1 day, 20:03:25, time: 0.147, data_time: 0.003, memory: 3732, loss: 0.1173, Batch std: 0.2906, Agg std: 0.3384
+2025-01-09 10:56:32,345 - sim - INFO - Epoch [1][3900/202500]	lr: 8.000e-04, eta: 1 day, 19:58:40, time: 0.147, data_time: 0.003, memory: 3732, loss: 0.1198, Batch std: 0.2906, Agg std: 0.3368
+2025-01-09 10:56:47,038 - sim - INFO - Epoch [1][4000/202500]	lr: 8.000e-04, eta: 1 day, 19:54:11, time: 0.147, data_time: 0.003, memory: 3732, loss: 0.0871, Batch std: 0.2454, Agg std: 0.3351
+2025-01-09 10:57:01,766 - sim - INFO - Epoch [1][4100/202500]	lr: 8.000e-04, eta: 1 day, 19:50:03, time: 0.147, data_time: 0.003, memory: 3732, loss: 0.1152, Batch std: 0.2808, Agg std: 0.3336
+2025-01-09 10:57:16,523 - sim - INFO - Epoch [1][4200/202500]	lr: 8.000e-04, eta: 1 day, 19:46:13, time: 0.148, data_time: 0.003, memory: 3732, loss: 0.1135, Batch std: 0.2812, Agg std: 0.3322
+2025-01-09 10:57:31,276 - sim - INFO - Epoch [1][4300/202500]	lr: 8.000e-04, eta: 1 day, 19:42:32, time: 0.148, data_time: 0.003, memory: 3732, loss: 0.1110, Batch std: 0.2823, Agg std: 0.3311
+2025-01-09 10:57:46,044 - sim - INFO - Epoch [1][4400/202500]	lr: 8.000e-04, eta: 1 day, 19:39:04, time: 0.148, data_time: 0.003, memory: 3732, loss: 0.0962, Batch std: 0.2619, Agg std: 0.3297
+2025-01-09 10:58:00,819 - sim - INFO - Epoch [1][4500/202500]	lr: 8.000e-04, eta: 1 day, 19:35:47, time: 0.148, data_time: 0.003, memory: 3732, loss: 0.1149, Batch std: 0.2851, Agg std: 0.3284
+2025-01-09 10:58:15,560 - sim - INFO - Epoch [1][4600/202500]	lr: 8.000e-04, eta: 1 day, 19:32:29, time: 0.147, data_time: 0.003, memory: 3732, loss: 0.1105, Batch std: 0.2846, Agg std: 0.3273
+2025-01-09 10:58:30,321 - sim - INFO - Epoch [1][4700/202500]	lr: 8.000e-04, eta: 1 day, 19:29:24, time: 0.148, data_time: 0.003, memory: 3732, loss: 0.1033, Batch std: 0.2729, Agg std: 0.3263
+2025-01-09 10:58:45,112 - sim - INFO - Epoch [1][4800/202500]	lr: 8.000e-04, eta: 1 day, 19:26:32, time: 0.148, data_time: 0.003, memory: 3732, loss: 0.1133, Batch std: 0.2796, Agg std: 0.3254
+2025-01-09 10:58:59,901 - sim - INFO - Epoch [1][4900/202500]	lr: 8.000e-04, eta: 1 day, 19:23:46, time: 0.148, data_time: 0.003, memory: 3732, loss: 0.0821, Batch std: 0.2368, Agg std: 0.3240
+2025-01-09 10:59:14,761 - sim - INFO - Epoch [1][5000/202500]	lr: 8.000e-04, eta: 1 day, 19:21:21, time: 0.149, data_time: 0.003, memory: 3732, loss: 0.0979, Batch std: 0.2683, Agg std: 0.3224
+2025-01-09 10:59:29,679 - sim - INFO - Epoch [1][5100/202500]	lr: 8.000e-04, eta: 1 day, 19:19:12, time: 0.149, data_time: 0.005, memory: 3732, loss: 0.0906, Batch std: 0.2587, Agg std: 0.3212
+2025-01-09 10:59:44,497 - sim - INFO - Epoch [1][5200/202500]	lr: 8.000e-04, eta: 1 day, 19:16:48, time: 0.148, data_time: 0.003, memory: 3732, loss: 0.1037, Batch std: 0.2800, Agg std: 0.3203
+2025-01-09 10:59:59,323 - sim - INFO - Epoch [1][5300/202500]	lr: 8.000e-04, eta: 1 day, 19:14:30, time: 0.148, data_time: 0.003, memory: 3732, loss: 0.0776, Batch std: 0.2346, Agg std: 0.3191
+2025-01-09 11:00:14,121 - sim - INFO - Epoch [1][5400/202500]	lr: 8.000e-04, eta: 1 day, 19:12:12, time: 0.148, data_time: 0.003, memory: 3732, loss: 0.0991, Batch std: 0.2629, Agg std: 0.3179
+2025-01-09 11:00:28,961 - sim - INFO - Epoch [1][5500/202500]	lr: 8.000e-04, eta: 1 day, 19:10:06, time: 0.148, data_time: 0.003, memory: 3732, loss: 0.0944, Batch std: 0.2634, Agg std: 0.3169
+2025-01-09 11:00:43,784 - sim - INFO - Epoch [1][5600/202500]	lr: 8.000e-04, eta: 1 day, 19:08:01, time: 0.148, data_time: 0.003, memory: 3732, loss: 0.1065, Batch std: 0.2798, Agg std: 0.3161
+2025-01-09 11:00:58,613 - sim - INFO - Epoch [1][5700/202500]	lr: 8.000e-04, eta: 1 day, 19:06:01, time: 0.148, data_time: 0.003, memory: 3732, loss: 0.1022, Batch std: 0.2726, Agg std: 0.3152
+2025-01-09 11:01:13,451 - sim - INFO - Epoch [1][5800/202500]	lr: 8.000e-04, eta: 1 day, 19:04:06, time: 0.148, data_time: 0.003, memory: 3732, loss: 0.1177, Batch std: 0.2897, Agg std: 0.3146
+2025-01-09 11:01:28,210 - sim - INFO - Epoch [1][5900/202500]	lr: 8.000e-04, eta: 1 day, 19:02:01, time: 0.148, data_time: 0.003, memory: 3732, loss: 0.1002, Batch std: 0.2650, Agg std: 0.3141
+2025-01-09 11:01:43,046 - sim - INFO - Epoch [1][6000/202500]	lr: 8.000e-04, eta: 1 day, 19:00:12, time: 0.148, data_time: 0.003, memory: 3732, loss: 0.0954, Batch std: 0.2604, Agg std: 0.3132
+2025-01-09 11:01:57,817 - sim - INFO - Epoch [1][6100/202500]	lr: 8.000e-04, eta: 1 day, 18:58:16, time: 0.148, data_time: 0.003, memory: 3732, loss: 0.0969, Batch std: 0.2622, Agg std: 0.3124
+2025-01-09 11:02:12,611 - sim - INFO - Epoch [1][6200/202500]	lr: 8.000e-04, eta: 1 day, 18:56:27, time: 0.148, data_time: 0.003, memory: 3732, loss: 0.0897, Batch std: 0.2606, Agg std: 0.3115
+2025-01-09 11:02:27,343 - sim - INFO - Epoch [1][6300/202500]	lr: 8.000e-04, eta: 1 day, 18:54:31, time: 0.147, data_time: 0.003, memory: 3732, loss: 0.1037, Batch std: 0.2725, Agg std: 0.3108
+2025-01-09 11:02:42,081 - sim - INFO - Epoch [1][6400/202500]	lr: 8.000e-04, eta: 1 day, 18:52:39, time: 0.147, data_time: 0.003, memory: 3732, loss: 0.0912, Batch std: 0.2562, Agg std: 0.3101
+2025-01-09 11:02:56,840 - sim - INFO - Epoch [1][6500/202500]	lr: 8.000e-04, eta: 1 day, 18:50:53, time: 0.148, data_time: 0.003, memory: 3732, loss: 0.0955, Batch std: 0.2610, Agg std: 0.3093
+2025-01-09 11:03:11,679 - sim - INFO - Epoch [1][6600/202500]	lr: 8.000e-04, eta: 1 day, 18:49:22, time: 0.148, data_time: 0.003, memory: 3732, loss: 0.0753, Batch std: 0.2265, Agg std: 0.3084
+2025-01-09 11:03:26,522 - sim - INFO - Epoch [1][6700/202500]	lr: 8.000e-04, eta: 1 day, 18:47:55, time: 0.148, data_time: 0.003, memory: 3732, loss: 0.0815, Batch std: 0.2435, Agg std: 0.3071
+2025-01-09 11:03:41,324 - sim - INFO - Epoch [1][6800/202500]	lr: 8.000e-04, eta: 1 day, 18:46:23, time: 0.148, data_time: 0.003, memory: 3732, loss: 0.1019, Batch std: 0.2740, Agg std: 0.3065
+2025-01-09 11:03:56,068 - sim - INFO - Epoch [1][6900/202500]	lr: 8.000e-04, eta: 1 day, 18:44:45, time: 0.147, data_time: 0.003, memory: 3732, loss: 0.1030, Batch std: 0.2719, Agg std: 0.3060
+2025-01-09 11:04:10,799 - sim - INFO - Epoch [1][7000/202500]	lr: 8.000e-04, eta: 1 day, 18:43:07, time: 0.147, data_time: 0.003, memory: 3732, loss: 0.0948, Batch std: 0.2615, Agg std: 0.3054
+2025-01-09 11:04:25,582 - sim - INFO - Epoch [1][7100/202500]	lr: 8.000e-04, eta: 1 day, 18:41:40, time: 0.148, data_time: 0.003, memory: 3732, loss: 0.0780, Batch std: 0.2380, Agg std: 0.3046
+2025-01-09 11:04:40,377 - sim - INFO - Epoch [1][7200/202500]	lr: 8.000e-04, eta: 1 day, 18:40:15, time: 0.148, data_time: 0.003, memory: 3732, loss: 0.0807, Batch std: 0.2381, Agg std: 0.3037
+2025-01-09 11:04:55,193 - sim - INFO - Epoch [1][7300/202500]	lr: 8.000e-04, eta: 1 day, 18:38:56, time: 0.148, data_time: 0.003, memory: 3732, loss: 0.1077, Batch std: 0.2802, Agg std: 0.3030
+2025-01-09 11:05:10,022 - sim - INFO - Epoch [1][7400/202500]	lr: 8.000e-04, eta: 1 day, 18:37:40, time: 0.148, data_time: 0.003, memory: 3732, loss: 0.0842, Batch std: 0.2500, Agg std: 0.3025
+2025-01-09 11:05:24,877 - sim - INFO - Epoch [1][7500/202500]	lr: 8.000e-04, eta: 1 day, 18:36:30, time: 0.149, data_time: 0.003, memory: 3732, loss: 0.1030, Batch std: 0.2707, Agg std: 0.3019
+2025-01-09 11:05:39,734 - sim - INFO - Epoch [1][7600/202500]	lr: 8.000e-04, eta: 1 day, 18:35:21, time: 0.149, data_time: 0.003, memory: 3732, loss: 0.0915, Batch std: 0.2551, Agg std: 0.3015
+2025-01-09 11:05:54,700 - sim - INFO - Epoch [1][7700/202500]	lr: 8.000e-04, eta: 1 day, 18:34:27, time: 0.150, data_time: 0.004, memory: 3732, loss: 0.0990, Batch std: 0.2618, Agg std: 0.3008
+2025-01-09 11:06:09,693 - sim - INFO - Epoch [1][7800/202500]	lr: 8.000e-04, eta: 1 day, 18:33:39, time: 0.150, data_time: 0.004, memory: 3732, loss: 0.1086, Batch std: 0.2816, Agg std: 0.3006
+2025-01-09 11:06:24,609 - sim - INFO - Epoch [1][7900/202500]	lr: 8.000e-04, eta: 1 day, 18:32:41, time: 0.149, data_time: 0.003, memory: 3732, loss: 0.0887, Batch std: 0.2532, Agg std: 0.3000
+2025-01-09 11:06:39,469 - sim - INFO - Epoch [1][8000/202500]	lr: 8.000e-04, eta: 1 day, 18:31:37, time: 0.149, data_time: 0.003, memory: 3732, loss: 0.0956, Batch std: 0.2554, Agg std: 0.2994
+2025-01-09 11:06:54,331 - sim - INFO - Epoch [1][8100/202500]	lr: 8.000e-04, eta: 1 day, 18:30:35, time: 0.149, data_time: 0.003, memory: 3732, loss: 0.0915, Batch std: 0.2601, Agg std: 0.2991
+2025-01-09 11:07:09,188 - sim - INFO - Epoch [1][8200/202500]	lr: 8.000e-04, eta: 1 day, 18:29:33, time: 0.149, data_time: 0.003, memory: 3732, loss: 0.1065, Batch std: 0.2768, Agg std: 0.2987
+2025-01-09 11:07:24,126 - sim - INFO - Epoch [1][8300/202500]	lr: 8.000e-04, eta: 1 day, 18:28:42, time: 0.149, data_time: 0.003, memory: 3732, loss: 0.1337, Batch std: 0.3190, Agg std: 0.2985
+2025-01-09 11:07:39,025 - sim - INFO - Epoch [1][8400/202500]	lr: 8.000e-04, eta: 1 day, 18:27:47, time: 0.149, data_time: 0.003, memory: 3732, loss: 0.1081, Batch std: 0.2763, Agg std: 0.2986
+2025-01-09 11:07:53,919 - sim - INFO - Epoch [1][8500/202500]	lr: 8.000e-04, eta: 1 day, 18:26:53, time: 0.149, data_time: 0.003, memory: 3732, loss: 0.1141, Batch std: 0.2853, Agg std: 0.2984
+2025-01-09 11:08:08,786 - sim - INFO - Epoch [1][8600/202500]	lr: 8.000e-04, eta: 1 day, 18:25:57, time: 0.149, data_time: 0.003, memory: 3732, loss: 0.0914, Batch std: 0.2537, Agg std: 0.2981
+2025-01-09 11:08:23,676 - sim - INFO - Epoch [1][8700/202500]	lr: 8.000e-04, eta: 1 day, 18:25:04, time: 0.149, data_time: 0.003, memory: 3732, loss: 0.0891, Batch std: 0.2522, Agg std: 0.2975
+2025-01-09 11:08:38,633 - sim - INFO - Epoch [1][8800/202500]	lr: 8.000e-04, eta: 1 day, 18:24:19, time: 0.150, data_time: 0.003, memory: 3732, loss: 0.0792, Batch std: 0.2419, Agg std: 0.2970
+2025-01-09 11:08:53,573 - sim - INFO - Epoch [1][8900/202500]	lr: 8.000e-04, eta: 1 day, 18:23:34, time: 0.149, data_time: 0.003, memory: 3732, loss: 0.0826, Batch std: 0.2468, Agg std: 0.2964
+2025-01-09 11:09:08,505 - sim - INFO - Epoch [1][9000/202500]	lr: 8.000e-04, eta: 1 day, 18:22:48, time: 0.149, data_time: 0.003, memory: 3732, loss: 0.0842, Batch std: 0.2466, Agg std: 0.2957
+2025-01-09 11:09:23,451 - sim - INFO - Epoch [1][9100/202500]	lr: 8.000e-04, eta: 1 day, 18:22:04, time: 0.149, data_time: 0.003, memory: 3732, loss: 0.1000, Batch std: 0.2676, Agg std: 0.2954
+2025-01-09 11:09:38,418 - sim - INFO - Epoch [1][9200/202500]	lr: 8.000e-04, eta: 1 day, 18:21:23, time: 0.150, data_time: 0.003, memory: 3732, loss: 0.0809, Batch std: 0.2408, Agg std: 0.2949
+2025-01-09 11:09:53,368 - sim - INFO - Epoch [1][9300/202500]	lr: 8.000e-04, eta: 1 day, 18:20:41, time: 0.149, data_time: 0.004, memory: 3732, loss: 0.0765, Batch std: 0.2342, Agg std: 0.2943
+2025-01-09 11:10:08,297 - sim - INFO - Epoch [1][9400/202500]	lr: 8.000e-04, eta: 1 day, 18:19:57, time: 0.149, data_time: 0.003, memory: 3732, loss: 0.0826, Batch std: 0.2452, Agg std: 0.2937
+2025-01-09 11:10:23,160 - sim - INFO - Epoch [1][9500/202500]	lr: 8.000e-04, eta: 1 day, 18:19:08, time: 0.149, data_time: 0.003, memory: 3732, loss: 0.0848, Batch std: 0.2522, Agg std: 0.2932
+2025-01-09 11:10:38,085 - sim - INFO - Epoch [1][9600/202500]	lr: 8.000e-04, eta: 1 day, 18:18:25, time: 0.149, data_time: 0.003, memory: 3732, loss: 0.0789, Batch std: 0.2389, Agg std: 0.2928
+2025-01-09 11:10:52,993 - sim - INFO - Epoch [1][9700/202500]	lr: 8.000e-04, eta: 1 day, 18:17:41, time: 0.149, data_time: 0.003, memory: 3732, loss: 0.0944, Batch std: 0.2614, Agg std: 0.2924
+2025-01-09 11:11:07,958 - sim - INFO - Epoch [1][9800/202500]	lr: 8.000e-04, eta: 1 day, 18:17:03, time: 0.150, data_time: 0.003, memory: 3732, loss: 0.0688, Batch std: 0.2198, Agg std: 0.2918
+2025-01-09 11:11:22,868 - sim - INFO - Epoch [1][9900/202500]	lr: 8.000e-04, eta: 1 day, 18:16:20, time: 0.149, data_time: 0.003, memory: 3732, loss: 0.0894, Batch std: 0.2520, Agg std: 0.2912
+2025-01-09 11:11:37,804 - sim - INFO - Epoch [1][10000/202500]	lr: 8.000e-04, eta: 1 day, 18:15:41, time: 0.149, data_time: 0.003, memory: 3732, loss: 0.0910, Batch std: 0.2572, Agg std: 0.2909
+2025-01-09 11:11:52,735 - sim - INFO - Epoch [1][10100/202500]	lr: 8.000e-04, eta: 1 day, 18:15:01, time: 0.149, data_time: 0.003, memory: 3732, loss: 0.0757, Batch std: 0.2330, Agg std: 0.2904
+2025-01-09 11:12:07,657 - sim - INFO - Epoch [1][10200/202500]	lr: 8.000e-04, eta: 1 day, 18:14:21, time: 0.149, data_time: 0.003, memory: 3732, loss: 0.0758, Batch std: 0.2321, Agg std: 0.2898
+2025-01-09 11:12:22,570 - sim - INFO - Epoch [1][10300/202500]	lr: 8.000e-04, eta: 1 day, 18:13:41, time: 0.149, data_time: 0.003, memory: 3732, loss: 0.1473, Batch std: 0.3284, Agg std: 0.2898
+2025-01-09 11:12:37,503 - sim - INFO - Epoch [1][10400/202500]	lr: 8.000e-04, eta: 1 day, 18:13:03, time: 0.149, data_time: 0.003, memory: 3732, loss: 0.0943, Batch std: 0.2628, Agg std: 0.2897
+2025-01-09 11:12:52,469 - sim - INFO - Epoch [1][10500/202500]	lr: 8.000e-04, eta: 1 day, 18:12:29, time: 0.150, data_time: 0.003, memory: 3732, loss: 0.0888, Batch std: 0.2503, Agg std: 0.2894
+2025-01-09 11:13:07,305 - sim - INFO - Epoch [1][10600/202500]	lr: 8.000e-04, eta: 1 day, 18:11:42, time: 0.148, data_time: 0.003, memory: 3732, loss: 0.0774, Batch std: 0.2393, Agg std: 0.2890
+2025-01-09 11:13:22,184 - sim - INFO - Epoch [1][10700/202500]	lr: 8.000e-04, eta: 1 day, 18:11:01, time: 0.149, data_time: 0.003, memory: 3732, loss: 0.0868, Batch std: 0.2472, Agg std: 0.2885
+2025-01-09 11:13:37,094 - sim - INFO - Epoch [1][10800/202500]	lr: 8.000e-04, eta: 1 day, 18:10:23, time: 0.149, data_time: 0.003, memory: 3732, loss: 0.0894, Batch std: 0.2561, Agg std: 0.2883
+2025-01-09 11:13:52,028 - sim - INFO - Epoch [1][10900/202500]	lr: 8.000e-04, eta: 1 day, 18:09:47, time: 0.149, data_time: 0.003, memory: 3732, loss: 0.0699, Batch std: 0.2278, Agg std: 0.2879
+2025-01-09 11:14:06,940 - sim - INFO - Epoch [1][11000/202500]	lr: 8.000e-04, eta: 1 day, 18:09:10, time: 0.149, data_time: 0.003, memory: 3732, loss: 0.0714, Batch std: 0.2281, Agg std: 0.2873
+2025-01-09 11:14:21,905 - sim - INFO - Epoch [1][11100/202500]	lr: 8.000e-04, eta: 1 day, 18:08:38, time: 0.150, data_time: 0.003, memory: 3732, loss: 0.0824, Batch std: 0.2479, Agg std: 0.2869
+2025-01-09 11:14:36,847 - sim - INFO - Epoch [1][11200/202500]	lr: 8.000e-04, eta: 1 day, 18:08:04, time: 0.149, data_time: 0.004, memory: 3732, loss: 0.0857, Batch std: 0.2491, Agg std: 0.2865
+2025-01-09 11:14:51,777 - sim - INFO - Epoch [1][11300/202500]	lr: 8.000e-04, eta: 1 day, 18:07:29, time: 0.149, data_time: 0.004, memory: 3732, loss: 0.0771, Batch std: 0.2362, Agg std: 0.2861
+2025-01-09 11:15:06,774 - sim - INFO - Epoch [1][11400/202500]	lr: 8.000e-04, eta: 1 day, 18:07:01, time: 0.150, data_time: 0.004, memory: 3732, loss: 0.0700, Batch std: 0.2287, Agg std: 0.2857
+2025-01-09 11:15:21,737 - sim - INFO - Epoch [1][11500/202500]	lr: 8.000e-04, eta: 1 day, 18:06:30, time: 0.150, data_time: 0.003, memory: 3732, loss: 0.0947, Batch std: 0.2612, Agg std: 0.2853
+2025-01-09 11:15:36,689 - sim - INFO - Epoch [1][11600/202500]	lr: 8.000e-04, eta: 1 day, 18:05:58, time: 0.150, data_time: 0.003, memory: 3732, loss: 0.0784, Batch std: 0.2338, Agg std: 0.2850
+2025-01-09 11:15:51,589 - sim - INFO - Epoch [1][11700/202500]	lr: 8.000e-04, eta: 1 day, 18:05:22, time: 0.149, data_time: 0.003, memory: 3732, loss: 0.0727, Batch std: 0.2269, Agg std: 0.2845
+2025-01-09 11:16:06,429 - sim - INFO - Epoch [1][11800/202500]	lr: 8.000e-04, eta: 1 day, 18:04:42, time: 0.148, data_time: 0.003, memory: 3732, loss: 0.0695, Batch std: 0.2259, Agg std: 0.2840
+2025-01-09 11:16:21,324 - sim - INFO - Epoch [1][11900/202500]	lr: 8.000e-04, eta: 1 day, 18:04:06, time: 0.149, data_time: 0.003, memory: 3732, loss: 0.0824, Batch std: 0.2481, Agg std: 0.2836
+2025-01-09 11:16:36,222 - sim - INFO - Epoch [1][12000/202500]	lr: 8.000e-04, eta: 1 day, 18:03:31, time: 0.149, data_time: 0.003, memory: 3732, loss: 0.0839, Batch std: 0.2453, Agg std: 0.2833
+2025-01-09 11:16:51,065 - sim - INFO - Epoch [1][12100/202500]	lr: 8.000e-04, eta: 1 day, 18:02:52, time: 0.148, data_time: 0.003, memory: 3732, loss: 0.0809, Batch std: 0.2426, Agg std: 0.2829
+2025-01-09 11:17:05,956 - sim - INFO - Epoch [1][12200/202500]	lr: 8.000e-04, eta: 1 day, 18:02:17, time: 0.149, data_time: 0.003, memory: 3732, loss: 0.0732, Batch std: 0.2314, Agg std: 0.2826
+2025-01-09 11:17:20,803 - sim - INFO - Epoch [1][12300/202500]	lr: 8.000e-04, eta: 1 day, 18:01:39, time: 0.148, data_time: 0.003, memory: 3732, loss: 0.0689, Batch std: 0.2244, Agg std: 0.2821
+2025-01-09 11:17:35,679 - sim - INFO - Epoch [1][12400/202500]	lr: 8.000e-04, eta: 1 day, 18:01:03, time: 0.149, data_time: 0.003, memory: 3732, loss: 0.0890, Batch std: 0.2526, Agg std: 0.2818
+2025-01-09 11:17:50,521 - sim - INFO - Epoch [1][12500/202500]	lr: 8.000e-04, eta: 1 day, 18:00:26, time: 0.148, data_time: 0.003, memory: 3732, loss: 0.0899, Batch std: 0.2544, Agg std: 0.2815
+2025-01-09 11:18:05,393 - sim - INFO - Epoch [1][12600/202500]	lr: 8.000e-04, eta: 1 day, 17:59:51, time: 0.149, data_time: 0.003, memory: 3732, loss: 0.0915, Batch std: 0.2501, Agg std: 0.2814
+2025-01-09 11:18:20,301 - sim - INFO - Epoch [1][12700/202500]	lr: 8.000e-04, eta: 1 day, 17:59:19, time: 0.149, data_time: 0.003, memory: 3732, loss: 0.0793, Batch std: 0.2356, Agg std: 0.2810
+2025-01-09 11:18:35,206 - sim - INFO - Epoch [1][12800/202500]	lr: 8.000e-04, eta: 1 day, 17:58:47, time: 0.149, data_time: 0.004, memory: 3732, loss: 0.0879, Batch std: 0.2516, Agg std: 0.2807
+2025-01-09 11:18:50,119 - sim - INFO - Epoch [1][12900/202500]	lr: 8.000e-04, eta: 1 day, 17:58:16, time: 0.149, data_time: 0.003, memory: 3732, loss: 0.0876, Batch std: 0.2470, Agg std: 0.2805
+2025-01-09 11:19:04,982 - sim - INFO - Epoch [1][13000/202500]	lr: 8.000e-04, eta: 1 day, 17:57:41, time: 0.149, data_time: 0.003, memory: 3732, loss: 0.0809, Batch std: 0.2411, Agg std: 0.2802
+2025-01-09 11:19:19,998 - sim - INFO - Epoch [1][13100/202500]	lr: 8.000e-04, eta: 1 day, 17:57:19, time: 0.150, data_time: 0.005, memory: 3732, loss: 0.0791, Batch std: 0.2327, Agg std: 0.2799
+2025-01-09 11:19:34,884 - sim - INFO - Epoch [1][13200/202500]	lr: 8.000e-04, eta: 1 day, 17:56:46, time: 0.149, data_time: 0.003, memory: 3732, loss: 0.0767, Batch std: 0.2354, Agg std: 0.2795
+2025-01-09 11:19:49,748 - sim - INFO - Epoch [1][13300/202500]	lr: 8.000e-04, eta: 1 day, 17:56:13, time: 0.149, data_time: 0.003, memory: 3732, loss: 0.0717, Batch std: 0.2234, Agg std: 0.2791
+2025-01-09 11:20:04,606 - sim - INFO - Epoch [1][13400/202500]	lr: 8.000e-04, eta: 1 day, 17:55:39, time: 0.149, data_time: 0.003, memory: 3732, loss: 0.0838, Batch std: 0.2426, Agg std: 0.2788
+2025-01-09 11:20:19,506 - sim - INFO - Epoch [1][13500/202500]	lr: 8.000e-04, eta: 1 day, 17:55:08, time: 0.149, data_time: 0.003, memory: 3732, loss: 0.0729, Batch std: 0.2276, Agg std: 0.2785
+2025-01-09 11:20:34,361 - sim - INFO - Epoch [1][13600/202500]	lr: 8.000e-04, eta: 1 day, 17:54:35, time: 0.149, data_time: 0.003, memory: 3732, loss: 0.0705, Batch std: 0.2183, Agg std: 0.2781
+2025-01-09 11:20:49,232 - sim - INFO - Epoch [1][13700/202500]	lr: 8.000e-04, eta: 1 day, 17:54:03, time: 0.149, data_time: 0.003, memory: 3732, loss: 0.0603, Batch std: 0.2081, Agg std: 0.2776
+2025-01-09 11:21:04,081 - sim - INFO - Epoch [1][13800/202500]	lr: 8.000e-04, eta: 1 day, 17:53:29, time: 0.148, data_time: 0.003, memory: 3732, loss: 0.0639, Batch std: 0.2149, Agg std: 0.2771
+2025-01-09 11:21:18,867 - sim - INFO - Epoch [1][13900/202500]	lr: 8.000e-04, eta: 1 day, 17:52:51, time: 0.148, data_time: 0.003, memory: 3732, loss: 0.0803, Batch std: 0.2383, Agg std: 0.2767
+2025-01-09 11:21:33,749 - sim - INFO - Epoch [1][14000/202500]	lr: 8.000e-04, eta: 1 day, 17:52:21, time: 0.149, data_time: 0.003, memory: 3732, loss: 0.0829, Batch std: 0.2428, Agg std: 0.2765
+2025-01-09 11:21:48,569 - sim - INFO - Epoch [1][14100/202500]	lr: 8.000e-04, eta: 1 day, 17:51:46, time: 0.148, data_time: 0.003, memory: 3732, loss: 0.0736, Batch std: 0.2305, Agg std: 0.2762
+2025-01-09 11:22:03,436 - sim - INFO - Epoch [1][14200/202500]	lr: 8.000e-04, eta: 1 day, 17:51:15, time: 0.149, data_time: 0.003, memory: 3732, loss: 0.0709, Batch std: 0.2246, Agg std: 0.2759
+2025-01-09 11:22:18,317 - sim - INFO - Epoch [1][14300/202500]	lr: 8.000e-04, eta: 1 day, 17:50:45, time: 0.149, data_time: 0.003, memory: 3732, loss: 0.0884, Batch std: 0.2548, Agg std: 0.2756
+2025-01-09 11:22:33,100 - sim - INFO - Epoch [1][14400/202500]	lr: 8.000e-04, eta: 1 day, 17:50:08, time: 0.148, data_time: 0.003, memory: 3732, loss: 0.0748, Batch std: 0.2348, Agg std: 0.2754
+2025-01-09 11:22:47,954 - sim - INFO - Epoch [1][14500/202500]	lr: 8.000e-04, eta: 1 day, 17:49:37, time: 0.149, data_time: 0.003, memory: 3732, loss: 0.0650, Batch std: 0.2163, Agg std: 0.2750
+2025-01-09 11:23:02,781 - sim - INFO - Epoch [1][14600/202500]	lr: 8.000e-04, eta: 1 day, 17:49:04, time: 0.148, data_time: 0.003, memory: 3732, loss: 0.0667, Batch std: 0.2171, Agg std: 0.2746
+2025-01-09 11:23:17,596 - sim - INFO - Epoch [1][14700/202500]	lr: 8.000e-04, eta: 1 day, 17:48:31, time: 0.148, data_time: 0.003, memory: 3732, loss: 0.0810, Batch std: 0.2483, Agg std: 0.2744
+2025-01-09 11:23:32,450 - sim - INFO - Epoch [1][14800/202500]	lr: 8.000e-04, eta: 1 day, 17:48:00, time: 0.149, data_time: 0.003, memory: 3732, loss: 0.0696, Batch std: 0.2295, Agg std: 0.2741
+2025-01-09 11:23:47,298 - sim - INFO - Epoch [1][14900/202500]	lr: 8.000e-04, eta: 1 day, 17:47:29, time: 0.148, data_time: 0.003, memory: 3732, loss: 0.0752, Batch std: 0.2344, Agg std: 0.2739
+2025-01-09 11:24:02,140 - sim - INFO - Epoch [1][15000/202500]	lr: 8.000e-04, eta: 1 day, 17:46:58, time: 0.148, data_time: 0.003, memory: 3732, loss: 0.0781, Batch std: 0.2397, Agg std: 0.2736
+2025-01-09 11:24:17,001 - sim - INFO - Epoch [1][15100/202500]	lr: 8.000e-04, eta: 1 day, 17:46:29, time: 0.149, data_time: 0.003, memory: 3732, loss: 0.0695, Batch std: 0.2267, Agg std: 0.2733
+2025-01-09 11:24:31,840 - sim - INFO - Epoch [1][15200/202500]	lr: 8.000e-04, eta: 1 day, 17:45:58, time: 0.148, data_time: 0.003, memory: 3732, loss: 0.0735, Batch std: 0.2308, Agg std: 0.2730
+2025-01-09 11:24:46,722 - sim - INFO - Epoch [1][15300/202500]	lr: 8.000e-04, eta: 1 day, 17:45:30, time: 0.149, data_time: 0.003, memory: 3732, loss: 0.0756, Batch std: 0.2296, Agg std: 0.2727
+2025-01-09 11:25:01,587 - sim - INFO - Epoch [1][15400/202500]	lr: 8.000e-04, eta: 1 day, 17:45:01, time: 0.149, data_time: 0.003, memory: 3732, loss: 0.0690, Batch std: 0.2143, Agg std: 0.2724
+2025-01-09 11:25:16,442 - sim - INFO - Epoch [1][15500/202500]	lr: 8.000e-04, eta: 1 day, 17:44:32, time: 0.149, data_time: 0.003, memory: 3732, loss: 0.0699, Batch std: 0.2257, Agg std: 0.2721
+2025-01-09 11:25:31,294 - sim - INFO - Epoch [1][15600/202500]	lr: 8.000e-04, eta: 1 day, 17:44:03, time: 0.149, data_time: 0.003, memory: 3732, loss: 0.0685, Batch std: 0.2251, Agg std: 0.2718
+2025-01-09 11:25:46,161 - sim - INFO - Epoch [1][15700/202500]	lr: 8.000e-04, eta: 1 day, 17:43:35, time: 0.149, data_time: 0.003, memory: 3732, loss: 0.0710, Batch std: 0.2223, Agg std: 0.2715
+2025-01-09 11:26:01,081 - sim - INFO - Epoch [1][15800/202500]	lr: 8.000e-04, eta: 1 day, 17:43:10, time: 0.149, data_time: 0.003, memory: 3732, loss: 0.0780, Batch std: 0.2315, Agg std: 0.2712
+2025-01-09 11:26:16,032 - sim - INFO - Epoch [1][15900/202500]	lr: 8.000e-04, eta: 1 day, 17:42:48, time: 0.149, data_time: 0.003, memory: 3732, loss: 0.0885, Batch std: 0.2480, Agg std: 0.2710
+2025-01-09 11:26:30,986 - sim - INFO - Epoch [1][16000/202500]	lr: 8.000e-04, eta: 1 day, 17:42:26, time: 0.150, data_time: 0.003, memory: 3732, loss: 0.0673, Batch std: 0.2215, Agg std: 0.2708
+2025-01-09 11:26:46,000 - sim - INFO - Epoch [1][16100/202500]	lr: 8.000e-04, eta: 1 day, 17:42:07, time: 0.150, data_time: 0.003, memory: 3732, loss: 0.0654, Batch std: 0.2179, Agg std: 0.2704
+2025-01-09 11:27:01,062 - sim - INFO - Epoch [1][16200/202500]	lr: 8.000e-04, eta: 1 day, 17:41:52, time: 0.151, data_time: 0.003, memory: 3732, loss: 0.0775, Batch std: 0.2394, Agg std: 0.2702

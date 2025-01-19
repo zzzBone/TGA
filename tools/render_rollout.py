@@ -18,7 +18,7 @@ def parse_args():
 
     parser.add_argument('--val_rollout', type=int, default=-1, help='The number of rollout to render')
     parser.add_argument('--tar_rollout', type=int, default=-1, help='Target index of the rollout to render')
-    parser.add_argument('--show_only', action='store_true', help='If true, this will not save the rendered image and only display on screen only')
+    parser.add_argument('--show_only', action='store_true', default=True, help='If true, this will not save the rendered image and only display on screen only')
 
     args = parser.parse_args()
     return args

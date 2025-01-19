@@ -1,0 +1,4 @@
+2024-11-28 13:24:13,575 - sim - INFO - Namespace(checkpoint='work_dirs/tga_boxbath/latest.pth', config='configs/tga/tga_boxbath.py', debug=0, device='cuda:0', tar_rollout=-1, val_rollout=-1, work_dir='predict/tga_boxbath/')
+2024-11-28 13:24:13,644 - sim - INFO - Number of parameters: 1188582
+2024-11-28 13:24:13,645 - sim - INFO - Loading network from work_dirs/tga_boxbath/latest.pth
+2024-11-28 13:24:14,346 - sim - INFO - Rollout 0 / 300

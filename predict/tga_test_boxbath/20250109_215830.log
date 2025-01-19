@@ -1,0 +1,20 @@
+2025-01-09 21:58:30,241 - sim - INFO - Namespace(checkpoint='work_dirs/tga_test_boxbath/epoch_1.pth', config='configs/tga/tga_abs_fluidfall.py', debug=0, device='cuda:0', tar_rollout=-1, val_rollout=-1, work_dir='predict/tga_test_boxbath')
+2025-01-09 21:58:30,299 - sim - INFO - Number of parameters: 879422
+2025-01-09 21:58:30,299 - sim - INFO - Loading network from work_dirs/tga_test_boxbath/epoch_1.pth
+2025-01-09 21:58:31,726 - sim - INFO - Rollout 0 / 300
+2025-01-09 21:58:34,703 - sim - INFO - Step 10 / 120: time per frame 0.223220
+2025-01-09 21:58:34,925 - sim - INFO - Step 20 / 120: time per frame 0.113719
+2025-01-09 21:58:35,199 - sim - INFO - Step 30 / 120: time per frame 0.081035
+2025-01-09 21:58:35,450 - sim - INFO - Step 40 / 120: time per frame 0.064008
+2025-01-09 21:58:35,677 - sim - INFO - Step 50 / 120: time per frame 0.053867
+2025-01-09 21:58:35,905 - sim - INFO - Step 60 / 120: time per frame 0.047538
+2025-01-09 21:58:36,133 - sim - INFO - Step 70 / 120: time per frame 0.042808
+2025-01-09 21:58:36,352 - sim - INFO - Step 80 / 120: time per frame 0.039251
+2025-01-09 21:58:36,579 - sim - INFO - Step 90 / 120: time per frame 0.036457
+2025-01-09 21:58:36,817 - sim - INFO - Step 100 / 120: time per frame 0.034320
+2025-01-09 21:58:37,027 - sim - INFO - Step 110 / 120: time per frame 0.032489
+2025-01-09 21:58:37,239 - sim - INFO - MSE: 0.020094025465697406
+2025-01-09 21:58:37,239 - sim - INFO - Materials MSE: 0.020200343060754012
+2025-01-09 21:58:37,239 - sim - INFO - Time per frame: 0.03111825555057849
+2025-01-09 21:58:37,241 - sim - INFO - Rollout 1 / 300
+2025-01-09 21:58:38,291 - sim - INFO - Step 10 / 120: time per frame 0.014528

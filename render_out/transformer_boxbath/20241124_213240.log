@@ -1,0 +1,2 @@
+2024-11-24 21:32:40,952 - sim - INFO - Namespace(config='configs/transformer/transformer_boxbath.py', save_dir='render_out/transformer_boxbath/', show_only=False, src_dir='predict/transformer_boxbath/', tar_rollout=-1, val_rollout=-1)
+2024-11-24 21:32:40,952 - sim - INFO - Loading rollouts from predict/transformer_boxbath/

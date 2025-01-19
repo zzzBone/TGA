@@ -1,0 +1,15 @@
+2025-01-07 11:15:54,377 - sim - INFO - Namespace(checkpoint='work_dirs/tga_test_fluidfall/epoch_12.pth', config='configs/tga/tga_abs_fluidfall.py', debug=0, device='cuda:0', tar_rollout=-1, val_rollout=-1, work_dir='predict/tga_test_fluidfall')
+2025-01-07 11:15:54,423 - sim - INFO - Number of parameters: 878933
+2025-01-07 11:15:54,423 - sim - INFO - Loading network from work_dirs/tga_test_fluidfall/epoch_12.pth
+2025-01-07 11:15:55,055 - sim - INFO - Rollout 0 / 300
+2025-01-07 11:15:55,984 - sim - INFO - Step 10 / 120: time per frame 0.037573
+2025-01-07 11:15:56,055 - sim - INFO - Step 20 / 120: time per frame 0.019511
+2025-01-07 11:15:56,126 - sim - INFO - Step 30 / 120: time per frame 0.013904
+2025-01-07 11:15:56,198 - sim - INFO - Step 40 / 120: time per frame 0.011180
+2025-01-07 11:15:56,270 - sim - INFO - Step 50 / 120: time per frame 0.009564
+2025-01-07 11:15:56,351 - sim - INFO - Step 60 / 120: time per frame 0.008539
+2025-01-07 11:15:56,433 - sim - INFO - Step 70 / 120: time per frame 0.007802
+2025-01-07 11:15:56,507 - sim - INFO - Step 80 / 120: time per frame 0.007242
+2025-01-07 11:15:56,580 - sim - INFO - Step 90 / 120: time per frame 0.006796
+2025-01-07 11:15:56,654 - sim - INFO - Step 100 / 120: time per frame 0.006440
+2025-01-07 11:15:56,727 - sim - INFO - Step 110 / 120: time per frame 0.006150
