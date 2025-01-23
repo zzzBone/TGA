@@ -10,7 +10,7 @@ from sim.models.utils.feedforward_networks import FFN
 import torch
 import torch.nn.functional as F
 
-from torch_geometric.nn import GATConv, EGConv
+from torch_geometric.nn import GATv2Conv, EGConv, SuperGATConv, GraphSAGE
 from torch_geometric.data import Data, Batch
 
 import numpy as np
@@ -154,9 +154,11 @@ class TGAGraphAttention(nn.Module):
         self.residual = residual
 
         # 第一层 GAT
-        self.gat1 = EGConv(in_channels, out_channels, num_heads=num_heads)
-        # # 第二层 GAT
-        # self.gat2 = EGConv(hidden_channels, out_channels, num_heads=1)
+        self.gat1 = GATv2Conv(in_channels, out_channels)
+        # self.sage1 = GraphSAGE(in_channels, out_channels, num_layers=1)
+        # 第二层 GAT
+        # self.gat2 = GATConv(hidden_channels, out_channels)
+        # self.sage2 = GraphSAGE(hidden_channels, out_channels, num_layers=1)
 
     def forward(self, batch):
         """
@@ -164,7 +166,6 @@ class TGAGraphAttention(nn.Module):
         edge_index: [batch_size, 2, num_edge]
         """
 
-        # 第一层 GAT
         return self.gat1(batch.x, batch.edge_index)
 
 
@@ -329,12 +330,10 @@ class TGA(BaseBackbone):
             x_out = self.decoder[i](batch)
             x_out = x_out.view(batch_size, num_nodes, -1)
 
-            x_out = x + x_out
-
         x_out = self.back(x_out)
         x_out = self.ln2(x_out)
         x_out = F.relu(x_out)
-        return x_out
+        return x_out + x
 
     def train(self, mode=True):
         super(TGA, self).train(mode)
