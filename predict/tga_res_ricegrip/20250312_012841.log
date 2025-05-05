@@ -1,0 +1,4 @@
+2025-03-12 01:28:41,587 - sim - INFO - Namespace(checkpoint='work_dirs/tga_res_ricegrip/epoch_15.pth', config='configs/tga/tga_abs_ricegrip.py', debug=0, device='cuda:0', tar_rollout=-1, val_rollout=-1, work_dir='predict/tga_res_ricegrip')
+2025-03-12 01:28:41,846 - sim - INFO - Number of parameters: 912993
+2025-03-12 01:28:41,847 - sim - INFO - Loading network from work_dirs/tga_res_ricegrip/epoch_15.pth
+2025-03-12 01:28:42,806 - sim - INFO - Rollout 0 / 500

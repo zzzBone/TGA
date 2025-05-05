@@ -776,6 +776,7 @@ def prepare_input(
                 visualize_neighbors(positions, positions, 0, nodes)
                 print(np.sort(dis)[:10])
 
+            # torch.save(positions, "/home/zbl/sim/TIE_ECCV2022/view_data/positions_ricegrip.pt")
             gripper = np.ones(nodes.shape[0], dtype=int) * (n_particles + i)
             rels += [np.stack([nodes, gripper, np.ones(nodes.shape[0])], axis=1)]
 
@@ -824,6 +825,7 @@ def prepare_input(
                 visualize_neighbors(positions, positions, 0, nodes)
                 print(np.sort(dis)[:10])
 
+            # torch.save(positions, "/home/zbl/sim/TIE_ECCV2022/view_data/positions_fluidshake.pt")
             # Set relation with thresh
             wall = np.ones(nodes.shape[0], dtype=int) * (n_particles + i)
             # add relations: [particle_reciever_idx, wall_sender_idx, relation_type]
@@ -881,7 +883,7 @@ def prepare_input(
             if verbose:
                 visualize_neighbors(positions, positions, 0, nodes)
                 print(np.sort(dis)[:10])
-
+            # torch.save(positions, "/home/zbl/sim/TIE_ECCV2022/view_data/positions.pt")
             # Set relation with thresh
             wall = np.ones(nodes.shape[0], dtype=int) * (n_particles + i)
             # add relations: [particle_reciever_idx, wall_sender_idx, relation_type]
@@ -919,6 +921,7 @@ def prepare_input(
                 visualize_neighbors(positions, positions, 0, nodes)
                 print(np.sort(dis)[:10])
 
+            # torch.save(positions, "/home/zbl/sim/TIE_ECCV2022/view_data/positions_fluidfall.pt")
             # Set relation with thresh
             wall = np.ones(nodes.shape[0], dtype=int) * (n_particles + i)
             # add relations: [particle_reciever_idx, wall_sender_idx, relation_type]
@@ -1222,7 +1225,7 @@ def preprocess_transformer(
     obj_r_idx = obj_r_idx[0]
     obj_s_idx = obj_s_idx[0]
     assert len(obj_r_idx) == len(obj_s_idx)
-    assert set(range(n_particles)) == set(obj_r_idx.numpy().tolist())
+    # assert set(range(n_particles)) == set(obj_r_idx.numpy().tolist())
     # Mask for abs_token
     # if env_cfg.num_abs_token > 0:
     #     for materials_idx, material in enumerate(phases_dict['material']):

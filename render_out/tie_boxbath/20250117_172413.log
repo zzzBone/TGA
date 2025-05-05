@@ -1,2 +1,0 @@
-2025-01-17 17:24:13,162 - sim - INFO - Namespace(config='configs/tie/tie_boxbath.py', save_dir='render_out/tie_boxbath/', show_only=False, src_dir='predict/tie_boxbath/', tar_rollout=-1, val_rollout=-1)
-2025-01-17 17:24:13,162 - sim - INFO - Loading rollouts from predict/tie_boxbath/

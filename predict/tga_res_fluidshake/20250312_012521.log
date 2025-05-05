@@ -1,0 +1,4 @@
+2025-03-12 01:25:21,618 - sim - INFO - Namespace(checkpoint='work_dirs/tga_res_fluidshake/epoch_5.pth', config='configs/tga/tga_abs_fluidshake.py', debug=0, device='cuda:0', tar_rollout=-1, val_rollout=-1, work_dir='predict/tga_res_fluidshake')
+2025-03-12 01:25:21,834 - sim - INFO - Number of parameters: 901412
+2025-03-12 01:25:21,834 - sim - INFO - Loading network from work_dirs/tga_res_fluidshake/epoch_5.pth
+2025-03-12 01:25:22,546 - sim - INFO - Rollout 0 / 200

@@ -1,5 +1,5 @@
 _base_ = [
-    './tga_fluidshake.py',
+    './tga_ballbath.py',
 ]
 
 # Custom model
@@ -8,10 +8,7 @@ model = dict(
     backbone=dict(
         num_abs_token=num_abs_token,),)
 
-# Custom dataset
 data = dict(
-    samples_per_gpu=4,
-    workers_per_gpu=8,
     train=dict(
         env_cfg=dict(num_abs_token=num_abs_token,)),
     val=dict(

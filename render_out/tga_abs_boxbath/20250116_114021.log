@@ -1,2 +1,0 @@
-2025-01-16 11:40:21,131 - sim - INFO - Namespace(config='configs/tga/tga_abs_boxbath.py', save_dir='render_out/tga_abs_boxbath/', show_only=False, src_dir='predict/tga_test_boxbath/', tar_rollout=-1, val_rollout=-1)
-2025-01-16 11:40:21,131 - sim - INFO - Loading rollouts from predict/tga_test_boxbath/

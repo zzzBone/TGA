@@ -12,3 +12,4 @@ nohup.out
 *.tga
 *.pkl
 *.pth
+*.json

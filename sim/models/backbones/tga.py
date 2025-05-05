@@ -10,7 +10,7 @@ from sim.models.utils.feedforward_networks import FFN
 import torch
 import torch.nn.functional as F
 
-from torch_geometric.nn import GATv2Conv, EGConv, SuperGATConv, GraphSAGE
+from torch_geometric.nn import GATv2Conv, EGConv, SuperGATConv, GraphSAGE, GATConv
 from torch_geometric.data import Data, Batch
 
 import numpy as np
@@ -60,7 +60,7 @@ class TGAMultiHeadAttion(nn.Module):
         # dropout层
         self.dropout = nn.Dropout(dropout)
 
-        self.graphConv = FCConvToBinary(num_heads)
+        # self.graphConv = FCConvToBinary(num_heads)
 
     def forward(self, x, mask=None):
         # x: shape (batch_size, seq_len, input_size)
@@ -91,10 +91,15 @@ class TGAMultiHeadAttion(nn.Module):
         K = K.transpose(1, 2)  # (batch_size, num_heads, seq_len, head_dim)
         V = V.transpose(1, 2)  # (batch_size, num_heads, seq_len, head_dim)
 
-        # Step 3: 计算每个头的注意力分数
-        scores = torch.matmul(Q, K.transpose(-2, -1)) / (
-            self.head_dim**0.5
-        )  # (batch_size, num_heads, seq_len, seq_len)
+        dot_product = torch.matmul(Q, K.transpose(-1, -2))  # [batch, num_head, len, len]
+        Q = (Q ** 2).sum(dim=-1, keepdim=True)  # [batch, num_head, len, 1]
+        K = (K ** 2).sum(dim=-1, keepdim=True)  # [batch, num_head, len, 1]
+        scores = -torch.sqrt(Q + K.transpose(-1, -2) - 2 * dot_product)  # [batch, num_head, len, len]
+
+        # # Step 3: 计算每个头的注意力分数
+        # scores = torch.matmul(Q, K.transpose(-2, -1)) / (
+        #     self.head_dim**0.5
+        # )  # (batch_size, num_heads, seq_len, seq_len)
 
         # Step 4: 如果有mask，则应用mask
         if mask is not None:
@@ -104,9 +109,9 @@ class TGAMultiHeadAttion(nn.Module):
         attention_weights = F.softmax(
             scores, dim=-1
         )  # (batch_size, num_heads, seq_len, seq_len)
-
+        # torch.save(scores,"/home/zbl/sim/TIE_ECCV2022/view_data/scores_fluidfall.pt")
         # Step 6: 应用dropout
-        attention_weights = self.dropout(attention_weights)
+        # attention_weights = self.dropout(attention_weights)
 
         # Step 7: 计算加权值
         output = torch.matmul(
@@ -125,23 +130,50 @@ class TGAMultiHeadAttion(nn.Module):
 
         # attention_scores = 0.2 * attention_weights.mean(dim=1)[0] + 0.8 * attention_weights.max(dim=1)[0]
 
-        attention_scores = self.graphConv(attention_weights)
-        attention_scores = attention_scores.squeeze(1)
+        # attention_scores = self.graphConv(attention_weights)
+        # attention_scores = attention_scores.squeeze(1)
 
         # flat_score = attention_scores.flatten()
         # # threshold = min(flat_score)
         # threshold = torch.quantile(flat_score, self.percent)
 
+        # for b in range(batch_size):
+        #     # 过滤 scores
+        #     # edge_mask = attention_scores[b] >= threshold
+        #     edge_mask = attention_scores[b] == 1
+
+        #     # 使用 nonzero 提取符合条件的边索引
+        #     edge_indices = torch.nonzero(edge_mask, as_tuple=False)  # (num_edges, 2)
+
+        #     # 将边加入到 edge_index_list 中
+        #     edge_index_list.append(edge_indices.T)  # 转置成 (2, num_edges)
+        attention_scores = torch.sigmoid(scores)
+        mask = attention_scores > 0.5
         for b in range(batch_size):
-            # 过滤 scores
-            # edge_mask = attention_scores[b] >= threshold
-            edge_mask = attention_scores[b] == 1
+            edge_batch_list = []
+            for h in range(self.num_heads):
+                current_mask = mask[b, h]
+                # 获取满足条件的坐标 (i, j)
+                indices = torch.nonzero(current_mask, as_tuple=False).t()  # [2, K]
+                
+                # 如果没有任何元素满足条件，填充一个空的张量
+                if indices.size(1) == 0:
+                    indices = torch.zeros(2, 1, dtype=torch.long, device=attention_scores.device)
+                
+                # 将坐标添加到列表中
+                edge_batch_list.append(indices)
+            edge_index_list.append(edge_batch_list)
 
-            # 使用 nonzero 提取符合条件的边索引
-            edge_indices = torch.nonzero(edge_mask, as_tuple=False)  # (num_edges, 2)
-
-            # 将边加入到 edge_index_list 中
-            edge_index_list.append(edge_indices.T)  # 转置成 (2, num_edges)
+        # # 将列表转换为张量，并调整为 [B, H, 2, K] 的形状
+        # max_K = max([o.size(1) for o in edge_index_list])  # 找到最大的 K
+        # O = torch.zeros(batch_size, self.num_heads, 2, max_K, dtype=torch.long, device=attention_scores.device)
+        
+        # idx = 0
+        # for b in range(batch_size):
+        #     for h in range(self.num_heads):
+        #         K = edge_index_list[idx].size(1)
+        #         O[b, h, :, :K] = edge_index_list[idx]
+        #         idx += 1
         return output, edge_index_list
 
 
@@ -150,11 +182,17 @@ class TGAGraphAttention(nn.Module):
         self, in_channels, hidden_channels, out_channels, num_heads=1, residual=False
     ):
         super(TGAGraphAttention, self).__init__()
+        self.num_heads = num_heads
 
         self.residual = residual
 
+        self.gat = nn.ModuleList(
+            GATv2Conv((int)(in_channels/num_heads), (int)(out_channels/num_heads))
+            for i in range(num_heads)
+        )
+
         # 第一层 GAT
-        self.gat1 = GATv2Conv(in_channels, out_channels)
+        # self.gat1 = GATv2Conv(in_channels, out_channels)
         # self.sage1 = GraphSAGE(in_channels, out_channels, num_layers=1)
         # 第二层 GAT
         # self.gat2 = GATConv(hidden_channels, out_channels)
@@ -165,8 +203,11 @@ class TGAGraphAttention(nn.Module):
         x: [batch_size, num_nodes, num_features]
         edge_index: [batch_size, 2, num_edge]
         """
-
-        return self.gat1(batch.x, batch.edge_index)
+        output = []
+        for i, gat in enumerate(self.gat):
+            output.append(gat(batch[i].x, batch[i].edge_index))
+        # return self.gat1(batch.x, batch.edge_index)
+        return torch.cat(output, dim=-1)
 
 
 class TGATransformer(nn.Module):
@@ -225,6 +266,8 @@ class TGA(BaseBackbone):
         self.num_encoder_layers = num_layers
 
         self.input_dim = attr_dim + state_dim
+
+        self.attn_num_heads = attn_num_heads
 
         self.norm_eval = norm_eval
         self.input_projection = FFN(
@@ -319,15 +362,21 @@ class TGA(BaseBackbone):
         x_out = self.neck(x_out)
         x_out = self.ln1(x_out)
         x_out = F.relu(x_out)
+        x_out = x_out + x
+
+        
 
         for i in range(self.num_encoder_layers):
             batch_size, num_nodes, num_features = x_out.shape
-            data_list = []
-            for k in range(batch_size):
-                data_list.append(Data(x=x_out[k], edge_index=edge_index[i][k]))
-            batch = Batch.from_data_list(data_list)
-
-            x_out = self.decoder[i](batch)
+            batch_list = []
+            split_matrices = torch.chunk(x_out, self.attn_num_heads[i], dim=-1)
+            for h in range(self.attn_num_heads[i]):
+                data_list = []
+                for k in range(batch_size):
+                    data_list.append(Data(x=split_matrices[h][k], edge_index=edge_index[i][k][h]))
+                batch = Batch.from_data_list(data_list)
+                batch_list.append(batch)
+            x_out = self.decoder[i](batch_list)
             x_out = x_out.view(batch_size, num_nodes, -1)
 
         x_out = self.back(x_out)

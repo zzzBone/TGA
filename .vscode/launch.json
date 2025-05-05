@@ -8,12 +8,29 @@
             "name": "Python: Current File",
             "type": "python",
             "request": "launch",
-            "program": "${workspaceFolder}/tools/train.py",
+            // "program": "${workspaceFolder}/tools/train.py",
+            // "args": [
+            //     "configs/tga/tga_abs_fluidfall.py",
+            //     "--work_dir",
+            //     "work_dirs/tga_multigraph_fluidfall/",
+            //     "--no-validate",
+            // ],
+            // "program": "${workspaceFolder}/tools/predict_rollout.py",
+            // "args": [
+            //     "configs/tga/tga_abs_fluidfall.py",
+            //     "predict/tga_res_fluidfall",
+            //     "--checkpoint",
+            //     "work_dirs/tgamultigraph_fluidfall/epoch_4.pth"
+            // ],
+            "program": "${workspaceFolder}/tools/predict_rollout.py",
+            "args": [
+                "configs/tga/tga_abs_ballbath.py",
+                "predict/tga_multigraph_ballbath",
+                "--checkpoint",
+                "work_dirs/tga_multigraph_boxbath/epoch_4.pth"
+            ],
             "console": "integratedTerminal",
             "justMyCode": true,
-            "args": [
-                "configs/tga/tga_abs_boxbath.py"
-            ],
         }
     ]
 }
