@@ -1,0 +1,6 @@
+2025-03-14 16:07:56,508 - sim - INFO - Namespace(checkpoint='work_dirs/tga_multigraph_fluidfall/epoch_9.pth', config='configs/tga/tga_abs_fluidfall.py', debug=0, device='cuda:0', tar_rollout=-1, val_rollout=-1, work_dir='predict/tga_multigraph_fluidfall')
+2025-03-14 16:07:56,583 - sim - INFO - Number of parameters: 871573
+2025-03-14 16:07:56,583 - sim - INFO - Loading network from work_dirs/tga_multigraph_fluidfall/epoch_9.pth
+2025-03-14 16:07:57,917 - sim - INFO - Rollout 0 / 300
+2025-03-14 16:08:00,896 - sim - INFO - Step 10 / 120: time per frame 0.165583
+2025-03-14 16:08:01,558 - sim - INFO - Step 20 / 120: time per frame 0.107617

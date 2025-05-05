@@ -1,0 +1,320 @@
+2025-01-06 18:50:43,733 - sim - INFO - Environment info:
+------------------------------------------------------------
+sys.platform: linux
+Python: 3.8.20 (default, Oct  3 2024, 15:24:27) [GCC 11.2.0]
+CUDA available: True
+GPU 0: NVIDIA GeForce RTX 2080 Ti
+CUDA_HOME: /usr/local/cuda-11.3
+NVCC: Cuda compilation tools, release 11.3, V11.3.109
+GCC: gcc (Ubuntu 9.4.0-1ubuntu1~16.04) 9.4.0
+PyTorch: 1.12.1
+PyTorch compiling details: PyTorch built with:
+  - GCC 9.3
+  - C++ Version: 201402
+  - Intel(R) oneAPI Math Kernel Library Version 2023.1-Product Build 20230303 for Intel(R) 64 architecture applications
+  - Intel(R) MKL-DNN v2.6.0 (Git Hash 52b5f107dd9cf10910aaa19cb47f3abf9b349815)
+  - OpenMP 201511 (a.k.a. OpenMP 4.5)
+  - LAPACK is enabled (usually provided by MKL)
+  - NNPACK is enabled
+  - CPU capability usage: AVX2
+  - CUDA Runtime 11.3
+  - NVCC architecture flags: -gencode;arch=compute_37,code=sm_37;-gencode;arch=compute_50,code=sm_50;-gencode;arch=compute_60,code=sm_60;-gencode;arch=compute_61,code=sm_61;-gencode;arch=compute_70,code=sm_70;-gencode;arch=compute_75,code=sm_75;-gencode;arch=compute_80,code=sm_80;-gencode;arch=compute_86,code=sm_86;-gencode;arch=compute_37,code=compute_37
+  - CuDNN 8.3.2  (built against CUDA 11.5)
+  - Magma 2.5.2
+  - Build settings: BLAS_INFO=mkl, BUILD_TYPE=Release, CUDA_VERSION=11.3, CUDNN_VERSION=8.3.2, CXX_COMPILER=/opt/rh/devtoolset-9/root/usr/bin/c++, CXX_FLAGS= -fabi-version=11 -Wno-deprecated -fvisibility-inlines-hidden -DUSE_PTHREADPOOL -fopenmp -DNDEBUG -DUSE_KINETO -DUSE_FBGEMM -DUSE_QNNPACK -DUSE_PYTORCH_QNNPACK -DUSE_XNNPACK -DSYMBOLICATE_MOBILE_DEBUG_HANDLE -DEDGE_PROFILER_USE_KINETO -O2 -fPIC -Wno-narrowing -Wall -Wextra -Werror=return-type -Wno-missing-field-initializers -Wno-type-limits -Wno-array-bounds -Wno-unknown-pragmas -Wno-unused-parameter -Wno-unused-function -Wno-unused-result -Wno-unused-local-typedefs -Wno-strict-overflow -Wno-strict-aliasing -Wno-error=deprecated-declarations -Wno-stringop-overflow -Wno-psabi -Wno-error=pedantic -Wno-error=redundant-decls -Wno-error=old-style-cast -fdiagnostics-color=always -faligned-new -Wno-unused-but-set-variable -Wno-maybe-uninitialized -fno-math-errno -fno-trapping-math -Werror=format -Werror=cast-function-type -Wno-stringop-overflow, LAPACK_INFO=mkl, PERF_WITH_AVX=1, PERF_WITH_AVX2=1, PERF_WITH_AVX512=1, TORCH_VERSION=1.12.1, USE_CUDA=ON, USE_CUDNN=ON, USE_EXCEPTION_PTR=1, USE_GFLAGS=OFF, USE_GLOG=OFF, USE_MKL=ON, USE_MKLDNN=OFF, USE_MPI=OFF, USE_NCCL=ON, USE_NNPACK=ON, USE_OPENMP=ON, USE_ROCM=OFF, 
+
+TorchVision: 0.13.1
+OpenCV: 4.10.0
+MMCV: 1.7.0
+MMCV Compiler: GCC 9.3
+MMCV CUDA Compiler: 11.3
+Simulation: 0.7.0+b4161dc
+------------------------------------------------------------
+
+2025-01-06 18:50:43,733 - sim - INFO - Distributed training: False
+2025-01-06 18:50:43,845 - sim - INFO - Config:
+model = dict(
+    type='ParticleSimulator',
+    backbone=dict(
+        type='TGA',
+        attr_dim=3,
+        state_dim=6,
+        position_dim=3,
+        embed_dim=256,
+        attn_dims=(256, 256),
+        attn_num_heads=(8, 8),
+        gat_hidden_dims=(256, 256),
+        gat_num_heads=(8, 8),
+        num_layers=2,
+        dropouts=(0.0, 0.0),
+        output_dim=256),
+    head=dict(
+        type='ParticleHead',
+        in_channels=256,
+        out_channels=3,
+        seperate=False,
+        rotation_dim=0,
+        weighted=False,
+        loss=dict(type='MSELoss', loss_weight=1.0)))
+dataset_type = 'PhysicsFleXDataset'
+env_cfg = dict(
+    env='FluidFall',
+    num_abs_token=0,
+    baseline=False,
+    gen_data=False,
+    gen_meta=False,
+    hierarchy=False,
+    scene_params=[],
+    eval_ratio=10000000.0,
+    dataf='./data/data_FluidFall',
+    n_rollout=100,
+    time_step=121,
+    time_step_clip=5,
+    attn_mask=8,
+    dt=0.016666666666666666,
+    nf_relation=300,
+    nf_particle=200,
+    nf_effect=200,
+    train_valid_ratio=0.9,
+    n_instance=1,
+    n_stages=1,
+    n_his=0,
+    shape_state_dim=14,
+    attr_dim=3,
+    state_dim=6,
+    position_dim=3,
+    relation_dim=1,
+    neighbor_radius=0.08,
+    pstep=2,
+    phases_dict=dict(
+        instance_idx=[0, 189],
+        root_num=[[]],
+        instance=['fluid'],
+        material=['fluid']))
+data = dict(
+    samples_per_gpu=8,
+    workers_per_gpu=8,
+    train=dict(
+        type='PhysicsFleXDataset',
+        phase='train',
+        env_cfg=dict(
+            env='FluidFall',
+            num_abs_token=0,
+            baseline=False,
+            gen_data=False,
+            gen_meta=False,
+            hierarchy=False,
+            scene_params=[],
+            eval_ratio=10000000.0,
+            dataf='./data/data_FluidFall',
+            n_rollout=100,
+            time_step=121,
+            time_step_clip=5,
+            attn_mask=8,
+            dt=0.016666666666666666,
+            nf_relation=300,
+            nf_particle=200,
+            nf_effect=200,
+            train_valid_ratio=0.9,
+            n_instance=1,
+            n_stages=1,
+            n_his=0,
+            shape_state_dim=14,
+            attr_dim=3,
+            state_dim=6,
+            position_dim=3,
+            relation_dim=1,
+            neighbor_radius=0.08,
+            pstep=2,
+            phases_dict=dict(
+                instance_idx=[0, 189],
+                root_num=[[]],
+                instance=['fluid'],
+                material=['fluid'])),
+        verbose=False),
+    val=dict(
+        type='PhysicsFleXDataset',
+        phase='valid',
+        env_cfg=dict(
+            env='FluidFall',
+            num_abs_token=0,
+            baseline=False,
+            gen_data=False,
+            gen_meta=False,
+            hierarchy=False,
+            scene_params=[],
+            eval_ratio=10000000.0,
+            dataf='./data/data_FluidFall',
+            n_rollout=100,
+            time_step=121,
+            time_step_clip=5,
+            attn_mask=8,
+            dt=0.016666666666666666,
+            nf_relation=300,
+            nf_particle=200,
+            nf_effect=200,
+            train_valid_ratio=0.9,
+            n_instance=1,
+            n_stages=1,
+            n_his=0,
+            shape_state_dim=14,
+            attr_dim=3,
+            state_dim=6,
+            position_dim=3,
+            relation_dim=1,
+            neighbor_radius=0.08,
+            pstep=2,
+            phases_dict=dict(
+                instance_idx=[0, 189],
+                root_num=[[]],
+                instance=['fluid'],
+                material=['fluid'])),
+        verbose=False),
+    test=dict(
+        type='PhysicsFleXDataset',
+        phase='valid',
+        env_cfg=dict(
+            env='FluidFall',
+            num_abs_token=0,
+            baseline=False,
+            gen_data=False,
+            gen_meta=False,
+            hierarchy=False,
+            scene_params=[],
+            eval_ratio=10000000.0,
+            dataf='./data/data_FluidFall',
+            n_rollout=100,
+            time_step=121,
+            time_step_clip=5,
+            attn_mask=8,
+            dt=0.016666666666666666,
+            nf_relation=300,
+            nf_particle=200,
+            nf_effect=200,
+            train_valid_ratio=0.9,
+            n_instance=1,
+            n_stages=1,
+            n_his=0,
+            shape_state_dim=14,
+            attr_dim=3,
+            state_dim=6,
+            position_dim=3,
+            relation_dim=1,
+            neighbor_radius=0.08,
+            pstep=2,
+            phases_dict=dict(
+                instance_idx=[0, 189],
+                root_num=[[]],
+                instance=['fluid'],
+                material=['fluid'])),
+        verbose=False))
+optimizer = dict(
+    type='Adam', lr=0.0008, betas=(0.9, 0.999), weight_decay=0, amsgrad=False)
+optimizer_config = dict(grad_clip=None)
+lr_config = dict(policy='Plateau', mode='min', factor=0.8, patience=3)
+runner = dict(type='EpochBasedRunner', max_epochs=13)
+checkpoint_config = dict(interval=1)
+log_config = dict(interval=100, hooks=[dict(type='TextLoggerHook')])
+dist_params = dict(backend='nccl', port='29513')
+log_level = 'INFO'
+load_from = None
+resume_from = None
+workflow = [('train', 1)]
+find_unused_parameters = True
+work_dir = 'work_dirs/tga_test_fluidfall/'
+gpu_ids = range(0, 1)
+
+2025-01-06 18:50:43,879 - sim - INFO - Model parameters: 878915
+2025-01-06 18:50:44,603 - sim - INFO - Start running, host: zbl@lab601-2, work_dir: /home/zbl/sim/TIE_ECCV2022/work_dirs/tga_test_fluidfall
+2025-01-06 18:50:44,603 - sim - INFO - Hooks will be executed in the following order:
+before_run:
+(VERY_HIGH   ) PlateauLrUpdaterHook               
+(NORMAL      ) CheckpointHook                     
+(VERY_LOW    ) TextLoggerHook                     
+ -------------------- 
+before_train_epoch:
+(VERY_HIGH   ) PlateauLrUpdaterHook               
+(NORMAL      ) MSEAccuracy                        
+(LOW         ) IterTimerHook                      
+(VERY_LOW    ) TextLoggerHook                     
+ -------------------- 
+before_train_iter:
+(VERY_HIGH   ) PlateauLrUpdaterHook               
+(LOW         ) IterTimerHook                      
+ -------------------- 
+after_train_iter:
+(ABOVE_NORMAL) OptimizerHook                      
+(NORMAL      ) CheckpointHook                     
+(NORMAL      ) EvalHook                           
+(LOW         ) IterTimerHook                      
+(VERY_LOW    ) TextLoggerHook                     
+ -------------------- 
+after_train_epoch:
+(NORMAL      ) CheckpointHook                     
+(NORMAL      ) EvalHook                           
+(VERY_LOW    ) TextLoggerHook                     
+ -------------------- 
+before_val_epoch:
+(NORMAL      ) MSEAccuracy                        
+(LOW         ) IterTimerHook                      
+(VERY_LOW    ) TextLoggerHook                     
+ -------------------- 
+before_val_iter:
+(LOW         ) IterTimerHook                      
+ -------------------- 
+after_val_iter:
+(LOW         ) IterTimerHook                      
+ -------------------- 
+after_val_epoch:
+(VERY_LOW    ) TextLoggerHook                     
+ -------------------- 
+after_run:
+(VERY_LOW    ) TextLoggerHook                     
+ -------------------- 
+2025-01-06 18:50:44,604 - sim - INFO - workflow: [('train', 1)], max: 13 epochs
+2025-01-06 18:50:44,604 - sim - INFO - Checkpoints will be saved to /home/zbl/sim/TIE_ECCV2022/work_dirs/tga_test_fluidfall by HardDiskBackend.
+2025-01-06 18:50:51,407 - sim - INFO - Epoch [1][100/1350]	lr: 8.000e-04, eta: 0:19:46, time: 0.068, data_time: 0.052, memory: 103, loss: 0.3454, Batch std: 0.4815, Agg std: 0.6244
+2025-01-06 18:50:55,241 - sim - INFO - Epoch [1][200/1350]	lr: 8.000e-04, eta: 0:15:22, time: 0.038, data_time: 0.025, memory: 103, loss: 0.2150, Batch std: 0.3789, Agg std: 0.4537
+2025-01-06 18:50:59,158 - sim - INFO - Epoch [1][300/1350]	lr: 8.000e-04, eta: 0:13:56, time: 0.039, data_time: 0.026, memory: 103, loss: 0.2175, Batch std: 0.3799, Agg std: 0.4204
+2025-01-06 18:51:03,074 - sim - INFO - Epoch [1][400/1350]	lr: 8.000e-04, eta: 0:13:11, time: 0.039, data_time: 0.026, memory: 103, loss: 0.1993, Batch std: 0.3657, Agg std: 0.4069
+2025-01-06 18:51:06,928 - sim - INFO - Epoch [1][500/1350]	lr: 8.000e-04, eta: 0:12:41, time: 0.039, data_time: 0.025, memory: 103, loss: 0.1842, Batch std: 0.3583, Agg std: 0.3963
+2025-01-06 18:51:10,735 - sim - INFO - Epoch [1][600/1350]	lr: 8.000e-04, eta: 0:12:18, time: 0.038, data_time: 0.025, memory: 103, loss: 0.1916, Batch std: 0.3605, Agg std: 0.3891
+2025-01-06 18:51:14,684 - sim - INFO - Epoch [1][700/1350]	lr: 8.000e-04, eta: 0:12:03, time: 0.039, data_time: 0.027, memory: 103, loss: 0.1859, Batch std: 0.3553, Agg std: 0.3848
+2025-01-06 18:51:18,489 - sim - INFO - Epoch [1][800/1350]	lr: 8.000e-04, eta: 0:11:49, time: 0.038, data_time: 0.025, memory: 103, loss: 0.1784, Batch std: 0.3457, Agg std: 0.3805
+2025-01-06 18:51:22,478 - sim - INFO - Epoch [1][900/1350]	lr: 8.000e-04, eta: 0:11:40, time: 0.040, data_time: 0.027, memory: 103, loss: 0.2037, Batch std: 0.3718, Agg std: 0.3776
+2025-01-06 18:51:26,294 - sim - INFO - Epoch [1][1000/1350]	lr: 8.000e-04, eta: 0:11:29, time: 0.038, data_time: 0.025, memory: 103, loss: 0.2093, Batch std: 0.3743, Agg std: 0.3770
+2025-01-06 18:51:30,294 - sim - INFO - Epoch [1][1100/1350]	lr: 8.000e-04, eta: 0:11:23, time: 0.040, data_time: 0.027, memory: 103, loss: 0.2016, Batch std: 0.3698, Agg std: 0.3772
+2025-01-06 18:51:34,069 - sim - INFO - Epoch [1][1200/1350]	lr: 8.000e-04, eta: 0:11:13, time: 0.038, data_time: 0.025, memory: 103, loss: 0.2131, Batch std: 0.3822, Agg std: 0.3770
+2025-01-06 18:51:38,040 - sim - INFO - Epoch [1][1300/1350]	lr: 8.000e-04, eta: 0:11:07, time: 0.040, data_time: 0.027, memory: 103, loss: 0.1910, Batch std: 0.3566, Agg std: 0.3764
+2025-01-06 18:51:39,822 - sim - INFO - Saving checkpoint at 1 epochs
+2025-01-06 18:51:46,328 - sim - INFO - Epoch(val) [1][1350]	pos mse mean: 2.8679, pos mse std: 0.1629, vel mean: 0.3533494770526886, vel std: 0.2146664708852768, eval ratio: 10000000.0000
+2025-01-06 18:51:52,928 - sim - INFO - Epoch [2][100/1350]	lr: 8.000e-04, eta: 0:11:06, time: 0.066, data_time: 0.053, memory: 103, loss: 0.1921, Batch std: 0.3572, Agg std: 0.3084
+2025-01-06 18:51:56,750 - sim - INFO - Epoch [2][200/1350]	lr: 8.000e-04, eta: 0:10:59, time: 0.038, data_time: 0.025, memory: 103, loss: 0.1986, Batch std: 0.3676, Agg std: 0.3112
+2025-01-06 18:52:00,817 - sim - INFO - Epoch [2][300/1350]	lr: 8.000e-04, eta: 0:10:54, time: 0.041, data_time: 0.028, memory: 103, loss: 0.1800, Batch std: 0.3482, Agg std: 0.3136
+2025-01-06 18:52:05,025 - sim - INFO - Epoch [2][400/1350]	lr: 8.000e-04, eta: 0:10:51, time: 0.042, data_time: 0.026, memory: 103, loss: 0.2037, Batch std: 0.3683, Agg std: 0.3160
+2025-01-06 18:52:09,051 - sim - INFO - Epoch [2][500/1350]	lr: 8.000e-04, eta: 0:10:46, time: 0.040, data_time: 0.022, memory: 103, loss: 0.1917, Batch std: 0.3599, Agg std: 0.3182
+2025-01-06 18:52:13,067 - sim - INFO - Epoch [2][600/1350]	lr: 8.000e-04, eta: 0:10:41, time: 0.040, data_time: 0.021, memory: 103, loss: 0.1807, Batch std: 0.3536, Agg std: 0.3200
+2025-01-06 18:52:17,256 - sim - INFO - Epoch [2][700/1350]	lr: 8.000e-04, eta: 0:10:37, time: 0.042, data_time: 0.023, memory: 103, loss: 0.1904, Batch std: 0.3587, Agg std: 0.3216
+2025-01-06 18:52:21,437 - sim - INFO - Epoch [2][800/1350]	lr: 8.000e-04, eta: 0:10:34, time: 0.042, data_time: 0.022, memory: 103, loss: 0.1805, Batch std: 0.3503, Agg std: 0.3229
+2025-01-06 18:52:25,404 - sim - INFO - Epoch [2][900/1350]	lr: 8.000e-04, eta: 0:10:29, time: 0.040, data_time: 0.024, memory: 103, loss: 0.1905, Batch std: 0.3560, Agg std: 0.3241
+2025-01-06 18:52:29,216 - sim - INFO - Epoch [2][1000/1350]	lr: 8.000e-04, eta: 0:10:22, time: 0.038, data_time: 0.025, memory: 103, loss: 0.2025, Batch std: 0.3704, Agg std: 0.3254
+2025-01-06 18:52:33,183 - sim - INFO - Epoch [2][1100/1350]	lr: 8.000e-04, eta: 0:10:18, time: 0.040, data_time: 0.026, memory: 103, loss: 0.1971, Batch std: 0.3625, Agg std: 0.3269
+2025-01-06 18:52:37,052 - sim - INFO - Epoch [2][1200/1350]	lr: 8.000e-04, eta: 0:10:12, time: 0.039, data_time: 0.026, memory: 103, loss: 0.2060, Batch std: 0.3723, Agg std: 0.3286
+2025-01-06 18:52:41,005 - sim - INFO - Epoch [2][1300/1350]	lr: 8.000e-04, eta: 0:10:07, time: 0.040, data_time: 0.026, memory: 103, loss: 0.1905, Batch std: 0.3588, Agg std: 0.3299
+2025-01-06 18:52:42,879 - sim - INFO - Saving checkpoint at 2 epochs
+2025-01-06 18:52:49,368 - sim - INFO - Epoch(val) [2][1350]	pos mse mean: 2.8736, pos mse std: 0.1203, vel mean: 0.3531940281391144, vel std: 0.2134760469198227, eval ratio: 10000000.0000
+2025-01-06 18:52:56,011 - sim - INFO - Epoch [3][100/1350]	lr: 8.000e-04, eta: 0:10:04, time: 0.066, data_time: 0.053, memory: 103, loss: 0.1940, Batch std: 0.3634, Agg std: 0.3019
+2025-01-06 18:52:59,791 - sim - INFO - Epoch [3][200/1350]	lr: 8.000e-04, eta: 0:09:58, time: 0.038, data_time: 0.025, memory: 103, loss: 0.1868, Batch std: 0.3548, Agg std: 0.3035
+2025-01-06 18:53:03,838 - sim - INFO - Epoch [3][300/1350]	lr: 8.000e-04, eta: 0:09:54, time: 0.040, data_time: 0.027, memory: 103, loss: 0.1821, Batch std: 0.3521, Agg std: 0.3049
+2025-01-06 18:53:08,068 - sim - INFO - Epoch [3][400/1350]	lr: 8.000e-04, eta: 0:09:51, time: 0.042, data_time: 0.027, memory: 103, loss: 0.1844, Batch std: 0.3534, Agg std: 0.3061
+2025-01-06 18:53:12,078 - sim - INFO - Epoch [3][500/1350]	lr: 8.000e-04, eta: 0:09:46, time: 0.040, data_time: 0.023, memory: 103, loss: 0.1830, Batch std: 0.3546, Agg std: 0.3074
+2025-01-06 18:53:16,157 - sim - INFO - Epoch [3][600/1350]	lr: 8.000e-04, eta: 0:09:42, time: 0.041, data_time: 0.023, memory: 103, loss: 0.1988, Batch std: 0.3653, Agg std: 0.3089
+2025-01-06 18:53:20,313 - sim - INFO - Epoch [3][700/1350]	lr: 8.000e-04, eta: 0:09:38, time: 0.042, data_time: 0.024, memory: 103, loss: 0.1891, Batch std: 0.3546, Agg std: 0.3102
+2025-01-06 18:53:24,416 - sim - INFO - Epoch [3][800/1350]	lr: 8.000e-04, eta: 0:09:34, time: 0.041, data_time: 0.023, memory: 103, loss: 0.1928, Batch std: 0.3548, Agg std: 0.3112
+2025-01-06 18:53:28,471 - sim - INFO - Epoch [3][900/1350]	lr: 8.000e-04, eta: 0:09:30, time: 0.041, data_time: 0.025, memory: 103, loss: 0.1881, Batch std: 0.3576, Agg std: 0.3124
+2025-01-06 18:53:32,349 - sim - INFO - Epoch [3][1000/1350]	lr: 8.000e-04, eta: 0:09:25, time: 0.039, data_time: 0.026, memory: 103, loss: 0.1768, Batch std: 0.3455, Agg std: 0.3132
+2025-01-06 18:53:36,299 - sim - INFO - Epoch [3][1100/1350]	lr: 8.000e-04, eta: 0:09:20, time: 0.040, data_time: 0.026, memory: 103, loss: 0.1835, Batch std: 0.3533, Agg std: 0.3140
+2025-01-06 18:53:40,167 - sim - INFO - Epoch [3][1200/1350]	lr: 8.000e-04, eta: 0:09:16, time: 0.039, data_time: 0.026, memory: 103, loss: 0.1897, Batch std: 0.3582, Agg std: 0.3149
+2025-01-06 18:53:44,152 - sim - INFO - Epoch [3][1300/1350]	lr: 8.000e-04, eta: 0:09:11, time: 0.040, data_time: 0.027, memory: 103, loss: 0.1976, Batch std: 0.3634, Agg std: 0.3161
+2025-01-06 18:53:45,955 - sim - INFO - Saving checkpoint at 3 epochs
+2025-01-06 18:53:52,501 - sim - INFO - Epoch(val) [3][1350]	pos mse mean: 2.6967, pos mse std: 0.1321, vel mean: 0.3536335825920105, vel std: 0.21167059242725372, eval ratio: 10000000.0000

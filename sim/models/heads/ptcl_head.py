@@ -151,7 +151,7 @@ class ParticleHead(SimHead):
             weight_factor = fluid_mask.sum(dim=-1, keepdim=True) / (rigid_mask.sum(dim=-1, keepdim=True) + self.eps)
             weight = rigid_mask * weight_factor + fluid_mask
             weight = weight.unsqueeze(-1)
-        losses = self.loss(vel_dist, vel_label, weight=weight, inputs=inputs)
+        losses = self.loss(vel_dist, vel_label, weight=weight, inputs=inputs, dt=self.dt)
         return losses
 
     def rotation_matrix_from_quaternion(self, params):

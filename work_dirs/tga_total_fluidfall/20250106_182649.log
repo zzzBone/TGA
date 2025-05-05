@@ -1,0 +1,295 @@
+2025-01-06 18:26:49,089 - sim - INFO - Environment info:
+------------------------------------------------------------
+sys.platform: linux
+Python: 3.8.20 (default, Oct  3 2024, 15:24:27) [GCC 11.2.0]
+CUDA available: True
+GPU 0: NVIDIA GeForce RTX 2080 Ti
+CUDA_HOME: /usr/local/cuda-11.3
+NVCC: Cuda compilation tools, release 11.3, V11.3.109
+GCC: gcc (Ubuntu 9.4.0-1ubuntu1~16.04) 9.4.0
+PyTorch: 1.12.1
+PyTorch compiling details: PyTorch built with:
+  - GCC 9.3
+  - C++ Version: 201402
+  - Intel(R) oneAPI Math Kernel Library Version 2023.1-Product Build 20230303 for Intel(R) 64 architecture applications
+  - Intel(R) MKL-DNN v2.6.0 (Git Hash 52b5f107dd9cf10910aaa19cb47f3abf9b349815)
+  - OpenMP 201511 (a.k.a. OpenMP 4.5)
+  - LAPACK is enabled (usually provided by MKL)
+  - NNPACK is enabled
+  - CPU capability usage: AVX2
+  - CUDA Runtime 11.3
+  - NVCC architecture flags: -gencode;arch=compute_37,code=sm_37;-gencode;arch=compute_50,code=sm_50;-gencode;arch=compute_60,code=sm_60;-gencode;arch=compute_61,code=sm_61;-gencode;arch=compute_70,code=sm_70;-gencode;arch=compute_75,code=sm_75;-gencode;arch=compute_80,code=sm_80;-gencode;arch=compute_86,code=sm_86;-gencode;arch=compute_37,code=compute_37
+  - CuDNN 8.3.2  (built against CUDA 11.5)
+  - Magma 2.5.2
+  - Build settings: BLAS_INFO=mkl, BUILD_TYPE=Release, CUDA_VERSION=11.3, CUDNN_VERSION=8.3.2, CXX_COMPILER=/opt/rh/devtoolset-9/root/usr/bin/c++, CXX_FLAGS= -fabi-version=11 -Wno-deprecated -fvisibility-inlines-hidden -DUSE_PTHREADPOOL -fopenmp -DNDEBUG -DUSE_KINETO -DUSE_FBGEMM -DUSE_QNNPACK -DUSE_PYTORCH_QNNPACK -DUSE_XNNPACK -DSYMBOLICATE_MOBILE_DEBUG_HANDLE -DEDGE_PROFILER_USE_KINETO -O2 -fPIC -Wno-narrowing -Wall -Wextra -Werror=return-type -Wno-missing-field-initializers -Wno-type-limits -Wno-array-bounds -Wno-unknown-pragmas -Wno-unused-parameter -Wno-unused-function -Wno-unused-result -Wno-unused-local-typedefs -Wno-strict-overflow -Wno-strict-aliasing -Wno-error=deprecated-declarations -Wno-stringop-overflow -Wno-psabi -Wno-error=pedantic -Wno-error=redundant-decls -Wno-error=old-style-cast -fdiagnostics-color=always -faligned-new -Wno-unused-but-set-variable -Wno-maybe-uninitialized -fno-math-errno -fno-trapping-math -Werror=format -Werror=cast-function-type -Wno-stringop-overflow, LAPACK_INFO=mkl, PERF_WITH_AVX=1, PERF_WITH_AVX2=1, PERF_WITH_AVX512=1, TORCH_VERSION=1.12.1, USE_CUDA=ON, USE_CUDNN=ON, USE_EXCEPTION_PTR=1, USE_GFLAGS=OFF, USE_GLOG=OFF, USE_MKL=ON, USE_MKLDNN=OFF, USE_MPI=OFF, USE_NCCL=ON, USE_NNPACK=ON, USE_OPENMP=ON, USE_ROCM=OFF, 
+
+TorchVision: 0.13.1
+OpenCV: 4.10.0
+MMCV: 1.7.0
+MMCV Compiler: GCC 9.3
+MMCV CUDA Compiler: 11.3
+Simulation: 0.7.0+b4161dc
+------------------------------------------------------------
+
+2025-01-06 18:26:49,089 - sim - INFO - Distributed training: False
+2025-01-06 18:26:49,198 - sim - INFO - Config:
+model = dict(
+    type='ParticleSimulator',
+    backbone=dict(
+        type='TGA',
+        attr_dim=3,
+        state_dim=6,
+        position_dim=3,
+        embed_dim=256,
+        attn_dims=(256, 256),
+        attn_num_heads=(8, 8),
+        gat_hidden_dims=(256, 256),
+        gat_num_heads=(8, 8),
+        num_layers=2,
+        dropouts=(0.0, 0.0),
+        output_dim=256),
+    head=dict(
+        type='ParticleHead',
+        in_channels=256,
+        out_channels=3,
+        seperate=False,
+        rotation_dim=0,
+        weighted=False,
+        loss=dict(type='MSELoss', loss_weight=1.0)))
+dataset_type = 'PhysicsFleXDataset'
+env_cfg = dict(
+    env='FluidFall',
+    num_abs_token=0,
+    baseline=False,
+    gen_data=False,
+    gen_meta=False,
+    hierarchy=False,
+    scene_params=[],
+    eval_ratio=10000000.0,
+    dataf='./data/data_FluidFall',
+    n_rollout=3000,
+    time_step=121,
+    time_step_clip=5,
+    attn_mask=8,
+    dt=0.016666666666666666,
+    nf_relation=300,
+    nf_particle=200,
+    nf_effect=200,
+    train_valid_ratio=0.9,
+    n_instance=1,
+    n_stages=1,
+    n_his=0,
+    shape_state_dim=14,
+    attr_dim=3,
+    state_dim=6,
+    position_dim=3,
+    relation_dim=1,
+    neighbor_radius=0.08,
+    pstep=2,
+    phases_dict=dict(
+        instance_idx=[0, 189],
+        root_num=[[]],
+        instance=['fluid'],
+        material=['fluid']))
+data = dict(
+    samples_per_gpu=8,
+    workers_per_gpu=8,
+    train=dict(
+        type='PhysicsFleXDataset',
+        phase='train',
+        env_cfg=dict(
+            env='FluidFall',
+            num_abs_token=0,
+            baseline=False,
+            gen_data=False,
+            gen_meta=False,
+            hierarchy=False,
+            scene_params=[],
+            eval_ratio=10000000.0,
+            dataf='./data/data_FluidFall',
+            n_rollout=3000,
+            time_step=121,
+            time_step_clip=5,
+            attn_mask=8,
+            dt=0.016666666666666666,
+            nf_relation=300,
+            nf_particle=200,
+            nf_effect=200,
+            train_valid_ratio=0.9,
+            n_instance=1,
+            n_stages=1,
+            n_his=0,
+            shape_state_dim=14,
+            attr_dim=3,
+            state_dim=6,
+            position_dim=3,
+            relation_dim=1,
+            neighbor_radius=0.08,
+            pstep=2,
+            phases_dict=dict(
+                instance_idx=[0, 189],
+                root_num=[[]],
+                instance=['fluid'],
+                material=['fluid'])),
+        verbose=False),
+    val=dict(
+        type='PhysicsFleXDataset',
+        phase='valid',
+        env_cfg=dict(
+            env='FluidFall',
+            num_abs_token=0,
+            baseline=False,
+            gen_data=False,
+            gen_meta=False,
+            hierarchy=False,
+            scene_params=[],
+            eval_ratio=10000000.0,
+            dataf='./data/data_FluidFall',
+            n_rollout=3000,
+            time_step=121,
+            time_step_clip=5,
+            attn_mask=8,
+            dt=0.016666666666666666,
+            nf_relation=300,
+            nf_particle=200,
+            nf_effect=200,
+            train_valid_ratio=0.9,
+            n_instance=1,
+            n_stages=1,
+            n_his=0,
+            shape_state_dim=14,
+            attr_dim=3,
+            state_dim=6,
+            position_dim=3,
+            relation_dim=1,
+            neighbor_radius=0.08,
+            pstep=2,
+            phases_dict=dict(
+                instance_idx=[0, 189],
+                root_num=[[]],
+                instance=['fluid'],
+                material=['fluid'])),
+        verbose=False),
+    test=dict(
+        type='PhysicsFleXDataset',
+        phase='valid',
+        env_cfg=dict(
+            env='FluidFall',
+            num_abs_token=0,
+            baseline=False,
+            gen_data=False,
+            gen_meta=False,
+            hierarchy=False,
+            scene_params=[],
+            eval_ratio=10000000.0,
+            dataf='./data/data_FluidFall',
+            n_rollout=3000,
+            time_step=121,
+            time_step_clip=5,
+            attn_mask=8,
+            dt=0.016666666666666666,
+            nf_relation=300,
+            nf_particle=200,
+            nf_effect=200,
+            train_valid_ratio=0.9,
+            n_instance=1,
+            n_stages=1,
+            n_his=0,
+            shape_state_dim=14,
+            attr_dim=3,
+            state_dim=6,
+            position_dim=3,
+            relation_dim=1,
+            neighbor_radius=0.08,
+            pstep=2,
+            phases_dict=dict(
+                instance_idx=[0, 189],
+                root_num=[[]],
+                instance=['fluid'],
+                material=['fluid'])),
+        verbose=False))
+optimizer = dict(
+    type='Adam', lr=0.0008, betas=(0.9, 0.999), weight_decay=0, amsgrad=False)
+optimizer_config = dict(grad_clip=None)
+lr_config = dict(policy='Plateau', mode='min', factor=0.8, patience=3)
+runner = dict(type='EpochBasedRunner', max_epochs=13)
+checkpoint_config = dict(interval=1)
+log_config = dict(interval=100, hooks=[dict(type='TextLoggerHook')])
+dist_params = dict(backend='nccl', port='29513')
+log_level = 'INFO'
+load_from = None
+resume_from = None
+workflow = [('train', 1)]
+find_unused_parameters = True
+work_dir = 'work_dirs/tga_total_fluidfall/'
+gpu_ids = range(0, 1)
+
+2025-01-06 18:26:49,231 - sim - INFO - Model parameters: 878915
+2025-01-06 18:26:49,960 - sim - INFO - Start running, host: zbl@lab601-2, work_dir: /home/zbl/sim/TIE_ECCV2022/work_dirs/tga_total_fluidfall
+2025-01-06 18:26:49,961 - sim - INFO - Hooks will be executed in the following order:
+before_run:
+(VERY_HIGH   ) PlateauLrUpdaterHook               
+(NORMAL      ) CheckpointHook                     
+(VERY_LOW    ) TextLoggerHook                     
+ -------------------- 
+before_train_epoch:
+(VERY_HIGH   ) PlateauLrUpdaterHook               
+(NORMAL      ) MSEAccuracy                        
+(LOW         ) IterTimerHook                      
+(VERY_LOW    ) TextLoggerHook                     
+ -------------------- 
+before_train_iter:
+(VERY_HIGH   ) PlateauLrUpdaterHook               
+(LOW         ) IterTimerHook                      
+ -------------------- 
+after_train_iter:
+(ABOVE_NORMAL) OptimizerHook                      
+(NORMAL      ) CheckpointHook                     
+(NORMAL      ) EvalHook                           
+(LOW         ) IterTimerHook                      
+(VERY_LOW    ) TextLoggerHook                     
+ -------------------- 
+after_train_epoch:
+(NORMAL      ) CheckpointHook                     
+(NORMAL      ) EvalHook                           
+(VERY_LOW    ) TextLoggerHook                     
+ -------------------- 
+before_val_epoch:
+(NORMAL      ) MSEAccuracy                        
+(LOW         ) IterTimerHook                      
+(VERY_LOW    ) TextLoggerHook                     
+ -------------------- 
+before_val_iter:
+(LOW         ) IterTimerHook                      
+ -------------------- 
+after_val_iter:
+(LOW         ) IterTimerHook                      
+ -------------------- 
+after_val_epoch:
+(VERY_LOW    ) TextLoggerHook                     
+ -------------------- 
+after_run:
+(VERY_LOW    ) TextLoggerHook                     
+ -------------------- 
+2025-01-06 18:26:49,961 - sim - INFO - workflow: [('train', 1)], max: 13 epochs
+2025-01-06 18:26:49,961 - sim - INFO - Checkpoints will be saved to /home/zbl/sim/TIE_ECCV2022/work_dirs/tga_total_fluidfall by HardDiskBackend.
+2025-01-06 18:26:56,661 - sim - INFO - Epoch [1][100/40500]	lr: 8.000e-04, eta: 9:47:39, time: 0.067, data_time: 0.051, memory: 103, loss: 0.3688, Batch std: 0.4708, Agg std: 0.5942
+2025-01-06 18:27:00,322 - sim - INFO - Epoch [1][200/40500]	lr: 8.000e-04, eta: 7:34:20, time: 0.037, data_time: 0.024, memory: 103, loss: 0.2495, Batch std: 0.3870, Agg std: 0.4458
+2025-01-06 18:27:04,211 - sim - INFO - Epoch [1][300/40500]	lr: 8.000e-04, eta: 6:56:31, time: 0.039, data_time: 0.026, memory: 103, loss: 0.2378, Batch std: 0.3773, Agg std: 0.4184
+2025-01-06 18:27:07,890 - sim - INFO - Epoch [1][400/40500]	lr: 8.000e-04, eta: 6:32:57, time: 0.037, data_time: 0.024, memory: 103, loss: 0.3332, Batch std: 0.4551, Agg std: 0.4223
+2025-01-06 18:27:11,703 - sim - INFO - Epoch [1][500/40500]	lr: 8.000e-04, eta: 6:21:09, time: 0.038, data_time: 0.025, memory: 103, loss: 0.2209, Batch std: 0.3665, Agg std: 0.4172
+2025-01-06 18:27:15,435 - sim - INFO - Epoch [1][600/40500]	lr: 8.000e-04, eta: 6:12:05, time: 0.037, data_time: 0.024, memory: 103, loss: 0.2097, Batch std: 0.3527, Agg std: 0.4056
+2025-01-06 18:27:19,281 - sim - INFO - Epoch [1][700/40500]	lr: 8.000e-04, eta: 6:07:00, time: 0.038, data_time: 0.025, memory: 103, loss: 0.2434, Batch std: 0.3783, Agg std: 0.4001
+2025-01-06 18:27:22,976 - sim - INFO - Epoch [1][800/40500]	lr: 8.000e-04, eta: 6:01:32, time: 0.037, data_time: 0.024, memory: 103, loss: 0.2270, Batch std: 0.3673, Agg std: 0.3966
+2025-01-06 18:27:26,797 - sim - INFO - Epoch [1][900/40500]	lr: 8.000e-04, eta: 5:58:29, time: 0.038, data_time: 0.025, memory: 103, loss: 0.1970, Batch std: 0.3500, Agg std: 0.3921
+2025-01-06 18:27:30,560 - sim - INFO - Epoch [1][1000/40500]	lr: 8.000e-04, eta: 5:55:32, time: 0.038, data_time: 0.025, memory: 103, loss: 0.2236, Batch std: 0.3593, Agg std: 0.3879
+2025-01-06 18:27:34,424 - sim - INFO - Epoch [1][1100/40500]	lr: 8.000e-04, eta: 5:53:54, time: 0.039, data_time: 0.026, memory: 103, loss: 0.2244, Batch std: 0.3628, Agg std: 0.3851
+2025-01-06 18:27:38,024 - sim - INFO - Epoch [1][1200/40500]	lr: 8.000e-04, eta: 5:50:36, time: 0.036, data_time: 0.023, memory: 103, loss: 0.2216, Batch std: 0.3633, Agg std: 0.3836
+2025-01-06 18:27:41,878 - sim - INFO - Epoch [1][1300/40500]	lr: 8.000e-04, eta: 5:49:31, time: 0.039, data_time: 0.026, memory: 103, loss: 0.2125, Batch std: 0.3540, Agg std: 0.3814
+2025-01-06 18:27:45,583 - sim - INFO - Epoch [1][1400/40500]	lr: 8.000e-04, eta: 5:47:39, time: 0.037, data_time: 0.024, memory: 103, loss: 0.2347, Batch std: 0.3668, Agg std: 0.3799
+2025-01-06 18:27:49,405 - sim - INFO - Epoch [1][1500/40500]	lr: 8.000e-04, eta: 5:46:42, time: 0.038, data_time: 0.025, memory: 103, loss: 0.2256, Batch std: 0.3657, Agg std: 0.3788
+2025-01-06 18:27:53,058 - sim - INFO - Epoch [1][1600/40500]	lr: 8.000e-04, eta: 5:44:57, time: 0.037, data_time: 0.024, memory: 103, loss: 0.2339, Batch std: 0.3690, Agg std: 0.3779
+2025-01-06 18:27:56,965 - sim - INFO - Epoch [1][1700/40500]	lr: 8.000e-04, eta: 5:44:41, time: 0.039, data_time: 0.026, memory: 103, loss: 0.2230, Batch std: 0.3570, Agg std: 0.3771
+2025-01-06 18:28:00,577 - sim - INFO - Epoch [1][1800/40500]	lr: 8.000e-04, eta: 5:43:02, time: 0.036, data_time: 0.023, memory: 103, loss: 0.2346, Batch std: 0.3725, Agg std: 0.3767
+2025-01-06 18:28:04,480 - sim - INFO - Epoch [1][1900/40500]	lr: 8.000e-04, eta: 5:42:52, time: 0.039, data_time: 0.026, memory: 103, loss: 0.2107, Batch std: 0.3562, Agg std: 0.3760
+2025-01-06 18:28:08,225 - sim - INFO - Epoch [1][2000/40500]	lr: 8.000e-04, eta: 5:42:02, time: 0.037, data_time: 0.024, memory: 103, loss: 0.2142, Batch std: 0.3600, Agg std: 0.3749

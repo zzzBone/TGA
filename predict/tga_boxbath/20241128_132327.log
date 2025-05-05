@@ -1,0 +1,1 @@
+2024-11-28 13:23:27,511 - sim - INFO - Namespace(checkpoint='work_dirs/tga_boxbath/latest.pth', config='configs/tga/tga_boxbath.py', debug=0, device='cuda:0', tar_rollout=-1, val_rollout=-1, work_dir='predict/tga_boxbath/')

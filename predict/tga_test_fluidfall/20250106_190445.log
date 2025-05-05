@@ -1,0 +1,156 @@
+2025-01-06 19:04:45,105 - sim - INFO - Namespace(checkpoint='work_dirs/tga_test_fluidfall/epoch_1.pth', config='configs/tga/tga_abs_fluidfall.py', debug=0, device='cuda:0', tar_rollout=-1, val_rollout=-1, work_dir='predict/tga_test_fluidfall')
+2025-01-06 19:04:45,154 - sim - INFO - Number of parameters: 878933
+2025-01-06 19:04:45,154 - sim - INFO - Loading network from work_dirs/tga_test_fluidfall/epoch_1.pth
+2025-01-06 19:04:45,939 - sim - INFO - Rollout 0 / 10
+2025-01-06 19:04:47,432 - sim - INFO - Step 10 / 120: time per frame 0.044262
+2025-01-06 19:04:47,511 - sim - INFO - Step 20 / 120: time per frame 0.022865
+2025-01-06 19:04:47,723 - sim - INFO - Step 30 / 120: time per frame 0.016584
+2025-01-06 19:04:47,801 - sim - INFO - Step 40 / 120: time per frame 0.013263
+2025-01-06 19:04:47,897 - sim - INFO - Step 50 / 120: time per frame 0.011417
+2025-01-06 19:04:48,007 - sim - INFO - Step 60 / 120: time per frame 0.010224
+2025-01-06 19:04:48,106 - sim - INFO - Step 70 / 120: time per frame 0.009284
+2025-01-06 19:04:48,184 - sim - INFO - Step 80 / 120: time per frame 0.008576
+2025-01-06 19:04:48,304 - sim - INFO - Step 90 / 120: time per frame 0.008076
+2025-01-06 19:04:48,413 - sim - INFO - Step 100 / 120: time per frame 0.007652
+2025-01-06 19:04:48,492 - sim - INFO - Step 110 / 120: time per frame 0.007283
+2025-01-06 19:04:48,590 - sim - INFO - MSE: 0.0041162069890856206
+2025-01-06 19:04:48,590 - sim - INFO - Materials MSE: 0.004137985862043746
+2025-01-06 19:04:48,591 - sim - INFO - Time per frame: 0.007012029825630835
+2025-01-06 19:04:48,592 - sim - INFO - Rollout 1 / 10
+2025-01-06 19:04:49,572 - sim - INFO - Step 10 / 120: time per frame 0.003702
+2025-01-06 19:04:49,734 - sim - INFO - Step 20 / 120: time per frame 0.004032
+2025-01-06 19:04:49,812 - sim - INFO - Step 30 / 120: time per frame 0.003887
+2025-01-06 19:04:49,889 - sim - INFO - Step 40 / 120: time per frame 0.003818
+2025-01-06 19:04:50,025 - sim - INFO - Step 50 / 120: time per frame 0.003909
+2025-01-06 19:04:50,112 - sim - INFO - Step 60 / 120: time per frame 0.003950
+2025-01-06 19:04:50,190 - sim - INFO - Step 70 / 120: time per frame 0.003901
+2025-01-06 19:04:50,337 - sim - INFO - Step 80 / 120: time per frame 0.003964
+2025-01-06 19:04:50,425 - sim - INFO - Step 90 / 120: time per frame 0.003939
+2025-01-06 19:04:50,506 - sim - INFO - Step 100 / 120: time per frame 0.003905
+2025-01-06 19:04:50,719 - sim - INFO - Step 110 / 120: time per frame 0.003934
+2025-01-06 19:04:50,806 - sim - INFO - MSE: 0.0042445960948402
+2025-01-06 19:04:50,807 - sim - INFO - Materials MSE: 0.0042670542752361795
+2025-01-06 19:04:50,807 - sim - INFO - Time per frame: 0.003967275053767835
+2025-01-06 19:04:50,808 - sim - INFO - Rollout 2 / 10
+2025-01-06 19:04:51,928 - sim - INFO - Step 10 / 120: time per frame 0.004276
+2025-01-06 19:04:52,018 - sim - INFO - Step 20 / 120: time per frame 0.003950
+2025-01-06 19:04:52,108 - sim - INFO - Step 30 / 120: time per frame 0.003950
+2025-01-06 19:04:52,301 - sim - INFO - Step 40 / 120: time per frame 0.004262
+2025-01-06 19:04:52,386 - sim - INFO - Step 50 / 120: time per frame 0.004262
+2025-01-06 19:04:52,548 - sim - INFO - Step 60 / 120: time per frame 0.004177
+2025-01-06 19:04:52,742 - sim - INFO - Step 70 / 120: time per frame 0.004267
+2025-01-06 19:04:52,877 - sim - INFO - Step 80 / 120: time per frame 0.004508
+2025-01-06 19:04:52,959 - sim - INFO - Step 90 / 120: time per frame 0.004454
+2025-01-06 19:04:53,048 - sim - INFO - Step 100 / 120: time per frame 0.004393
+2025-01-06 19:04:53,241 - sim - INFO - Step 110 / 120: time per frame 0.004360
+2025-01-06 19:04:53,369 - sim - INFO - MSE: 0.0038814685189404257
+2025-01-06 19:04:53,370 - sim - INFO - Materials MSE: 0.00390200538941101
+2025-01-06 19:04:53,370 - sim - INFO - Time per frame: 0.0044145139597230034
+2025-01-06 19:04:53,371 - sim - INFO - Rollout 3 / 10
+2025-01-06 19:04:54,290 - sim - INFO - Step 10 / 120: time per frame 0.003804
+2025-01-06 19:04:54,378 - sim - INFO - Step 20 / 120: time per frame 0.004100
+2025-01-06 19:04:54,462 - sim - INFO - Step 30 / 120: time per frame 0.004010
+2025-01-06 19:04:54,547 - sim - INFO - Step 40 / 120: time per frame 0.003976
+2025-01-06 19:04:54,652 - sim - INFO - Step 50 / 120: time per frame 0.004057
+2025-01-06 19:04:54,740 - sim - INFO - Step 60 / 120: time per frame 0.004072
+2025-01-06 19:04:54,841 - sim - INFO - Step 70 / 120: time per frame 0.004308
+2025-01-06 19:04:54,939 - sim - INFO - Step 80 / 120: time per frame 0.004431
+2025-01-06 19:04:55,043 - sim - INFO - Step 90 / 120: time per frame 0.004339
+2025-01-06 19:04:55,158 - sim - INFO - Step 100 / 120: time per frame 0.004292
+2025-01-06 19:04:55,242 - sim - INFO - Step 110 / 120: time per frame 0.004232
+2025-01-06 19:04:55,360 - sim - INFO - MSE: 0.004133565439853007
+2025-01-06 19:04:55,360 - sim - INFO - Materials MSE: 0.004155436156465986
+2025-01-06 19:04:55,360 - sim - INFO - Time per frame: 0.0042123653120913745
+2025-01-06 19:04:55,361 - sim - INFO - Rollout 4 / 10
+2025-01-06 19:04:56,136 - sim - INFO - Step 10 / 120: time per frame 0.003628
+2025-01-06 19:04:56,232 - sim - INFO - Step 20 / 120: time per frame 0.003643
+2025-01-06 19:04:56,333 - sim - INFO - Step 30 / 120: time per frame 0.003732
+2025-01-06 19:04:56,433 - sim - INFO - Step 40 / 120: time per frame 0.003906
+2025-01-06 19:04:56,527 - sim - INFO - Step 50 / 120: time per frame 0.003949
+2025-01-06 19:04:56,640 - sim - INFO - Step 60 / 120: time per frame 0.004018
+2025-01-06 19:04:56,748 - sim - INFO - Step 70 / 120: time per frame 0.003990
+2025-01-06 19:04:56,851 - sim - INFO - Step 80 / 120: time per frame 0.003943
+2025-01-06 19:04:56,974 - sim - INFO - Step 90 / 120: time per frame 0.003961
+2025-01-06 19:04:57,090 - sim - INFO - Step 100 / 120: time per frame 0.003943
+2025-01-06 19:04:57,170 - sim - INFO - Step 110 / 120: time per frame 0.003913
+2025-01-06 19:04:57,268 - sim - INFO - MSE: 0.0056357205575996725
+2025-01-06 19:04:57,268 - sim - INFO - Materials MSE: 0.00566553918488856
+2025-01-06 19:04:57,268 - sim - INFO - Time per frame: 0.003954737873400672
+2025-01-06 19:04:57,269 - sim - INFO - Rollout 5 / 10
+2025-01-06 19:04:58,199 - sim - INFO - Step 10 / 120: time per frame 0.003942
+2025-01-06 19:04:58,314 - sim - INFO - Step 20 / 120: time per frame 0.003750
+2025-01-06 19:04:58,411 - sim - INFO - Step 30 / 120: time per frame 0.003775
+2025-01-06 19:04:58,520 - sim - INFO - Step 40 / 120: time per frame 0.003883
+2025-01-06 19:04:58,650 - sim - INFO - Step 50 / 120: time per frame 0.003981
+2025-01-06 19:04:58,795 - sim - INFO - Step 60 / 120: time per frame 0.003970
+2025-01-06 19:04:58,923 - sim - INFO - Step 70 / 120: time per frame 0.004067
+2025-01-06 19:04:59,029 - sim - INFO - Step 80 / 120: time per frame 0.004140
+2025-01-06 19:04:59,156 - sim - INFO - Step 90 / 120: time per frame 0.004169
+2025-01-06 19:04:59,250 - sim - INFO - Step 100 / 120: time per frame 0.004134
+2025-01-06 19:04:59,330 - sim - INFO - Step 110 / 120: time per frame 0.004081
+2025-01-06 19:04:59,430 - sim - INFO - MSE: 0.0041589154211217495
+2025-01-06 19:04:59,430 - sim - INFO - Materials MSE: 0.004180920264619749
+2025-01-06 19:04:59,430 - sim - INFO - Time per frame: 0.004084772982839811
+2025-01-06 19:04:59,431 - sim - INFO - Rollout 6 / 10
+2025-01-06 19:05:00,332 - sim - INFO - Step 10 / 120: time per frame 0.003557
+2025-01-06 19:05:00,450 - sim - INFO - Step 20 / 120: time per frame 0.003917
+2025-01-06 19:05:00,547 - sim - INFO - Step 30 / 120: time per frame 0.003833
+2025-01-06 19:05:00,646 - sim - INFO - Step 40 / 120: time per frame 0.003798
+2025-01-06 19:05:00,755 - sim - INFO - Step 50 / 120: time per frame 0.003933
+2025-01-06 19:05:00,965 - sim - INFO - Step 60 / 120: time per frame 0.004077
+2025-01-06 19:05:01,146 - sim - INFO - Step 70 / 120: time per frame 0.004037
+2025-01-06 19:05:01,345 - sim - INFO - Step 80 / 120: time per frame 0.003996
+2025-01-06 19:05:01,522 - sim - INFO - Step 90 / 120: time per frame 0.003959
+2025-01-06 19:05:01,722 - sim - INFO - Step 100 / 120: time per frame 0.003988
+2025-01-06 19:05:01,996 - sim - INFO - Step 110 / 120: time per frame 0.003989
+2025-01-06 19:05:02,166 - sim - INFO - MSE: 0.004835253635815622
+2025-01-06 19:05:02,166 - sim - INFO - Materials MSE: 0.004860836988386075
+2025-01-06 19:05:02,167 - sim - INFO - Time per frame: 0.003998520010608738
+2025-01-06 19:05:02,168 - sim - INFO - Rollout 7 / 10
+2025-01-06 19:05:02,893 - sim - INFO - Step 10 / 120: time per frame 0.003429
+2025-01-06 19:05:02,965 - sim - INFO - Step 20 / 120: time per frame 0.003389
+2025-01-06 19:05:03,037 - sim - INFO - Step 30 / 120: time per frame 0.003373
+2025-01-06 19:05:03,111 - sim - INFO - Step 40 / 120: time per frame 0.003368
+2025-01-06 19:05:03,184 - sim - INFO - Step 50 / 120: time per frame 0.003357
+2025-01-06 19:05:03,259 - sim - INFO - Step 60 / 120: time per frame 0.003346
+2025-01-06 19:05:03,333 - sim - INFO - Step 70 / 120: time per frame 0.003343
+2025-01-06 19:05:03,409 - sim - INFO - Step 80 / 120: time per frame 0.003340
+2025-01-06 19:05:03,486 - sim - INFO - Step 90 / 120: time per frame 0.003336
+2025-01-06 19:05:03,565 - sim - INFO - Step 100 / 120: time per frame 0.003336
+2025-01-06 19:05:03,644 - sim - INFO - Step 110 / 120: time per frame 0.003332
+2025-01-06 19:05:03,717 - sim - INFO - MSE: 0.004621241029249471
+2025-01-06 19:05:03,718 - sim - INFO - Materials MSE: 0.00464569203998624
+2025-01-06 19:05:03,718 - sim - INFO - Time per frame: 0.003329095193895243
+2025-01-06 19:05:03,719 - sim - INFO - Rollout 8 / 10
+2025-01-06 19:05:04,334 - sim - INFO - Step 10 / 120: time per frame 0.003243
+2025-01-06 19:05:04,405 - sim - INFO - Step 20 / 120: time per frame 0.003261
+2025-01-06 19:05:04,477 - sim - INFO - Step 30 / 120: time per frame 0.003295
+2025-01-06 19:05:04,547 - sim - INFO - Step 40 / 120: time per frame 0.003293
+2025-01-06 19:05:04,618 - sim - INFO - Step 50 / 120: time per frame 0.003290
+2025-01-06 19:05:04,689 - sim - INFO - Step 60 / 120: time per frame 0.003291
+2025-01-06 19:05:04,765 - sim - INFO - Step 70 / 120: time per frame 0.003305
+2025-01-06 19:05:04,927 - sim - INFO - Step 80 / 120: time per frame 0.003336
+2025-01-06 19:05:05,112 - sim - INFO - Step 90 / 120: time per frame 0.003365
+2025-01-06 19:05:05,266 - sim - INFO - Step 100 / 120: time per frame 0.003378
+2025-01-06 19:05:05,425 - sim - INFO - Step 110 / 120: time per frame 0.003434
+2025-01-06 19:05:05,577 - sim - INFO - MSE: 0.004270131081907308
+2025-01-06 19:05:05,577 - sim - INFO - Materials MSE: 0.004292724368054965
+2025-01-06 19:05:05,577 - sim - INFO - Time per frame: 0.00345391338154421
+2025-01-06 19:05:05,577 - sim - INFO - Rollout 9 / 10
+2025-01-06 19:05:06,981 - sim - INFO - Step 10 / 120: time per frame 0.003808
+2025-01-06 19:05:07,072 - sim - INFO - Step 20 / 120: time per frame 0.003682
+2025-01-06 19:05:07,149 - sim - INFO - Step 30 / 120: time per frame 0.003657
+2025-01-06 19:05:07,275 - sim - INFO - Step 40 / 120: time per frame 0.003672
+2025-01-06 19:05:07,371 - sim - INFO - Step 50 / 120: time per frame 0.003649
+2025-01-06 19:05:07,479 - sim - INFO - Step 60 / 120: time per frame 0.003683
+2025-01-06 19:05:07,626 - sim - INFO - Step 70 / 120: time per frame 0.003662
+2025-01-06 19:05:07,702 - sim - INFO - Step 80 / 120: time per frame 0.003637
+2025-01-06 19:05:07,796 - sim - INFO - Step 90 / 120: time per frame 0.003642
+2025-01-06 19:05:07,970 - sim - INFO - Step 100 / 120: time per frame 0.003739
+2025-01-06 19:05:08,061 - sim - INFO - Step 110 / 120: time per frame 0.003720
+2025-01-06 19:05:08,171 - sim - INFO - MSE: 0.004608647618629907
+2025-01-06 19:05:08,171 - sim - INFO - Materials MSE: 0.004633031997564457
+2025-01-06 19:05:08,171 - sim - INFO - Time per frame: 0.00372827457169355
+2025-01-06 19:05:08,172 - sim - INFO - Mean pos MSE: 0.004450574638704298, std 0.0005058428976010184
+2025-01-06 19:05:08,172 - sim - INFO - Mean pos Materials MSE: 0.004474122652665697, std 0.00048242378092273473
+2025-01-06 19:05:08,173 - sim - INFO - Mean forward time per frame: 0.004215549816519527, std 0.0009827051479643436

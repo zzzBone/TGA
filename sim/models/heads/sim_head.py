@@ -43,7 +43,7 @@ class SimHead(BaseHead):
 
         losses = dict()
         # compute loss
-        loss = self.compute_loss(vel_dist, gt_label, weight=weight, avg_factor=n_particles * vel_dist.shape[2], reduction_override=reduction_override)
+        loss = self.compute_loss(vel_dist, gt_label, dt=self.dt, weight=weight, avg_factor=n_particles * vel_dist.shape[2], reduction_override=reduction_override, inputs=inputs)
         # compute accuracy
         acc = self.compute_accuracy(vel_dist, gt_label, avg_factor=acc_factor * vel_dist.shape[2], reduction_override=reduction_override)
         losses['loss'] = loss

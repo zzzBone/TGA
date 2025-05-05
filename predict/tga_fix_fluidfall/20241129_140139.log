@@ -1,0 +1,3 @@
+2024-11-29 14:01:39,506 - sim - INFO - Namespace(checkpoint='work_dirs/tga_fix_fluidfall/epoch_8', config='configs/tga/tga_fluidfall.py', debug=0, device='cuda:0', tar_rollout=-1, val_rollout=-1, work_dir='predict/tga_fix_fluidfall/')
+2024-11-29 14:01:39,554 - sim - INFO - Number of parameters: 226499
+2024-11-29 14:01:39,554 - sim - INFO - Loading network from work_dirs/tga_fix_fluidfall/epoch_8

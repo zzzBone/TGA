@@ -1,0 +1,37 @@
+2025-03-16 21:12:27,652 - sim - INFO - Namespace(config='configs/tga/tga_abs_fluidshake.py', save_dir='render_out/tga_fix_256_fluidshake', show_only=True, src_dir='predict/tga_fix_256_fluidshake/', tar_rollout=-1, val_rollout=-1)
+2025-03-16 21:12:27,652 - sim - INFO - Loading rollouts from predict/tga_fix_256_fluidshake/
+2025-03-16 21:12:28,000 - sim - INFO - Rollout 0 / 200
+2025-03-16 21:12:28,045 - sim - INFO - Separate Materials MSE: [0.06483668]
+2025-03-16 21:12:28,046 - sim - INFO - MSE: 0.06427288055419922
+2025-03-16 21:12:28,046 - sim - INFO - Materials MSE: 0.06483668088912964
+2025-03-16 21:12:28,047 - sim - INFO - Time per frame per particle: 1.3860942394210954e-05
+2025-03-16 21:12:28,066 - sim - INFO - n_particles 570
+2025-03-16 21:12:28,066 - sim - INFO - n_shapes 5
+2025-03-16 21:12:30,487 - sim - INFO - Rollout 1 / 200
+2025-03-16 21:12:30,524 - sim - INFO - Separate Materials MSE: [0.06034175]
+2025-03-16 21:12:30,525 - sim - INFO - MSE: 0.05981702730059624
+2025-03-16 21:12:30,525 - sim - INFO - Materials MSE: 0.06034174934029579
+2025-03-16 21:12:30,525 - sim - INFO - Time per frame per particle: 1.215407686258566e-05
+2025-03-16 21:12:30,533 - sim - INFO - n_particles 570
+2025-03-16 21:12:30,533 - sim - INFO - n_shapes 5
+2025-03-16 21:12:33,038 - sim - INFO - Rollout 2 / 200
+2025-03-16 21:12:33,067 - sim - INFO - Separate Materials MSE: [0.09954309]
+2025-03-16 21:12:33,067 - sim - INFO - MSE: 0.09851689636707306
+2025-03-16 21:12:33,067 - sim - INFO - Materials MSE: 0.09954308718442917
+2025-03-16 21:12:33,068 - sim - INFO - Time per frame per particle: 1.1592941334327925e-05
+2025-03-16 21:12:33,075 - sim - INFO - n_particles 480
+2025-03-16 21:12:33,075 - sim - INFO - n_shapes 5
+2025-03-16 21:12:35,303 - sim - INFO - Rollout 3 / 200
+2025-03-16 21:12:35,347 - sim - INFO - Separate Materials MSE: [0.061794404]
+2025-03-16 21:12:35,347 - sim - INFO - MSE: 0.06130550429224968
+2025-03-16 21:12:35,348 - sim - INFO - Materials MSE: 0.061794403940439224
+2025-03-16 21:12:35,348 - sim - INFO - Time per frame per particle: 1.2662733596686385e-05
+2025-03-16 21:12:35,372 - sim - INFO - n_particles 627
+2025-03-16 21:12:35,373 - sim - INFO - n_shapes 5
+2025-03-16 21:12:37,638 - sim - INFO - Rollout 4 / 200
+2025-03-16 21:12:37,923 - sim - INFO - Separate Materials MSE: [0.07218147]
+2025-03-16 21:12:37,923 - sim - INFO - MSE: 0.07161039859056473
+2025-03-16 21:12:37,923 - sim - INFO - Materials MSE: 0.07218147069215775
+2025-03-16 21:12:37,923 - sim - INFO - Time per frame per particle: 1.3515545622877719e-05
+2025-03-16 21:12:37,928 - sim - INFO - n_particles 627
+2025-03-16 21:12:37,928 - sim - INFO - n_shapes 5

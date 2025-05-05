@@ -1,0 +1,7 @@
+2025-03-12 17:10:20,048 - sim - INFO - Namespace(checkpoint='work_dirs/tga_res_boxbath/epoch_3.pth', config='configs/tga/tga_abs_boxbath.py', debug=0, device='cuda:0', tar_rollout=-1, val_rollout=-1, work_dir='predict/tga_res_boxbath')
+2025-03-12 17:10:20,253 - sim - INFO - Number of parameters: 902314
+2025-03-12 17:10:20,254 - sim - INFO - Loading network from work_dirs/tga_res_boxbath/epoch_3.pth
+2025-03-12 17:10:20,938 - sim - INFO - Rollout 0 / 300
+2025-03-12 17:10:34,349 - sim - INFO - Step 10 / 150: time per frame 0.657625
+2025-03-12 17:10:37,604 - sim - INFO - Step 20 / 150: time per frame 0.381198
+2025-03-12 17:10:41,015 - sim - INFO - Step 30 / 150: time per frame 0.288698

@@ -1,0 +1,22 @@
+2024-11-28 13:26:29,901 - sim - INFO - Namespace(checkpoint='work_dirs/tga_boxbath/latest.pth', config='configs/tga/tga_boxbath.py', debug=0, device='cuda:0', tar_rollout=-1, val_rollout=-1, work_dir='predict/tga_boxbath/')
+2024-11-28 13:26:29,969 - sim - INFO - Number of parameters: 1188070
+2024-11-28 13:26:29,969 - sim - INFO - Loading network from work_dirs/tga_boxbath/latest.pth
+2024-11-28 13:26:30,641 - sim - INFO - Rollout 0 / 300
+2024-11-28 13:26:33,909 - sim - INFO - Step 10 / 150: time per frame 0.042640
+2024-11-28 13:26:34,214 - sim - INFO - Step 20 / 150: time per frame 0.025296
+2024-11-28 13:26:34,471 - sim - INFO - Step 30 / 150: time per frame 0.019724
+2024-11-28 13:26:34,729 - sim - INFO - Step 40 / 150: time per frame 0.017018
+2024-11-28 13:26:34,979 - sim - INFO - Step 50 / 150: time per frame 0.015475
+2024-11-28 13:26:35,279 - sim - INFO - Step 60 / 150: time per frame 0.014617
+2024-11-28 13:26:35,521 - sim - INFO - Step 70 / 150: time per frame 0.013844
+2024-11-28 13:26:35,763 - sim - INFO - Step 80 / 150: time per frame 0.013287
+2024-11-28 13:26:36,013 - sim - INFO - Step 90 / 150: time per frame 0.012937
+2024-11-28 13:26:36,319 - sim - INFO - Step 100 / 150: time per frame 0.013210
+2024-11-28 13:26:36,553 - sim - INFO - Step 110 / 150: time per frame 0.012786
+2024-11-28 13:26:36,794 - sim - INFO - Step 120 / 150: time per frame 0.012499
+2024-11-28 13:26:37,025 - sim - INFO - Step 130 / 150: time per frame 0.012177
+2024-11-28 13:26:37,278 - sim - INFO - Step 140 / 150: time per frame 0.011918
+2024-11-28 13:26:37,487 - sim - INFO - MSE: 54430415.990604475
+2024-11-28 13:26:37,491 - sim - INFO - Materials MSE: 54328676.59206956
+2024-11-28 13:26:37,491 - sim - INFO - Time per frame: 0.011705778740547798
+2024-11-28 13:26:37,494 - sim - INFO - Rollout 1 / 300

@@ -1,0 +1,562 @@
+2025-03-16 20:55:11,019 - sim - INFO - Namespace(config='configs/tga/tga_abs_fluidshake.py', save_dir='render_out/tga_res_fluidshake', show_only=True, src_dir='predict/tga_res_fluidshake/', tar_rollout=-1, val_rollout=-1)
+2025-03-16 20:55:11,019 - sim - INFO - Loading rollouts from predict/tga_res_fluidshake/
+2025-03-16 20:55:11,202 - sim - INFO - Rollout 0 / 200
+2025-03-16 20:55:11,216 - sim - INFO - Separate Materials MSE: [0.02747342634416942]
+2025-03-16 20:55:11,216 - sim - INFO - MSE: 0.027328829363410634
+2025-03-16 20:55:11,216 - sim - INFO - Materials MSE: 0.02747342634416942
+2025-03-16 20:55:11,216 - sim - INFO - Time per frame per particle: 8.442848522039952e-05
+2025-03-16 20:55:11,218 - sim - INFO - n_particles 570
+2025-03-16 20:55:11,218 - sim - INFO - n_shapes 5
+2025-03-16 20:55:12,068 - sim - INFO - Rollout 1 / 200
+2025-03-16 20:55:12,139 - sim - INFO - Separate Materials MSE: [0.026448078]
+2025-03-16 20:55:12,139 - sim - INFO - MSE: 0.026218093931674957
+2025-03-16 20:55:12,140 - sim - INFO - Materials MSE: 0.026448078453540802
+2025-03-16 20:55:12,140 - sim - INFO - Time per frame per particle: 1.536693522907187e-05
+2025-03-16 20:55:12,141 - sim - INFO - n_particles 570
+2025-03-16 20:55:12,141 - sim - INFO - n_shapes 5
+2025-03-16 20:55:13,942 - sim - INFO - Rollout 2 / 200
+2025-03-16 20:55:13,986 - sim - INFO - Separate Materials MSE: [0.025201503]
+2025-03-16 20:55:13,986 - sim - INFO - MSE: 0.024941693991422653
+2025-03-16 20:55:13,986 - sim - INFO - Materials MSE: 0.025201503187417984
+2025-03-16 20:55:13,986 - sim - INFO - Time per frame per particle: 1.4912358767465184e-05
+2025-03-16 20:55:13,988 - sim - INFO - n_particles 480
+2025-03-16 20:55:13,988 - sim - INFO - n_shapes 5
+2025-03-16 20:55:15,765 - sim - INFO - Rollout 3 / 200
+2025-03-16 20:55:15,836 - sim - INFO - Separate Materials MSE: [0.025596298]
+2025-03-16 20:55:15,836 - sim - INFO - MSE: 0.025393791496753693
+2025-03-16 20:55:15,837 - sim - INFO - Materials MSE: 0.025596298277378082
+2025-03-16 20:55:15,837 - sim - INFO - Time per frame per particle: 1.541904712045378e-05
+2025-03-16 20:55:15,843 - sim - INFO - n_particles 627
+2025-03-16 20:55:15,843 - sim - INFO - n_shapes 5
+2025-03-16 20:55:17,665 - sim - INFO - Rollout 4 / 200
+2025-03-16 20:55:17,899 - sim - INFO - Separate Materials MSE: [0.038220163]
+2025-03-16 20:55:17,899 - sim - INFO - MSE: 0.037917789071798325
+2025-03-16 20:55:17,899 - sim - INFO - Materials MSE: 0.03822016343474388
+2025-03-16 20:55:17,900 - sim - INFO - Time per frame per particle: 1.5503567630883517e-05
+2025-03-16 20:55:17,902 - sim - INFO - n_particles 627
+2025-03-16 20:55:17,902 - sim - INFO - n_shapes 5
+2025-03-16 20:55:19,751 - sim - INFO - Rollout 5 / 200
+2025-03-16 20:55:20,032 - sim - INFO - Separate Materials MSE: [0.019282222]
+2025-03-16 20:55:20,032 - sim - INFO - MSE: 0.01909501478075981
+2025-03-16 20:55:20,032 - sim - INFO - Materials MSE: 0.019282221794128418
+2025-03-16 20:55:20,032 - sim - INFO - Time per frame per particle: 1.4791639649519246e-05
+2025-03-16 20:55:20,045 - sim - INFO - n_particles 510
+2025-03-16 20:55:20,045 - sim - INFO - n_shapes 5
+2025-03-16 20:55:31,927 - sim - INFO - Rollout 6 / 200
+2025-03-16 20:55:32,168 - sim - INFO - Separate Materials MSE: [0.01505065]
+2025-03-16 20:55:32,169 - sim - INFO - MSE: 0.014917691238224506
+2025-03-16 20:55:32,169 - sim - INFO - Materials MSE: 0.015050649642944336
+2025-03-16 20:55:32,169 - sim - INFO - Time per frame per particle: 1.515105769918481e-05
+2025-03-16 20:55:32,266 - sim - INFO - n_particles 561
+2025-03-16 20:55:32,266 - sim - INFO - n_shapes 5
+2025-03-16 20:55:44,389 - sim - INFO - Rollout 7 / 200
+2025-03-16 20:55:44,564 - sim - INFO - Separate Materials MSE: [0.021076823]
+2025-03-16 20:55:44,564 - sim - INFO - MSE: 0.020872190594673157
+2025-03-16 20:55:44,565 - sim - INFO - Materials MSE: 0.02107682265341282
+2025-03-16 20:55:44,565 - sim - INFO - Time per frame per particle: 1.5365877795888988e-05
+2025-03-16 20:55:44,663 - sim - INFO - n_particles 510
+2025-03-16 20:55:44,706 - sim - INFO - n_shapes 5
+2025-03-16 20:55:56,998 - sim - INFO - Rollout 8 / 200
+2025-03-16 20:55:57,137 - sim - INFO - Separate Materials MSE: [0.024903236]
+2025-03-16 20:55:57,137 - sim - INFO - MSE: 0.02462957426905632
+2025-03-16 20:55:57,137 - sim - INFO - Materials MSE: 0.02490323595702648
+2025-03-16 20:55:57,137 - sim - INFO - Time per frame per particle: 1.4454891692397252e-05
+2025-03-16 20:55:57,204 - sim - INFO - n_particles 450
+2025-03-16 20:55:57,204 - sim - INFO - n_shapes 5
+2025-03-16 20:56:05,088 - sim - INFO - Rollout 9 / 200
+2025-03-16 20:56:05,243 - sim - INFO - Separate Materials MSE: [0.020830894]
+2025-03-16 20:56:05,244 - sim - INFO - MSE: 0.0206660907715559
+2025-03-16 20:56:05,244 - sim - INFO - Materials MSE: 0.020830893889069557
+2025-03-16 20:56:05,244 - sim - INFO - Time per frame per particle: 1.5244276539186241e-05
+2025-03-16 20:56:05,349 - sim - INFO - n_particles 627
+2025-03-16 20:56:05,424 - sim - INFO - n_shapes 5
+2025-03-16 20:56:16,450 - sim - INFO - Rollout 10 / 200
+2025-03-16 20:56:16,905 - sim - INFO - Separate Materials MSE: [0.01837406]
+2025-03-16 20:56:16,905 - sim - INFO - MSE: 0.018195675686001778
+2025-03-16 20:56:16,905 - sim - INFO - Materials MSE: 0.018374059349298477
+2025-03-16 20:56:16,905 - sim - INFO - Time per frame per particle: 1.4701773229076893e-05
+2025-03-16 20:56:16,960 - sim - INFO - n_particles 510
+2025-03-16 20:56:16,960 - sim - INFO - n_shapes 5
+2025-03-16 20:56:28,762 - sim - INFO - Rollout 11 / 200
+2025-03-16 20:56:28,945 - sim - INFO - Separate Materials MSE: [0.013515231]
+2025-03-16 20:56:28,945 - sim - INFO - MSE: 0.013395838439464569
+2025-03-16 20:56:28,946 - sim - INFO - Materials MSE: 0.01351523119956255
+2025-03-16 20:56:28,946 - sim - INFO - Time per frame per particle: 1.5151505790640066e-05
+2025-03-16 20:56:28,966 - sim - INFO - n_particles 561
+2025-03-16 20:56:28,966 - sim - INFO - n_shapes 5
+2025-03-16 20:56:41,574 - sim - INFO - Rollout 12 / 200
+2025-03-16 20:56:41,878 - sim - INFO - Separate Materials MSE: [0.018875064]
+2025-03-16 20:56:41,878 - sim - INFO - MSE: 0.01872573420405388
+2025-03-16 20:56:41,878 - sim - INFO - Materials MSE: 0.018875064328312874
+2025-03-16 20:56:41,878 - sim - INFO - Time per frame per particle: 1.5204701303331848e-05
+2025-03-16 20:56:41,992 - sim - INFO - n_particles 627
+2025-03-16 20:56:41,992 - sim - INFO - n_shapes 5
+2025-03-16 20:56:56,111 - sim - INFO - Rollout 13 / 200
+2025-03-16 20:56:56,319 - sim - INFO - Separate Materials MSE: [0.016669763]
+2025-03-16 20:56:56,319 - sim - INFO - MSE: 0.016503065824508667
+2025-03-16 20:56:56,319 - sim - INFO - Materials MSE: 0.01666976325213909
+2025-03-16 20:56:56,319 - sim - INFO - Time per frame per particle: 1.4670151192069854e-05
+2025-03-16 20:56:56,387 - sim - INFO - n_particles 495
+2025-03-16 20:56:56,388 - sim - INFO - n_shapes 5
+2025-03-16 20:57:05,566 - sim - INFO - Rollout 14 / 200
+2025-03-16 20:57:05,917 - sim - INFO - Separate Materials MSE: [0.0235944]
+2025-03-16 20:57:05,918 - sim - INFO - MSE: 0.023358453065156937
+2025-03-16 20:57:05,918 - sim - INFO - Materials MSE: 0.02359439991414547
+2025-03-16 20:57:05,918 - sim - INFO - Time per frame per particle: 1.4525151092734113e-05
+2025-03-16 20:57:05,962 - sim - INFO - n_particles 495
+2025-03-16 20:57:05,962 - sim - INFO - n_shapes 5
+2025-03-16 20:57:16,651 - sim - INFO - Rollout 15 / 200
+2025-03-16 20:57:17,098 - sim - INFO - Separate Materials MSE: [0.025460588]
+2025-03-16 20:57:17,098 - sim - INFO - MSE: 0.02525915391743183
+2025-03-16 20:57:17,098 - sim - INFO - Materials MSE: 0.025460587814450264
+2025-03-16 20:57:17,098 - sim - INFO - Time per frame per particle: 1.526742644444084e-05
+2025-03-16 20:57:17,189 - sim - INFO - n_particles 627
+2025-03-16 20:57:17,190 - sim - INFO - n_shapes 5
+2025-03-16 20:57:32,296 - sim - INFO - Rollout 16 / 200
+2025-03-16 20:57:32,521 - sim - INFO - Separate Materials MSE: [0.021648271]
+2025-03-16 20:57:32,521 - sim - INFO - MSE: 0.021425094455480576
+2025-03-16 20:57:32,521 - sim - INFO - Materials MSE: 0.02164827100932598
+2025-03-16 20:57:32,521 - sim - INFO - Time per frame per particle: 1.4374893379567743e-05
+2025-03-16 20:57:32,646 - sim - INFO - n_particles 480
+2025-03-16 20:57:32,646 - sim - INFO - n_shapes 5
+2025-03-16 20:57:42,940 - sim - INFO - Rollout 17 / 200
+2025-03-16 20:57:43,148 - sim - INFO - Separate Materials MSE: [0.01758197]
+2025-03-16 20:57:43,149 - sim - INFO - MSE: 0.017406146973371506
+2025-03-16 20:57:43,149 - sim - INFO - Materials MSE: 0.017581969499588013
+2025-03-16 20:57:43,149 - sim - INFO - Time per frame per particle: 1.4295542800186464e-05
+2025-03-16 20:57:43,220 - sim - INFO - n_particles 495
+2025-03-16 20:57:43,220 - sim - INFO - n_shapes 5
+2025-03-16 20:57:52,792 - sim - INFO - Rollout 18 / 200
+2025-03-16 20:57:52,999 - sim - INFO - Separate Materials MSE: [0.01330411]
+2025-03-16 20:57:52,999 - sim - INFO - MSE: 0.013179309666156769
+2025-03-16 20:57:52,999 - sim - INFO - Materials MSE: 0.013304109685122967
+2025-03-16 20:57:53,000 - sim - INFO - Time per frame per particle: 1.4762107956428518e-05
+2025-03-16 20:57:53,087 - sim - INFO - n_particles 528
+2025-03-16 20:57:53,087 - sim - INFO - n_shapes 5
+2025-03-16 20:58:05,860 - sim - INFO - Rollout 19 / 200
+2025-03-16 20:58:06,538 - sim - INFO - Separate Materials MSE: [0.011231421]
+2025-03-16 20:58:06,538 - sim - INFO - MSE: 0.011122377589344978
+2025-03-16 20:58:06,538 - sim - INFO - Materials MSE: 0.011231420561671257
+2025-03-16 20:58:06,539 - sim - INFO - Time per frame per particle: 1.4711638075478763e-05
+2025-03-16 20:58:06,596 - sim - INFO - n_particles 510
+2025-03-16 20:58:06,597 - sim - INFO - n_shapes 5
+2025-03-16 20:58:19,311 - sim - INFO - Rollout 20 / 200
+2025-03-16 20:58:19,583 - sim - INFO - Separate Materials MSE: [0.020196242]
+2025-03-16 20:58:19,640 - sim - INFO - MSE: 0.02002766542136669
+2025-03-16 20:58:19,640 - sim - INFO - Materials MSE: 0.02019624225795269
+2025-03-16 20:58:19,640 - sim - INFO - Time per frame per particle: 1.5015093277507017e-05
+2025-03-16 20:58:19,669 - sim - INFO - n_particles 594
+2025-03-16 20:58:19,670 - sim - INFO - n_shapes 5
+2025-03-16 20:58:36,220 - sim - INFO - Rollout 21 / 200
+2025-03-16 20:58:37,193 - sim - INFO - Separate Materials MSE: [0.022778625]
+2025-03-16 20:58:37,193 - sim - INFO - MSE: 0.02256493829190731
+2025-03-16 20:58:37,193 - sim - INFO - Materials MSE: 0.022778624668717384
+2025-03-16 20:58:37,193 - sim - INFO - Time per frame per particle: 1.4764716790119531e-05
+2025-03-16 20:58:37,284 - sim - INFO - n_particles 528
+2025-03-16 20:58:37,284 - sim - INFO - n_shapes 5
+2025-03-16 20:58:48,788 - sim - INFO - Rollout 22 / 200
+2025-03-16 20:58:49,061 - sim - INFO - Separate Materials MSE: [0.015540315]
+2025-03-16 20:58:49,062 - sim - INFO - MSE: 0.015410596504807472
+2025-03-16 20:58:49,062 - sim - INFO - Materials MSE: 0.015540314838290215
+2025-03-16 20:58:49,062 - sim - INFO - Time per frame per particle: 1.562359345032587e-05
+2025-03-16 20:58:49,159 - sim - INFO - n_particles 594
+2025-03-16 20:58:49,159 - sim - INFO - n_shapes 5
+2025-03-16 20:59:03,124 - sim - INFO - Rollout 23 / 200
+2025-03-16 20:59:03,443 - sim - INFO - Separate Materials MSE: [0.030856047]
+2025-03-16 20:59:03,444 - sim - INFO - MSE: 0.030611924827098846
+2025-03-16 20:59:03,444 - sim - INFO - Materials MSE: 0.030856046825647354
+2025-03-16 20:59:03,444 - sim - INFO - Time per frame per particle: 1.5325129675223098e-05
+2025-03-16 20:59:03,555 - sim - INFO - n_particles 627
+2025-03-16 20:59:03,556 - sim - INFO - n_shapes 5
+2025-03-16 20:59:17,254 - sim - INFO - Rollout 24 / 200
+2025-03-16 20:59:17,530 - sim - INFO - Separate Materials MSE: [0.02449191]
+2025-03-16 20:59:17,530 - sim - INFO - MSE: 0.02423941344022751
+2025-03-16 20:59:17,530 - sim - INFO - Materials MSE: 0.02449190989136696
+2025-03-16 20:59:17,530 - sim - INFO - Time per frame per particle: 1.45134641778912e-05
+2025-03-16 20:59:17,617 - sim - INFO - n_particles 480
+2025-03-16 20:59:17,617 - sim - INFO - n_shapes 5
+2025-03-16 20:59:28,951 - sim - INFO - Rollout 25 / 200
+2025-03-16 20:59:29,126 - sim - INFO - Separate Materials MSE: [0.015577892]
+2025-03-16 20:59:29,126 - sim - INFO - MSE: 0.015426653437316418
+2025-03-16 20:59:29,127 - sim - INFO - Materials MSE: 0.0155778918415308
+2025-03-16 20:59:29,127 - sim - INFO - Time per frame per particle: 1.4806969776179664e-05
+2025-03-16 20:59:29,219 - sim - INFO - n_particles 510
+2025-03-16 20:59:29,219 - sim - INFO - n_shapes 5
+2025-03-16 20:59:41,912 - sim - INFO - Rollout 26 / 200
+2025-03-16 20:59:42,149 - sim - INFO - Separate Materials MSE: [0.017761726]
+2025-03-16 20:59:42,149 - sim - INFO - MSE: 0.01758410967886448
+2025-03-16 20:59:42,149 - sim - INFO - Materials MSE: 0.017761725932359695
+2025-03-16 20:59:42,149 - sim - INFO - Time per frame per particle: 1.4431407787655824e-05
+2025-03-16 20:59:42,247 - sim - INFO - n_particles 495
+2025-03-16 20:59:42,248 - sim - INFO - n_shapes 5
+2025-03-16 20:59:53,594 - sim - INFO - Rollout 27 / 200
+2025-03-16 20:59:53,757 - sim - INFO - Separate Materials MSE: [0.016322732]
+2025-03-16 20:59:53,757 - sim - INFO - MSE: 0.016159504652023315
+2025-03-16 20:59:53,757 - sim - INFO - Materials MSE: 0.016322731971740723
+2025-03-16 20:59:53,757 - sim - INFO - Time per frame per particle: 1.43498862349747e-05
+2025-03-16 20:59:53,885 - sim - INFO - n_particles 495
+2025-03-16 20:59:53,885 - sim - INFO - n_shapes 5
+2025-03-16 21:00:04,734 - sim - INFO - Rollout 28 / 200
+2025-03-16 21:00:04,899 - sim - INFO - Separate Materials MSE: [0.020960245]
+2025-03-16 21:00:04,899 - sim - INFO - MSE: 0.02074415795505047
+2025-03-16 21:00:04,899 - sim - INFO - Materials MSE: 0.0209602452814579
+2025-03-16 21:00:04,899 - sim - INFO - Time per frame per particle: 1.4357752250006791e-05
+2025-03-16 21:00:04,972 - sim - INFO - n_particles 480
+2025-03-16 21:00:04,973 - sim - INFO - n_shapes 5
+2025-03-16 21:00:14,919 - sim - INFO - Rollout 29 / 200
+2025-03-16 21:00:15,155 - sim - INFO - Separate Materials MSE: [0.023208158]
+2025-03-16 21:00:15,156 - sim - INFO - MSE: 0.022968903183937073
+2025-03-16 21:00:15,156 - sim - INFO - Materials MSE: 0.02320815809071064
+2025-03-16 21:00:15,157 - sim - INFO - Time per frame per particle: 1.4609915405328337e-05
+2025-03-16 21:00:15,246 - sim - INFO - n_particles 480
+2025-03-16 21:00:15,247 - sim - INFO - n_shapes 5
+2025-03-16 21:00:25,391 - sim - INFO - Rollout 30 / 200
+2025-03-16 21:00:25,628 - sim - INFO - Separate Materials MSE: [0.020484062]
+2025-03-16 21:00:25,628 - sim - INFO - MSE: 0.020285187289118767
+2025-03-16 21:00:25,628 - sim - INFO - Materials MSE: 0.020484061911702156
+2025-03-16 21:00:25,629 - sim - INFO - Time per frame per particle: 1.5183810015769317e-05
+2025-03-16 21:00:25,726 - sim - INFO - n_particles 510
+2025-03-16 21:00:25,726 - sim - INFO - n_shapes 5
+2025-03-16 21:00:40,110 - sim - INFO - Rollout 31 / 200
+2025-03-16 21:00:40,182 - sim - INFO - Separate Materials MSE: [0.01380719]
+2025-03-16 21:00:40,182 - sim - INFO - MSE: 0.013673141598701477
+2025-03-16 21:00:40,183 - sim - INFO - Materials MSE: 0.013807189650833607
+2025-03-16 21:00:40,183 - sim - INFO - Time per frame per particle: 1.4861161183586972e-05
+2025-03-16 21:00:40,237 - sim - INFO - n_particles 510
+2025-03-16 21:00:40,237 - sim - INFO - n_shapes 5
+2025-03-16 21:00:54,492 - sim - INFO - Rollout 32 / 200
+2025-03-16 21:00:54,811 - sim - INFO - Separate Materials MSE: [0.018843573]
+2025-03-16 21:00:54,811 - sim - INFO - MSE: 0.018677106127142906
+2025-03-16 21:00:54,812 - sim - INFO - Materials MSE: 0.018843572586774826
+2025-03-16 21:00:54,812 - sim - INFO - Time per frame per particle: 1.5143385016474615e-05
+2025-03-16 21:00:54,922 - sim - INFO - n_particles 561
+2025-03-16 21:00:54,923 - sim - INFO - n_shapes 5
+2025-03-16 21:01:08,182 - sim - INFO - Rollout 33 / 200
+2025-03-16 21:01:08,454 - sim - INFO - Separate Materials MSE: [0.011698946]
+2025-03-16 21:01:08,455 - sim - INFO - MSE: 0.011581960134208202
+2025-03-16 21:01:08,455 - sim - INFO - Materials MSE: 0.011698946356773376
+2025-03-16 21:01:08,455 - sim - INFO - Time per frame per particle: 1.4670615228230521e-05
+2025-03-16 21:01:08,547 - sim - INFO - n_particles 495
+2025-03-16 21:01:08,547 - sim - INFO - n_shapes 5
+2025-03-16 21:01:18,839 - sim - INFO - Rollout 34 / 200
+2025-03-16 21:01:19,512 - sim - INFO - Separate Materials MSE: [0.02110649]
+2025-03-16 21:01:19,512 - sim - INFO - MSE: 0.020912855863571167
+2025-03-16 21:01:19,512 - sim - INFO - Materials MSE: 0.02110649086534977
+2025-03-16 21:01:19,512 - sim - INFO - Time per frame per particle: 1.5131266464572566e-05
+2025-03-16 21:01:19,599 - sim - INFO - n_particles 540
+2025-03-16 21:01:19,599 - sim - INFO - n_shapes 5
+2025-03-16 21:01:32,120 - sim - INFO - Rollout 35 / 200
+2025-03-16 21:01:32,498 - sim - INFO - Separate Materials MSE: [0.021470284]
+2025-03-16 21:01:32,498 - sim - INFO - MSE: 0.0212835855782032
+2025-03-16 21:01:32,499 - sim - INFO - Materials MSE: 0.021470284089446068
+2025-03-16 21:01:32,499 - sim - INFO - Time per frame per particle: 1.5415496926353596e-05
+2025-03-16 21:01:32,619 - sim - INFO - n_particles 570
+2025-03-16 21:01:32,619 - sim - INFO - n_shapes 5
+2025-03-16 21:01:46,551 - sim - INFO - Rollout 36 / 200
+2025-03-16 21:01:46,807 - sim - INFO - Separate Materials MSE: [0.03255214]
+2025-03-16 21:01:46,808 - sim - INFO - MSE: 0.03219442069530487
+2025-03-16 21:01:46,808 - sim - INFO - Materials MSE: 0.032552141696214676
+2025-03-16 21:01:46,808 - sim - INFO - Time per frame per particle: 1.4455909793712245e-05
+2025-03-16 21:01:46,912 - sim - INFO - n_particles 450
+2025-03-16 21:01:46,912 - sim - INFO - n_shapes 5
+2025-03-16 21:01:58,673 - sim - INFO - Rollout 37 / 200
+2025-03-16 21:01:59,010 - sim - INFO - Separate Materials MSE: [0.027831186]
+2025-03-16 21:01:59,010 - sim - INFO - MSE: 0.02757585607469082
+2025-03-16 21:01:59,010 - sim - INFO - Materials MSE: 0.02783118560910225
+2025-03-16 21:01:59,010 - sim - INFO - Time per frame per particle: 1.5164804490914259e-05
+2025-03-16 21:01:59,109 - sim - INFO - n_particles 540
+2025-03-16 21:01:59,109 - sim - INFO - n_shapes 5
+2025-03-16 21:02:11,748 - sim - INFO - Rollout 38 / 200
+2025-03-16 21:02:11,936 - sim - INFO - Separate Materials MSE: [0.014548907]
+2025-03-16 21:02:11,937 - sim - INFO - MSE: 0.014433806762099266
+2025-03-16 21:02:11,937 - sim - INFO - Materials MSE: 0.014548907056450844
+2025-03-16 21:02:11,937 - sim - INFO - Time per frame per particle: 1.540317879528473e-05
+2025-03-16 21:02:12,020 - sim - INFO - n_particles 627
+2025-03-16 21:02:12,020 - sim - INFO - n_shapes 5
+2025-03-16 21:02:23,897 - sim - INFO - Rollout 39 / 200
+2025-03-16 21:02:23,993 - sim - INFO - Separate Materials MSE: [0.019563414]
+2025-03-16 21:02:24,168 - sim - INFO - MSE: 0.019393296912312508
+2025-03-16 21:02:24,169 - sim - INFO - Materials MSE: 0.01956341415643692
+2025-03-16 21:02:24,169 - sim - INFO - Time per frame per particle: 1.5540363700250025e-05
+2025-03-16 21:02:24,281 - sim - INFO - n_particles 570
+2025-03-16 21:02:24,282 - sim - INFO - n_shapes 5
+2025-03-16 21:02:37,865 - sim - INFO - Rollout 40 / 200
+2025-03-16 21:02:38,145 - sim - INFO - Separate Materials MSE: [0.02472136]
+2025-03-16 21:02:38,145 - sim - INFO - MSE: 0.02451500855386257
+2025-03-16 21:02:38,145 - sim - INFO - Materials MSE: 0.024721359834074974
+2025-03-16 21:02:38,146 - sim - INFO - Time per frame per particle: 1.5220267195854985e-05
+2025-03-16 21:02:38,241 - sim - INFO - n_particles 594
+2025-03-16 21:02:38,241 - sim - INFO - n_shapes 5
+2025-03-16 21:02:51,410 - sim - INFO - Rollout 41 / 200
+2025-03-16 21:02:51,653 - sim - INFO - Separate Materials MSE: [0.014835687]
+2025-03-16 21:02:51,653 - sim - INFO - MSE: 0.014691651798784733
+2025-03-16 21:02:51,653 - sim - INFO - Materials MSE: 0.014835687354207039
+2025-03-16 21:02:51,653 - sim - INFO - Time per frame per particle: 1.526483846594707e-05
+2025-03-16 21:02:51,771 - sim - INFO - n_particles 510
+2025-03-16 21:02:51,772 - sim - INFO - n_shapes 5
+2025-03-16 21:03:04,267 - sim - INFO - Rollout 42 / 200
+2025-03-16 21:03:04,572 - sim - INFO - Separate Materials MSE: [0.016095707]
+2025-03-16 21:03:04,573 - sim - INFO - MSE: 0.015955746173858643
+2025-03-16 21:03:04,573 - sim - INFO - Materials MSE: 0.016095707193017006
+2025-03-16 21:03:04,573 - sim - INFO - Time per frame per particle: 1.5318128643141636e-05
+2025-03-16 21:03:04,691 - sim - INFO - n_particles 570
+2025-03-16 21:03:04,691 - sim - INFO - n_shapes 5
+2025-03-16 21:03:16,963 - sim - INFO - Rollout 43 / 200
+2025-03-16 21:03:17,186 - sim - INFO - Separate Materials MSE: [0.02680494]
+2025-03-16 21:03:17,186 - sim - INFO - MSE: 0.02653689682483673
+2025-03-16 21:03:17,186 - sim - INFO - Materials MSE: 0.026804940775036812
+2025-03-16 21:03:17,186 - sim - INFO - Time per frame per particle: 1.468602922938814e-05
+2025-03-16 21:03:17,276 - sim - INFO - n_particles 495
+2025-03-16 21:03:17,276 - sim - INFO - n_shapes 5
+2025-03-16 21:03:28,508 - sim - INFO - Rollout 44 / 200
+2025-03-16 21:03:28,616 - sim - INFO - Separate Materials MSE: [0.012276722]
+2025-03-16 21:03:28,616 - sim - INFO - MSE: 0.012153951451182365
+2025-03-16 21:03:28,617 - sim - INFO - Materials MSE: 0.012276722118258476
+2025-03-16 21:03:28,617 - sim - INFO - Time per frame per particle: 1.4839878018270404e-05
+2025-03-16 21:03:28,626 - sim - INFO - n_particles 495
+2025-03-16 21:03:28,626 - sim - INFO - n_shapes 5
+2025-03-16 21:03:40,995 - sim - INFO - Rollout 45 / 200
+2025-03-16 21:03:41,450 - sim - INFO - Separate Materials MSE: [0.02220887]
+2025-03-16 21:03:41,450 - sim - INFO - MSE: 0.022012673318386078
+2025-03-16 21:03:41,450 - sim - INFO - Materials MSE: 0.022208869457244873
+2025-03-16 21:03:41,450 - sim - INFO - Time per frame per particle: 1.5158721900668725e-05
+2025-03-16 21:03:41,590 - sim - INFO - n_particles 561
+2025-03-16 21:03:41,590 - sim - INFO - n_shapes 5
+2025-03-16 21:03:55,864 - sim - INFO - Rollout 46 / 200
+2025-03-16 21:03:56,598 - sim - INFO - Separate Materials MSE: [0.018328974]
+2025-03-16 21:03:56,598 - sim - INFO - MSE: 0.01814001426100731
+2025-03-16 21:03:56,598 - sim - INFO - Materials MSE: 0.018328974023461342
+2025-03-16 21:03:56,598 - sim - INFO - Time per frame per particle: 1.4458692074646829e-05
+2025-03-16 21:03:56,616 - sim - INFO - n_particles 480
+2025-03-16 21:03:56,616 - sim - INFO - n_shapes 5
+2025-03-16 21:04:08,172 - sim - INFO - Rollout 47 / 200
+2025-03-16 21:04:08,492 - sim - INFO - Separate Materials MSE: [0.018142624]
+2025-03-16 21:04:08,492 - sim - INFO - MSE: 0.017984867095947266
+2025-03-16 21:04:08,492 - sim - INFO - Materials MSE: 0.01814262382686138
+2025-03-16 21:04:08,492 - sim - INFO - Time per frame per particle: 1.5276636714172808e-05
+2025-03-16 21:04:08,501 - sim - INFO - n_particles 570
+2025-03-16 21:04:08,501 - sim - INFO - n_shapes 5
+2025-03-16 21:04:21,836 - sim - INFO - Rollout 48 / 200
+2025-03-16 21:04:22,565 - sim - INFO - Separate Materials MSE: [0.014997504]
+2025-03-16 21:04:22,565 - sim - INFO - MSE: 0.014859913848340511
+2025-03-16 21:04:22,565 - sim - INFO - Materials MSE: 0.014997503720223904
+2025-03-16 21:04:22,565 - sim - INFO - Time per frame per particle: 1.5195683961460416e-05
+2025-03-16 21:04:22,572 - sim - INFO - n_particles 540
+2025-03-16 21:04:22,572 - sim - INFO - n_shapes 5
+2025-03-16 21:04:33,268 - sim - INFO - Rollout 49 / 200
+2025-03-16 21:04:33,449 - sim - INFO - Separate Materials MSE: [0.018761221]
+2025-03-16 21:04:33,449 - sim - INFO - MSE: 0.018589096143841743
+2025-03-16 21:04:33,449 - sim - INFO - Materials MSE: 0.018761221319437027
+2025-03-16 21:04:33,449 - sim - INFO - Time per frame per particle: 1.5134813162972351e-05
+2025-03-16 21:04:33,519 - sim - INFO - n_particles 540
+2025-03-16 21:04:33,519 - sim - INFO - n_shapes 5
+2025-03-16 21:04:45,387 - sim - INFO - Rollout 50 / 200
+2025-03-16 21:04:45,636 - sim - INFO - Separate Materials MSE: [0.016104735]
+2025-03-16 21:04:45,637 - sim - INFO - MSE: 0.015970304608345032
+2025-03-16 21:04:45,637 - sim - INFO - Materials MSE: 0.01610473543405533
+2025-03-16 21:04:45,637 - sim - INFO - Time per frame per particle: 1.5261593955532647e-05
+2025-03-16 21:04:45,764 - sim - INFO - n_particles 594
+2025-03-16 21:04:45,764 - sim - INFO - n_shapes 5
+2025-03-16 21:05:00,980 - sim - INFO - Rollout 51 / 200
+2025-03-16 21:05:01,284 - sim - INFO - Separate Materials MSE: [0.015936729]
+2025-03-16 21:05:01,284 - sim - INFO - MSE: 0.0158106479793787
+2025-03-16 21:05:01,284 - sim - INFO - Materials MSE: 0.015936728566884995
+2025-03-16 21:05:01,285 - sim - INFO - Time per frame per particle: 1.5298156687239296e-05
+2025-03-16 21:05:01,373 - sim - INFO - n_particles 627
+2025-03-16 21:05:01,429 - sim - INFO - n_shapes 5
+2025-03-16 21:05:15,303 - sim - INFO - Rollout 52 / 200
+2025-03-16 21:05:15,675 - sim - INFO - Separate Materials MSE: [0.017902803]
+2025-03-16 21:05:15,675 - sim - INFO - MSE: 0.017747120931744576
+2025-03-16 21:05:15,676 - sim - INFO - Materials MSE: 0.017902802675962448
+2025-03-16 21:05:15,676 - sim - INFO - Time per frame per particle: 1.5336123784568662e-05
+2025-03-16 21:05:15,771 - sim - INFO - n_particles 570
+2025-03-16 21:05:15,772 - sim - INFO - n_shapes 5
+2025-03-16 21:05:28,624 - sim - INFO - Rollout 53 / 200
+2025-03-16 21:05:28,906 - sim - INFO - Separate Materials MSE: [0.017597567]
+2025-03-16 21:05:28,906 - sim - INFO - MSE: 0.01743612438440323
+2025-03-16 21:05:28,906 - sim - INFO - Materials MSE: 0.017597567290067673
+2025-03-16 21:05:28,906 - sim - INFO - Time per frame per particle: 1.512535774724676e-05
+2025-03-16 21:05:29,005 - sim - INFO - n_particles 540
+2025-03-16 21:05:29,005 - sim - INFO - n_shapes 5
+2025-03-16 21:05:41,576 - sim - INFO - Rollout 54 / 200
+2025-03-16 21:05:42,004 - sim - INFO - Separate Materials MSE: [0.038306464]
+2025-03-16 21:05:42,004 - sim - INFO - MSE: 0.03796806558966637
+2025-03-16 21:05:42,004 - sim - INFO - Materials MSE: 0.03830646350979805
+2025-03-16 21:05:42,004 - sim - INFO - Time per frame per particle: 1.511695468830305e-05
+2025-03-16 21:05:42,101 - sim - INFO - n_particles 561
+2025-03-16 21:05:42,101 - sim - INFO - n_shapes 5
+2025-03-16 21:05:56,344 - sim - INFO - Rollout 55 / 200
+2025-03-16 21:05:56,480 - sim - INFO - Separate Materials MSE: [0.016988538]
+2025-03-16 21:05:56,480 - sim - INFO - MSE: 0.01681864820420742
+2025-03-16 21:05:56,481 - sim - INFO - Materials MSE: 0.016988538205623627
+2025-03-16 21:05:56,481 - sim - INFO - Time per frame per particle: 1.4837378623501567e-05
+2025-03-16 21:05:56,718 - sim - INFO - n_particles 495
+2025-03-16 21:05:56,719 - sim - INFO - n_shapes 5
+2025-03-16 21:06:07,159 - sim - INFO - Rollout 56 / 200
+2025-03-16 21:06:07,301 - sim - INFO - Separate Materials MSE: [0.013336758]
+2025-03-16 21:06:07,302 - sim - INFO - MSE: 0.013190200552344322
+2025-03-16 21:06:07,302 - sim - INFO - Materials MSE: 0.013336758129298687
+2025-03-16 21:06:07,302 - sim - INFO - Time per frame per particle: 1.4732847418420407e-05
+2025-03-16 21:06:07,317 - sim - INFO - n_particles 450
+2025-03-16 21:06:07,317 - sim - INFO - n_shapes 5
+2025-03-16 21:06:19,220 - sim - INFO - Rollout 57 / 200
+2025-03-16 21:06:19,908 - sim - INFO - Separate Materials MSE: [0.018292679]
+2025-03-16 21:06:19,909 - sim - INFO - MSE: 0.018109753727912903
+2025-03-16 21:06:19,909 - sim - INFO - Materials MSE: 0.018292678520083427
+2025-03-16 21:06:19,909 - sim - INFO - Time per frame per particle: 1.4654492371834365e-05
+2025-03-16 21:06:19,999 - sim - INFO - n_particles 495
+2025-03-16 21:06:19,999 - sim - INFO - n_shapes 5
+2025-03-16 21:06:29,859 - sim - INFO - Rollout 58 / 200
+2025-03-16 21:06:30,136 - sim - INFO - Separate Materials MSE: [0.01904094]
+2025-03-16 21:06:30,136 - sim - INFO - MSE: 0.018844641745090485
+2025-03-16 21:06:30,137 - sim - INFO - Materials MSE: 0.019040940329432487
+2025-03-16 21:06:30,137 - sim - INFO - Time per frame per particle: 1.4906952985387306e-05
+2025-03-16 21:06:30,264 - sim - INFO - n_particles 480
+2025-03-16 21:06:30,264 - sim - INFO - n_shapes 5
+2025-03-16 21:06:40,852 - sim - INFO - Rollout 59 / 200
+2025-03-16 21:06:41,097 - sim - INFO - Separate Materials MSE: [0.01519819]
+2025-03-16 21:06:41,097 - sim - INFO - MSE: 0.01505875401198864
+2025-03-16 21:06:41,097 - sim - INFO - Materials MSE: 0.01519818976521492
+2025-03-16 21:06:41,097 - sim - INFO - Time per frame per particle: 1.524638589413088e-05
+2025-03-16 21:06:41,192 - sim - INFO - n_particles 540
+2025-03-16 21:06:41,192 - sim - INFO - n_shapes 5
+2025-03-16 21:06:55,892 - sim - INFO - Rollout 60 / 200
+2025-03-16 21:06:56,235 - sim - INFO - Separate Materials MSE: [0.016031554]
+2025-03-16 21:06:56,235 - sim - INFO - MSE: 0.015875905752182007
+2025-03-16 21:06:56,235 - sim - INFO - Materials MSE: 0.016031553968787193
+2025-03-16 21:06:56,235 - sim - INFO - Time per frame per particle: 1.4874470181874346e-05
+2025-03-16 21:06:56,356 - sim - INFO - n_particles 510
+2025-03-16 21:06:56,356 - sim - INFO - n_shapes 5
+2025-03-16 21:07:10,477 - sim - INFO - Rollout 61 / 200
+2025-03-16 21:07:10,696 - sim - INFO - Separate Materials MSE: [0.01977767]
+2025-03-16 21:07:10,696 - sim - INFO - MSE: 0.01959213986992836
+2025-03-16 21:07:10,696 - sim - INFO - Materials MSE: 0.01977767050266266
+2025-03-16 21:07:10,696 - sim - INFO - Time per frame per particle: 1.4926956825021464e-05
+2025-03-16 21:07:10,766 - sim - INFO - n_particles 528
+2025-03-16 21:07:10,766 - sim - INFO - n_shapes 5
+2025-03-16 21:07:23,332 - sim - INFO - Rollout 62 / 200
+2025-03-16 21:07:23,480 - sim - INFO - Separate Materials MSE: [0.019382838]
+2025-03-16 21:07:23,481 - sim - INFO - MSE: 0.01916983537375927
+2025-03-16 21:07:23,481 - sim - INFO - Materials MSE: 0.019382838159799576
+2025-03-16 21:07:23,481 - sim - INFO - Time per frame per particle: 1.494862335394139e-05
+2025-03-16 21:07:23,569 - sim - INFO - n_particles 450
+2025-03-16 21:07:23,569 - sim - INFO - n_shapes 5
+2025-03-16 21:07:35,091 - sim - INFO - Rollout 63 / 200
+2025-03-16 21:07:35,338 - sim - INFO - Separate Materials MSE: [0.013603648]
+2025-03-16 21:07:35,339 - sim - INFO - MSE: 0.013471578247845173
+2025-03-16 21:07:35,339 - sim - INFO - Materials MSE: 0.01360364817082882
+2025-03-16 21:07:35,339 - sim - INFO - Time per frame per particle: 1.5154557250769758e-05
+2025-03-16 21:07:35,432 - sim - INFO - n_particles 510
+2025-03-16 21:07:35,432 - sim - INFO - n_shapes 5
+2025-03-16 21:07:49,335 - sim - INFO - Rollout 64 / 200
+2025-03-16 21:07:49,862 - sim - INFO - Separate Materials MSE: [0.015977144]
+2025-03-16 21:07:49,863 - sim - INFO - MSE: 0.015822026878595352
+2025-03-16 21:07:49,863 - sim - INFO - Materials MSE: 0.015977144241333008
+2025-03-16 21:07:49,863 - sim - INFO - Time per frame per particle: 1.510025709702416e-05
+2025-03-16 21:07:49,957 - sim - INFO - n_particles 510
+2025-03-16 21:07:49,957 - sim - INFO - n_shapes 5
+2025-03-16 21:08:02,675 - sim - INFO - Rollout 65 / 200
+2025-03-16 21:08:02,935 - sim - INFO - Separate Materials MSE: [0.014053258]
+2025-03-16 21:08:02,935 - sim - INFO - MSE: 0.01391681656241417
+2025-03-16 21:08:02,935 - sim - INFO - Materials MSE: 0.01405325811356306
+2025-03-16 21:08:02,936 - sim - INFO - Time per frame per particle: 1.47911207741337e-05
+2025-03-16 21:08:03,024 - sim - INFO - n_particles 510
+2025-03-16 21:08:03,024 - sim - INFO - n_shapes 5
+2025-03-16 21:08:15,453 - sim - INFO - Rollout 66 / 200
+2025-03-16 21:08:15,735 - sim - INFO - Separate Materials MSE: [0.018390395]
+2025-03-16 21:08:15,735 - sim - INFO - MSE: 0.018221678212285042
+2025-03-16 21:08:15,735 - sim - INFO - Materials MSE: 0.018390394747257233
+2025-03-16 21:08:15,735 - sim - INFO - Time per frame per particle: 1.513167456976923e-05
+2025-03-16 21:08:15,829 - sim - INFO - n_particles 540
+2025-03-16 21:08:15,830 - sim - INFO - n_shapes 5
+2025-03-16 21:08:30,351 - sim - INFO - Rollout 67 / 200
+2025-03-16 21:08:31,127 - sim - INFO - Separate Materials MSE: [0.018979592]
+2025-03-16 21:08:31,127 - sim - INFO - MSE: 0.018801549449563026
+2025-03-16 21:08:31,127 - sim - INFO - Materials MSE: 0.018979592248797417
+2025-03-16 21:08:31,127 - sim - INFO - Time per frame per particle: 1.5017674588514052e-05
+2025-03-16 21:08:31,239 - sim - INFO - n_particles 528
+2025-03-16 21:08:31,239 - sim - INFO - n_shapes 5
+2025-03-16 21:08:42,647 - sim - INFO - Rollout 68 / 200
+2025-03-16 21:08:42,858 - sim - INFO - Separate Materials MSE: [0.0128810825]
+2025-03-16 21:08:42,858 - sim - INFO - MSE: 0.012752273119986057
+2025-03-16 21:08:42,858 - sim - INFO - Materials MSE: 0.012881082482635975
+2025-03-16 21:08:42,859 - sim - INFO - Time per frame per particle: 1.4341362370740648e-05
+2025-03-16 21:08:42,871 - sim - INFO - n_particles 495
+2025-03-16 21:08:42,871 - sim - INFO - n_shapes 5
+2025-03-16 21:08:52,896 - sim - INFO - Rollout 69 / 200
+2025-03-16 21:08:53,359 - sim - INFO - Separate Materials MSE: [0.025425304]
+2025-03-16 21:08:53,359 - sim - INFO - MSE: 0.02519204281270504
+2025-03-16 21:08:53,359 - sim - INFO - Materials MSE: 0.025425303727388382
+2025-03-16 21:08:53,359 - sim - INFO - Time per frame per particle: 1.5205659050709816e-05
+2025-03-16 21:08:53,438 - sim - INFO - n_particles 540
+2025-03-16 21:08:53,438 - sim - INFO - n_shapes 5
+2025-03-16 21:09:06,627 - sim - INFO - Rollout 70 / 200
+2025-03-16 21:09:06,799 - sim - INFO - Separate Materials MSE: [0.019286962]
+2025-03-16 21:09:06,799 - sim - INFO - MSE: 0.019106032326817513
+2025-03-16 21:09:06,799 - sim - INFO - Materials MSE: 0.01928696222603321
+2025-03-16 21:09:06,800 - sim - INFO - Time per frame per particle: 1.487899361274933e-05
+2025-03-16 21:09:06,872 - sim - INFO - n_particles 528
+2025-03-16 21:09:06,872 - sim - INFO - n_shapes 5
+2025-03-16 21:09:20,955 - sim - INFO - Rollout 71 / 200
+2025-03-16 21:09:21,039 - sim - INFO - Separate Materials MSE: [0.022451902]
+2025-03-16 21:09:21,040 - sim - INFO - MSE: 0.0222051739692688
+2025-03-16 21:09:21,040 - sim - INFO - Materials MSE: 0.02245190180838108
+2025-03-16 21:09:21,041 - sim - INFO - Time per frame per particle: 1.4780789615921728e-05
+2025-03-16 21:09:21,147 - sim - INFO - n_particles 450
+2025-03-16 21:09:21,147 - sim - INFO - n_shapes 5
+2025-03-16 21:09:32,302 - sim - INFO - Rollout 72 / 200
+2025-03-16 21:09:32,550 - sim - INFO - Separate Materials MSE: [0.023145914]
+2025-03-16 21:09:32,550 - sim - INFO - MSE: 0.022962797433137894
+2025-03-16 21:09:32,550 - sim - INFO - Materials MSE: 0.02314591407775879
+2025-03-16 21:09:32,550 - sim - INFO - Time per frame per particle: 1.5487056217626246e-05
+2025-03-16 21:09:32,605 - sim - INFO - n_particles 627
+2025-03-16 21:09:32,605 - sim - INFO - n_shapes 5
+2025-03-16 21:09:45,847 - sim - INFO - Rollout 73 / 200
+2025-03-16 21:09:46,637 - sim - INFO - Separate Materials MSE: [0.012986703]
+2025-03-16 21:09:46,637 - sim - INFO - MSE: 0.012860621325671673
+2025-03-16 21:09:46,638 - sim - INFO - Materials MSE: 0.012986702844500542
+2025-03-16 21:09:46,638 - sim - INFO - Time per frame per particle: 1.5189944862767898e-05
+2025-03-16 21:09:46,736 - sim - INFO - n_particles 510
+2025-03-16 21:09:46,737 - sim - INFO - n_shapes 5
+2025-03-16 21:09:59,487 - sim - INFO - Rollout 74 / 200
+2025-03-16 21:09:59,795 - sim - INFO - Separate Materials MSE: [0.016660232]
+2025-03-16 21:09:59,795 - sim - INFO - MSE: 0.01651536114513874
+2025-03-16 21:09:59,796 - sim - INFO - Materials MSE: 0.016660232096910477
+2025-03-16 21:09:59,796 - sim - INFO - Time per frame per particle: 1.5269593382702646e-05
+2025-03-16 21:09:59,897 - sim - INFO - n_particles 570
+2025-03-16 21:09:59,897 - sim - INFO - n_shapes 5
+2025-03-16 21:10:14,225 - sim - INFO - Rollout 75 / 200
+2025-03-16 21:10:15,125 - sim - INFO - Separate Materials MSE: [0.012495283]
+2025-03-16 21:10:15,126 - sim - INFO - MSE: 0.012384898960590363
+2025-03-16 21:10:15,126 - sim - INFO - Materials MSE: 0.012495283037424088
+2025-03-16 21:10:15,126 - sim - INFO - Time per frame per particle: 1.5249114810387145e-05
+2025-03-16 21:10:15,275 - sim - INFO - n_particles 561
+2025-03-16 21:10:15,276 - sim - INFO - n_shapes 5
+2025-03-16 21:10:27,966 - sim - INFO - Rollout 76 / 200
+2025-03-16 21:10:28,450 - sim - INFO - Separate Materials MSE: [0.022628063]
+2025-03-16 21:10:28,450 - sim - INFO - MSE: 0.022431302815675735
+2025-03-16 21:10:28,450 - sim - INFO - Materials MSE: 0.022628063336014748
+2025-03-16 21:10:28,450 - sim - INFO - Time per frame per particle: 1.537881093711174e-05
+2025-03-16 21:10:28,477 - sim - INFO - n_particles 570
+2025-03-16 21:10:28,477 - sim - INFO - n_shapes 5
+2025-03-16 21:10:39,539 - sim - INFO - Rollout 77 / 200
+2025-03-16 21:10:39,715 - sim - INFO - Separate Materials MSE: [0.01704427]
+2025-03-16 21:10:39,716 - sim - INFO - MSE: 0.016887901350855827
+2025-03-16 21:10:39,716 - sim - INFO - Materials MSE: 0.017044270411133766
+2025-03-16 21:10:39,716 - sim - INFO - Time per frame per particle: 1.5606430097868507e-05
+2025-03-16 21:10:39,812 - sim - INFO - n_particles 540
+2025-03-16 21:10:39,812 - sim - INFO - n_shapes 5
+2025-03-16 21:10:52,423 - sim - INFO - Rollout 78 / 200
+2025-03-16 21:10:52,699 - sim - INFO - Separate Materials MSE: [0.0225271]
+2025-03-16 21:10:52,699 - sim - INFO - MSE: 0.022348878905177116
+2025-03-16 21:10:52,700 - sim - INFO - Materials MSE: 0.022527100518345833
+2025-03-16 21:10:52,700 - sim - INFO - Time per frame per particle: 1.5841314203422584e-05
+2025-03-16 21:10:52,767 - sim - INFO - n_particles 627
+2025-03-16 21:10:52,767 - sim - INFO - n_shapes 5
+2025-03-16 21:11:06,008 - sim - INFO - Rollout 79 / 200
+2025-03-16 21:11:06,251 - sim - INFO - Separate Materials MSE: [0.013288315]
+2025-03-16 21:11:06,251 - sim - INFO - MSE: 0.01315132062882185
+2025-03-16 21:11:06,251 - sim - INFO - Materials MSE: 0.013288315385580063
+2025-03-16 21:11:06,251 - sim - INFO - Time per frame per particle: 1.45449173505732e-05
+2025-03-16 21:11:06,355 - sim - INFO - n_particles 480
+2025-03-16 21:11:06,355 - sim - INFO - n_shapes 5

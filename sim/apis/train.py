@@ -3,10 +3,11 @@ import warnings
 
 import numpy as np
 import torch
+
 from mmcv.parallel import MMDataParallel, MMDistributedDataParallel
 from mmcv.runner import DistSamplerSeedHook, build_optimizer, build_runner
 
-from sim.core import (DistEvalHook, DistOptimizerHook, EvalHook)
+from sim.core import DistEvalHook, DistOptimizerHook, EvalHook
 from sim.datasets import build_dataloader, build_dataset
 from sim.utils import get_root_logger
 from sim.models.losses.accuracy import MSEAccuracy
@@ -31,13 +32,9 @@ def set_random_seed(seed, deterministic=False):
         torch.backends.cudnn.benchmark = False
 
 
-def train_model(model,
-                dataset,
-                cfg,
-                distributed=False,
-                validate=False,
-                timestamp=None,
-                meta=None):
+def train_model(
+    model, dataset, cfg, distributed=False, validate=False, timestamp=None, meta=None
+):
     logger = get_root_logger(cfg.log_level)
 
     # prepare data loaders
@@ -52,34 +49,35 @@ def train_model(model,
             num_gpus=len(cfg.gpu_ids),
             dist=distributed,
             round_up=True,
-            seed=cfg.seed) for ds in dataset
+            seed=cfg.seed,
+        )
+        for ds in dataset
     ]
 
     # put model on gpus
     if distributed:
-        find_unused_parameters = cfg.get('find_unused_parameters', False)
+        find_unused_parameters = cfg.get("find_unused_parameters", False)
         # Sets the `find_unused_parameters` parameter in
         # torch.nn.parallel.DistributedDataParallel
         model = MMDistributedDataParallel(
             model.cuda(),
             device_ids=[torch.cuda.current_device()],
             broadcast_buffers=False,
-            find_unused_parameters=find_unused_parameters)
+            find_unused_parameters=find_unused_parameters,
+        )
     else:
-        model = MMDataParallel(
-            model.cuda(cfg.gpu_ids[0]), device_ids=cfg.gpu_ids)
+        model = MMDataParallel(model.cuda(cfg.gpu_ids[0]), device_ids=cfg.gpu_ids)
 
     # build runner
     optimizer = build_optimizer(model, cfg.optimizer)
 
-    if cfg.get('runner') is None:
-        cfg.runner = {
-            'type': 'EpochBasedRunner',
-            'max_epochs': cfg.total_epochs
-        }
+    if cfg.get("runner") is None:
+        cfg.runner = {"type": "EpochBasedRunner", "max_epochs": cfg.total_epochs}
         warnings.warn(
-            'config is now expected to have a `runner` section, '
-            'please set `runner` in your config.', UserWarning)
+            "config is now expected to have a `runner` section, "
+            "please set `runner` in your config.",
+            UserWarning,
+        )
 
     runner = build_runner(
         cfg.runner,
@@ -89,25 +87,32 @@ def train_model(model,
             optimizer=optimizer,
             work_dir=cfg.work_dir,
             logger=logger,
-            meta=meta))
+            meta=meta,
+        ),
+    )
 
     # an ugly walkaround to make the .log and .log.json filenames the same
     runner.timestamp = timestamp
 
     # fp16 setting
-    fp16_cfg = cfg.get('fp16', None)
+    fp16_cfg = cfg.get("fp16", None)
     if fp16_cfg is not None:
         optimizer_config = Fp16OptimizerHook(
-            **cfg.optimizer_config, **fp16_cfg, distributed=distributed)
-    elif distributed and 'type' not in cfg.optimizer_config:
+            **cfg.optimizer_config, **fp16_cfg, distributed=distributed
+        )
+    elif distributed and "type" not in cfg.optimizer_config:
         optimizer_config = DistOptimizerHook(**cfg.optimizer_config)
     else:
         optimizer_config = cfg.optimizer_config
 
     # register hooks
-    runner.register_training_hooks(cfg.lr_config, optimizer_config,
-                                   cfg.checkpoint_config, cfg.log_config,
-                                   cfg.get('momentum_config', None))
+    runner.register_training_hooks(
+        cfg.lr_config,
+        optimizer_config,
+        cfg.checkpoint_config,
+        cfg.log_config,
+        cfg.get("momentum_config", None),
+    )
     if distributed:
         runner.register_hook(DistSamplerSeedHook())
 
@@ -120,12 +125,13 @@ def train_model(model,
             workers_per_gpu=cfg.data.workers_per_gpu,
             dist=distributed,
             shuffle=False,
-            round_up=True)
-        eval_cfg = cfg.get('evaluation', {})
-        eval_cfg['by_epoch'] = cfg.runner['type'] != 'IterBasedRunner'
+            round_up=True,
+        )
+        eval_cfg = cfg.get("evaluation", {})
+        eval_cfg["by_epoch"] = cfg.runner["type"] != "IterBasedRunner"
         eval_hook = DistEvalHook if distributed else EvalHook
         runner.register_hook(eval_hook(val_dataloader, **eval_cfg))
-    
+
     # Register mseacc; Customized
     runner.register_hook(MSEAccuracy())
 

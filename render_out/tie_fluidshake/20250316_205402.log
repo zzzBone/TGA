@@ -1,0 +1,16 @@
+2025-03-16 20:54:02,557 - sim - INFO - Namespace(config='configs/tie/tie_fluidshake.py', save_dir='render_out/tie_fluidshake', show_only=True, src_dir='predict/tie_fluidshake/', tar_rollout=-1, val_rollout=-1)
+2025-03-16 20:54:02,558 - sim - INFO - Loading rollouts from predict/tie_fluidshake/
+2025-03-16 20:54:02,693 - sim - INFO - Rollout 0 / 200
+2025-03-16 20:54:02,696 - sim - INFO - Separate Materials MSE: [0.110656835]
+2025-03-16 20:54:02,696 - sim - INFO - MSE: 0.10969459265470505
+2025-03-16 20:54:02,696 - sim - INFO - Materials MSE: 0.11065683513879776
+2025-03-16 20:54:02,697 - sim - INFO - Time per frame per particle: 1.3742474727669574e-05
+2025-03-16 20:54:02,698 - sim - INFO - n_particles 570
+2025-03-16 20:54:02,698 - sim - INFO - n_shapes 5
+2025-03-16 20:54:35,557 - sim - INFO - Rollout 1 / 200
+2025-03-16 20:54:35,566 - sim - INFO - Separate Materials MSE: [0.1028566]
+2025-03-16 20:54:35,567 - sim - INFO - MSE: 0.10196220129728317
+2025-03-16 20:54:35,567 - sim - INFO - Materials MSE: 0.1028565987944603
+2025-03-16 20:54:35,567 - sim - INFO - Time per frame per particle: 1.2019516115881523e-05
+2025-03-16 20:54:35,574 - sim - INFO - n_particles 570
+2025-03-16 20:54:35,574 - sim - INFO - n_shapes 5

@@ -1,3 +1,15 @@
 __pycache__/
-data/
-work_dirs/
+/data/
+sim.egg-info/
+test.py
+nohup.out
+
+# /work_dirs/
+# /render_out/
+# /predict/
+# !*.log
+
+*.tga
+*.pkl
+*.pth
+*.json
