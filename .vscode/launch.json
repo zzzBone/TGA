@@ -24,10 +24,10 @@
             // ],
             "program": "${workspaceFolder}/tools/predict_rollout.py",
             "args": [
-                "configs/tga/tga_abs_ballbath.py",
-                "predict/tga_multigraph_ballbath",
+                "configs/tga/tga_abs_fluidshake.py",
+                "predict/tga_tpi_fluidshake",
                 "--checkpoint",
-                "work_dirs/tga_multigraph_boxbath/epoch_4.pth"
+                "work_dirs/tga_fluidshake/epoch_4.pth"
             ],
             "console": "integratedTerminal",
             "justMyCode": true,

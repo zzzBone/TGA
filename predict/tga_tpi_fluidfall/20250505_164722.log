@@ -1,0 +1,4 @@
+2025-05-05 16:47:22,052 - sim - INFO - Namespace(checkpoint='work_dirs/tga_tpi_fluidfall/epoch_13.pth', config='configs/tga/tga_abs_fluidfall.py', debug=0, device='cuda:0', tar_rollout=-1, val_rollout=-1, work_dir='predict/tga_tpi_fluidfall')
+2025-05-05 16:47:22,261 - sim - INFO - Number of parameters: 871573
+2025-05-05 16:47:22,261 - sim - INFO - Loading network from work_dirs/tga_tpi_fluidfall/epoch_13.pth
+2025-05-05 16:47:22,951 - sim - INFO - Rollout 0 / 300

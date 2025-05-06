@@ -883,7 +883,7 @@ def prepare_input(
             if verbose:
                 visualize_neighbors(positions, positions, 0, nodes)
                 print(np.sort(dis)[:10])
-            # torch.save(positions, "/home/zbl/sim/TIE_ECCV2022/view_data/positions.pt")
+            # torch.save(positions, "/home/zbl/sim/TIE_ECCV2022/view_data/positions_boxbath.pt")
             # Set relation with thresh
             wall = np.ones(nodes.shape[0], dtype=int) * (n_particles + i)
             # add relations: [particle_reciever_idx, wall_sender_idx, relation_type]

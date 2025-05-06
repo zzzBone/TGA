@@ -1,0 +1,19 @@
+2025-05-05 16:43:05,798 - sim - INFO - Namespace(checkpoint='work_dirs/tga_tpi_fluidfall/epoch_13.pth', config='configs/tga/tga_abs_fluidfall.py', debug=0, device='cuda:0', tar_rollout=-1, val_rollout=-1, work_dir='predict/tga_tpi_fluidfall')
+2025-05-05 16:43:06,132 - sim - INFO - Number of parameters: 871573
+2025-05-05 16:43:06,132 - sim - INFO - Loading network from work_dirs/tga_tpi_fluidfall/epoch_13.pth
+2025-05-05 16:43:11,417 - sim - INFO - Rollout 0 / 300
+2025-05-05 16:43:17,018 - sim - INFO - Step 10 / 120: time per frame 0.460446
+2025-05-05 16:43:17,193 - sim - INFO - Step 20 / 120: time per frame 0.224798
+2025-05-05 16:43:17,365 - sim - INFO - Step 30 / 120: time per frame 0.151679
+2025-05-05 16:43:17,538 - sim - INFO - Step 40 / 120: time per frame 0.116067
+2025-05-05 16:43:17,714 - sim - INFO - Step 50 / 120: time per frame 0.094990
+2025-05-05 16:43:17,897 - sim - INFO - Step 60 / 120: time per frame 0.081130
+2025-05-05 16:43:18,076 - sim - INFO - Step 70 / 120: time per frame 0.071261
+2025-05-05 16:43:18,248 - sim - INFO - Step 80 / 120: time per frame 0.063853
+2025-05-05 16:43:18,421 - sim - INFO - Step 90 / 120: time per frame 0.058114
+2025-05-05 16:43:18,594 - sim - INFO - Step 100 / 120: time per frame 0.053530
+2025-05-05 16:43:18,767 - sim - INFO - Step 110 / 120: time per frame 0.049789
+2025-05-05 16:43:18,979 - sim - INFO - MSE: 0.00027750575031566273
+2025-05-05 16:43:18,979 - sim - INFO - Materials MSE: 0.00027897403470886727
+2025-05-05 16:43:18,979 - sim - INFO - Time per frame: 0.046999062521983
+2025-05-05 16:43:18,989 - sim - INFO - Rollout 1 / 300
