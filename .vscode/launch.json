@@ -24,10 +24,10 @@
             // ],
             "program": "${workspaceFolder}/tools/predict_rollout.py",
             "args": [
-                "configs/tga/tga_abs_fluidshake.py",
-                "predict/tga_tpi_fluidshake",
+                "configs/tga/tga_abs_ricegrip.py",
+                "predict/tga_tpi_ricegrip",
                 "--checkpoint",
-                "work_dirs/tga_fluidshake/epoch_4.pth"
+                "work_dirs/tga_res_ricegrip/epoch_4.pth"
             ],
             "console": "integratedTerminal",
             "justMyCode": true,
