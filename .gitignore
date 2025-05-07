@@ -7,6 +7,7 @@ test.py
 nohup.out
 requirements.txt
 setup.py
+draw.ipynb
 
 # /work_dirs/
 # /render_out/
