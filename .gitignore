@@ -1,6 +1,8 @@
 __pycache__/
 /data/
 sim.egg-info/
+requirements/
+
 test.py
 nohup.out
 
@@ -12,5 +14,6 @@ nohup.out
 *.tga
 *.pkl
 *.pth
+!tga.pth
 *.json
 *.pt
