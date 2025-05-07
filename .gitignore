@@ -5,6 +5,8 @@ requirements/
 
 test.py
 nohup.out
+requirements.txt
+setup.py
 
 # /work_dirs/
 # /render_out/
