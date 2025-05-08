@@ -12,6 +12,7 @@ import torch.nn.functional as F
 
 from torch_geometric.nn import GATv2Conv, EGConv, SuperGATConv, GraphSAGE, GATConv
 from torch_geometric.data import Data, Batch
+from torch_geometric.utils import softmax
 
 import numpy as np
 
@@ -176,6 +177,38 @@ class TGAMultiHeadAttion(nn.Module):
         #         idx += 1
         return output, edge_index_list
 
+import typing
+from typing import Optional, Tuple, Union
+from torch import Tensor
+from torch.nn import Parameter
+from torch_geometric.nn.inits import glorot, zeros
+from torch_geometric.typing import (
+    Adj,
+    NoneType,
+    OptPairTensor,
+    OptTensor,
+    Size,
+    SparseTensor,
+    torch_sparse,
+)
+from torch_geometric.utils import (
+    add_self_loops,
+    is_torch_sparse_tensor,
+    remove_self_loops,
+    softmax,
+)
+from torch_geometric.utils.sparse import set_sparse_value
+
+class GPAConv(GATConv):
+    def __init__(self, in_channels, out_channels, heads=1, concat=True,
+                 negative_slope=0.2, dropout=0., add_self_loops=True,
+                 bias=True, **kwargs):
+        super().__init__(in_channels, out_channels, heads, concat,
+                         negative_slope, dropout, add_self_loops,
+                         bias, **kwargs)
+        
+        # 这里可以添加自定义的参数
+        # 例如，如果你想使用不同的注意力计算方式可能需要额外的参数
 
 class TGAGraphAttention(nn.Module):
     def __init__(
@@ -187,7 +220,7 @@ class TGAGraphAttention(nn.Module):
         self.residual = residual
 
         self.gat = nn.ModuleList(
-            GATv2Conv((int)(in_channels/num_heads), (int)(out_channels/num_heads))
+            GPAConv(in_channels=(int)(in_channels/num_heads), out_channels=(int)(out_channels/num_heads), heads=1)
             for i in range(num_heads)
         )
 
