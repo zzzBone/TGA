@@ -10,7 +10,7 @@ from sim.models.utils.feedforward_networks import FFN
 import torch
 import torch.nn.functional as F
 
-from torch_geometric.nn import GATv2Conv, EGConv, SuperGATConv, GraphSAGE, GATConv
+from torch_geometric.nn import GATv2Conv, EGConv, SuperGATConv, GraphSAGE, GATConv, GCN
 from torch_geometric.data import Data, Batch
 from torch_geometric.utils import softmax
 
@@ -220,7 +220,10 @@ class TGAGraphAttention(nn.Module):
         self.residual = residual
 
         self.gat = nn.ModuleList(
-            GPAConv(in_channels=(int)(in_channels/num_heads), out_channels=(int)(out_channels/num_heads), heads=1)
+            # GCN(in_channels=(int)(in_channels/num_heads), out_channels=(int)(out_channels/num_heads), hidden_channels=(int)(out_channels/num_heads),num_layers=1)
+            # GraphSAGE(in_channels=(int)(in_channels/num_heads), out_channels=(int)(out_channels/num_heads), hidden_channels=(int)(out_channels/num_heads),num_layers=1)
+            GATConv(in_channels=(int)(in_channels/num_heads), out_channels=(int)(out_channels/num_heads), heads=1)
+            # GPAConv(in_channels=(int)(in_channels/num_heads), out_channels=(int)(out_channels/num_heads),heads=num_heads)
             for i in range(num_heads)
         )
 
