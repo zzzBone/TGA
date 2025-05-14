@@ -1,4 +1,0 @@
-2025-05-05 16:54:53,327 - sim - INFO - Namespace(checkpoint='work_dirs/tga_boxbath/epoch_4.pth', config='configs/tga/tga_abs_boxbath.py', debug=0, device='cuda:0', tar_rollout=-1, val_rollout=-1, work_dir='predict/tga_tpi_boxbath')
-2025-05-05 16:54:53,534 - sim - INFO - Number of parameters: 873633
-2025-05-05 16:54:53,534 - sim - INFO - Loading network from work_dirs/tga_boxbath/epoch_4.pth
-2025-05-05 16:54:54,284 - sim - INFO - Rollout 0 / 300
