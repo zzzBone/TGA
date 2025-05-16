@@ -1,0 +1,24 @@
+2025-05-15 22:21:17,941 - sim - INFO - Namespace(checkpoint='pretrained_model/boxbath/tie_abs.pth', config='configs/tie/tie_boxbath.py', debug=0, device='cuda:0', tar_rollout=-1, val_rollout=-1, work_dir='predict/tie_boxbath/')
+2025-05-15 22:21:18,064 - sim - INFO - Number of parameters: 768903
+2025-05-15 22:21:18,065 - sim - INFO - Loading network from pretrained_model/boxbath/tie_abs.pth
+2025-05-15 22:21:18,969 - sim - INFO - Rollout 0 / 300
+2025-05-15 22:21:22,533 - sim - INFO - Step 10 / 150: time per frame 0.050132
+2025-05-15 22:21:22,910 - sim - INFO - Step 20 / 150: time per frame 0.032847
+2025-05-15 22:21:23,252 - sim - INFO - Step 30 / 150: time per frame 0.027410
+2025-05-15 22:21:23,597 - sim - INFO - Step 40 / 150: time per frame 0.024774
+2025-05-15 22:21:23,932 - sim - INFO - Step 50 / 150: time per frame 0.023202
+2025-05-15 22:21:24,258 - sim - INFO - Step 60 / 150: time per frame 0.022159
+2025-05-15 22:21:24,613 - sim - INFO - Step 70 / 150: time per frame 0.021424
+2025-05-15 22:21:24,949 - sim - INFO - Step 80 / 150: time per frame 0.020872
+2025-05-15 22:21:25,279 - sim - INFO - Step 90 / 150: time per frame 0.020445
+2025-05-15 22:21:25,613 - sim - INFO - Step 100 / 150: time per frame 0.020106
+2025-05-15 22:21:25,959 - sim - INFO - Step 110 / 150: time per frame 0.019829
+2025-05-15 22:21:26,287 - sim - INFO - Step 120 / 150: time per frame 0.019597
+2025-05-15 22:21:26,618 - sim - INFO - Step 130 / 150: time per frame 0.019403
+2025-05-15 22:21:26,955 - sim - INFO - Step 140 / 150: time per frame 0.019235
+2025-05-15 22:21:27,252 - sim - INFO - MSE: 0.07125973346100249
+2025-05-15 22:21:27,252 - sim - INFO - Materials MSE: 0.06345574691950161
+2025-05-15 22:21:27,252 - sim - INFO - Time per frame: 0.01910324998804041
+2025-05-15 22:21:27,256 - sim - INFO - Rollout 1 / 300
+2025-05-15 22:21:30,439 - sim - INFO - Step 10 / 150: time per frame 0.017603
+2025-05-15 22:21:30,801 - sim - INFO - Step 20 / 150: time per frame 0.017392
